@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Song Catalog | Jason Guzman — Build Your Set List</title>
+  <meta name="description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.jayguzmusic.com/setlist">
+
+  <meta property="og:title" content="Song Catalog | Jason Guzman — Build Your Set List">
+  <meta property="og:description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.jayguzmusic.com/setlist">
+  <meta property="og:image" content="https://www.jayguzmusic.com/assets/images/og-image.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Song Catalog | Jason Guzman — Build Your Set List">
+  <meta name="twitter:description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event.">
+  <meta name="twitter:image" content="https://www.jayguzmusic.com/assets/images/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <style>
+    /* ============================================================
+       SETLIST PAGE — SCOPED STYLES (prefixed .sl-)
+       ============================================================ */
+    :root {
+      --sl-sidebar-w: 360px;
+      --sl-safe-bottom: env(safe-area-inset-bottom, 0px);
+      --sl-ink: var(--color-dark);
+      --sl-paper: var(--color-white);
+      --sl-cream: var(--color-cream);
+      --sl-cream-deep: var(--color-cream-alt);
+      --sl-gold: var(--color-gold);
+      --sl-gold-soft: var(--color-gold-light);
+      --sl-gold-dark: var(--color-gold-dark);
+      --sl-line: rgba(44,44,46,0.1);
+      --sl-line-strong: rgba(44,44,46,0.2);
+      --sl-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* Override body bg for this page */
+    body { background: var(--sl-cream); }
+
+    /* ── APP SHELL ── */
+    .sl-app {
+      min-height: calc(100vh - var(--nav-height));
+      margin-top: var(--nav-height);
+    }
+
+    /* ── SIDEBAR (DESKTOP) ── */
+    .sl-sidebar {
+      background: var(--sl-ink);
+      color: var(--color-white);
+      position: sticky;
+      top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .sl-sidebar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(201,168,108,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 90%, rgba(201,168,108,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .sl-sidebar-header {
+      padding: var(--space-6) var(--space-6) var(--space-5);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .sl-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.5);
+      margin-bottom: var(--space-4);
+    }
+
+    .sl-brand-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sl-gold);
+      box-shadow: 0 0 0 3px rgba(201,168,108,0.25);
+      animation: sl-pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes sl-pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(201,168,108,0.25); }
+      50%       { box-shadow: 0 0 0 6px rgba(201,168,108,0.06); }
+    }
+
+    .sl-sidebar-title {
+      font-family: var(--font-display);
+      font-size: var(--size-4xl);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+      color: var(--color-white);
+    }
+
+    .sl-sidebar-title em {
+      font-style: italic;
+      color: var(--sl-gold-soft);
+    }
+
+    .sl-sidebar-sub {
+      font-size: var(--size-xs);
+      color: rgba(250,247,242,0.5);
+      line-height: 1.5;
+    }
+
+    /* Setlist meta bar */
+    .sl-meta {
+      padding: var(--space-3) var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .sl-count {
+      font-family: var(--sl-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.6);
+    }
+
+    .sl-count strong {
+      color: var(--sl-gold-soft);
+      font-weight: 600;
+    }
+
+    .sl-clear {
+      background: transparent;
+      border: none;
+      color: rgba(250,247,242,0.4);
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+
+    .sl-clear:hover { color: var(--sl-gold); background: rgba(255,255,255,0.04); }
+
+    /* Setlist scroll area */
+    .sl-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-3) var(--space-3);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.12) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sl-scroll::-webkit-scrollbar { width: 6px; }
+    .sl-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    .sl-empty {
+      text-align: center;
+      padding: var(--space-12) var(--space-5);
+      opacity: 0.45;
+    }
+
+    .sl-empty-icon { font-size: 32px; display: block; margin-bottom: var(--space-3); }
+
+    .sl-empty h3 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--size-xl);
+      font-weight: 400;
+      margin-bottom: var(--space-2);
+    }
+
+    .sl-empty p { font-size: var(--size-xs); line-height: 1.6; }
+
+    /* Setlist items */
+    .sl-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-3);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-2);
+      transition: background var(--transition), border-color var(--transition);
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-y;
+    }
+
+    .sl-item:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .sl-item.dragging {
+      opacity: 0.4;
+      background: rgba(201,168,108,0.12);
+      border-color: var(--sl-gold);
+    }
+
+    .sl-item.drop-above { box-shadow: 0 -2px 0 var(--sl-gold); }
+    .sl-item.drop-below { box-shadow: 0  2px 0 var(--sl-gold); }
+
+    .sl-handle {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      color: rgba(250,247,242,0.25);
+      cursor: grab;
+      flex-shrink: 0;
+      padding: var(--space-1) var(--space-1);
+      touch-action: none;
+    }
+
+    .sl-handle:active { cursor: grabbing; }
+
+    .sl-handle span {
+      display: block;
+      width: 12px;
+      height: 1.5px;
+      background: currentColor;
+      pointer-events: none;
+    }
+
+    .sl-item:hover .sl-handle { color: rgba(250,247,242,0.5); }
+
+    .sl-num {
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      color: var(--sl-gold-soft);
+      flex-shrink: 0;
+      min-width: 18px;
+      font-weight: 600;
+    }
+
+    .sl-text { flex: 1; min-width: 0; }
+
+    .sl-artist {
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.45;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+
+    .sl-title {
+      font-family: var(--font-display);
+      font-size: var(--size-sm);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--color-white);
+    }
+
+    .sl-remove {
+      background: transparent;
+      border: none;
+      color: rgba(250,247,242,0.35);
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+      line-height: 0;
+      transition: all var(--transition);
+    }
+
+    .sl-remove:hover { color: var(--sl-gold); background: rgba(255,255,255,0.05); }
+
+    /* Sidebar footer / form */
+    .sl-footer {
+      padding: var(--space-4) var(--space-6) var(--space-5);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      position: relative;
+      background: rgba(0,0,0,0.15);
+    }
+
+    .sl-footer label {
+      display: block;
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(250,247,242,0.4);
+      margin-bottom: var(--space-1);
+    }
+
+    .sl-footer input,
+    .sl-footer textarea {
+      width: 100%;
+      font-size: var(--size-sm);
+      padding: var(--space-2) var(--space-3);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      color: var(--color-white);
+      outline: none;
+      font-family: var(--font-body);
+      transition: border-color var(--transition);
+      margin-bottom: var(--space-3);
+    }
+
+    .sl-footer input::placeholder,
+    .sl-footer textarea::placeholder { color: rgba(250,247,242,0.2); }
+
+    .sl-footer input:focus,
+    .sl-footer textarea:focus { border-color: var(--sl-gold); }
+
+    .sl-footer textarea { resize: none; min-height: 60px; }
+
+    .sl-form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    .sl-actions {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .sl-actions .sl-btn { flex: 1; }
+
+    /* Setlist-specific buttons (dark bg context) */
+    .sl-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--size-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 40px;
+      white-space: nowrap;
+    }
+
+    .sl-btn-gold {
+      background: var(--sl-gold);
+      color: var(--sl-ink);
+    }
+
+    .sl-btn-gold:hover { background: var(--sl-gold-soft); }
+    .sl-btn-gold:disabled { opacity: 0.35; cursor: not-allowed; }
+    .sl-btn-gold:disabled:hover { background: var(--sl-gold); }
+
+    .sl-btn-ghost {
+      background: transparent;
+      color: var(--color-white);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sl-btn-ghost:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── MAIN CONTENT ── */
+    .sl-main { min-width: 0; background: var(--sl-cream); }
+
+    /* Hero */
+    .sl-hero {
+      padding: var(--space-16) var(--space-10) var(--space-10);
+      background: var(--sl-cream);
+    }
+
+    .sl-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sl-ink);
+      background: var(--sl-paper);
+      border: 1px solid var(--sl-line-strong);
+      padding: var(--space-2) var(--space-3);
+      border-radius: 100px;
+      margin-bottom: var(--space-6);
+    }
+
+    .sl-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(var(--size-4xl), 6vw, var(--size-7xl));
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-4);
+      color: var(--sl-ink);
+    }
+
+    .sl-hero h1 em {
+      font-style: italic;
+      color: var(--sl-gold-dark);
+    }
+
+    .sl-hero-sub {
+      font-family: var(--font-display);
+      font-size: var(--size-lg);
+      font-weight: 400;
+      max-width: 520px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* Controls (sticky search bar) */
+    .sl-controls {
+      position: sticky;
+      top: var(--nav-height);
+      z-index: 50;
+      background: rgba(248,244,239,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--sl-line-strong);
+      padding: var(--space-3) var(--space-10);
+    }
+
+    .sl-search-wrap { position: relative; max-width: 460px; }
+
+    .sl-search-wrap svg {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    #sl-search {
+      width: 100%;
+      font-size: var(--size-sm);
+      font-family: var(--font-body);
+      padding: var(--space-3) var(--space-4) var(--space-3) calc(var(--space-4) + 20px);
+      background: var(--sl-paper);
+      border: 1px solid var(--sl-line-strong);
+      border-radius: 100px;
+      color: var(--sl-ink);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    #sl-search:focus {
+      border-color: var(--sl-gold);
+      box-shadow: 0 0 0 3px rgba(201,168,108,0.15);
+    }
+
+    /* Filter pills */
+    .sl-pills {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      padding: var(--space-3) var(--space-10) var(--space-2);
+      background: var(--sl-cream);
+    }
+
+    .sl-pill {
+      font-family: var(--font-body);
+      font-size: var(--size-xs);
+      font-weight: 500;
+      padding: var(--space-2) var(--space-3);
+      border-radius: 100px;
+      border: 1px solid var(--sl-line-strong);
+      background: transparent;
+      color: var(--sl-ink);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      min-height: 32px;
+      white-space: nowrap;
+    }
+
+    .sl-pill:hover { background: var(--sl-paper); }
+
+    .sl-pill.active {
+      background: var(--sl-ink);
+      color: var(--color-cream);
+      border-color: var(--sl-ink);
+    }
+
+    .sl-pill-count {
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      opacity: 0.55;
+    }
+
+    /* Song grid section */
+    .sl-grid-section { padding: 0 var(--space-10) calc(110px + var(--sl-safe-bottom)); }
+
+    .sl-vibe {
+      margin-top: var(--space-10);
+      scroll-margin-top: calc(var(--nav-height) + 80px);
+    }
+
+    .sl-vibe-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px solid var(--sl-ink);
+      flex-wrap: wrap;
+    }
+
+    .sl-vibe-title {
+      font-family: var(--font-display);
+      font-size: clamp(var(--size-2xl), 3vw, var(--size-4xl));
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .sl-vibe-title em { font-style: italic; color: var(--sl-gold-dark); }
+
+    .sl-vibe-desc {
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.45;
+      margin-left: auto;
+    }
+
+    .sl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      border-top: 1px solid var(--sl-line);
+      border-left: 1px solid var(--sl-line);
+    }
+
+    .sl-song {
+      border-right: 1px solid var(--sl-line);
+      border-bottom: 1px solid var(--sl-line);
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--sl-paper);
+      transition: background var(--transition);
+      cursor: pointer;
+      position: relative;
+      min-height: 64px;
+    }
+
+    .sl-song:hover { background: var(--sl-cream-deep); }
+
+    .sl-song.in-list {
+      background: rgba(201,168,108,0.1);
+    }
+
+    .sl-song.in-list::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--sl-gold);
+    }
+
+    .sl-song-meta { flex: 1; min-width: 0; }
+
+    .sl-song-artist {
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--sl-ink);
+    }
+
+    .sl-song-title {
+      font-family: var(--font-display);
+      font-size: var(--size-base);
+      font-weight: 500;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--sl-ink);
+    }
+
+    .sl-add-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--sl-line-strong);
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      color: var(--sl-ink);
+      flex-shrink: 0;
+    }
+
+    .sl-add-btn:hover {
+      background: var(--sl-ink);
+      color: var(--color-cream);
+      border-color: var(--sl-ink);
+    }
+
+    .sl-add-btn.active {
+      background: var(--sl-gold);
+      color: var(--sl-ink);
+      border-color: var(--sl-gold);
+    }
+
+    /* Request section */
+    .sl-request {
+      background: var(--sl-ink);
+      color: var(--color-white);
+      padding: var(--space-20) var(--space-10);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sl-request::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(201,168,108,0.12) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(201,168,108,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .sl-request-inner { max-width: 600px; position: relative; margin: 0 auto; text-align: center; }
+
+    .sl-request h2 {
+      font-family: var(--font-display);
+      font-size: clamp(var(--size-3xl), 4vw, var(--size-6xl));
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      margin-bottom: var(--space-4);
+      color: var(--color-white);
+    }
+
+    .sl-request h2 em { font-style: italic; color: var(--sl-gold-soft); }
+
+    .sl-request p {
+      font-size: var(--size-base);
+      color: rgba(250,247,242,0.7);
+      margin-bottom: var(--space-8);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .sl-req-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .sl-req-form .full { grid-column: 1 / -1; }
+
+    .sl-req-form label {
+      display: block;
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(250,247,242,0.45);
+      margin-bottom: var(--space-1);
+    }
+
+    .sl-req-form input,
+    .sl-req-form textarea {
+      width: 100%;
+      font-size: var(--size-sm);
+      font-family: var(--font-body);
+      padding: var(--space-3) var(--space-4);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      color: var(--color-white);
+      outline: none;
+      resize: vertical;
+      transition: border-color var(--transition);
+    }
+
+    .sl-req-form input::placeholder,
+    .sl-req-form textarea::placeholder { color: rgba(250,247,242,0.3); }
+
+    .sl-req-form input:focus,
+    .sl-req-form textarea:focus { border-color: var(--sl-gold); }
+
+    /* No results */
+    .sl-no-results {
+      text-align: center;
+      padding: var(--space-16) var(--space-5);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--size-xl);
+      color: var(--color-text-muted);
+    }
+
+    /* Toast */
+    .sl-toast {
+      position: fixed;
+      bottom: calc(100px + var(--sl-safe-bottom));
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--sl-ink);
+      color: var(--color-white);
+      padding: var(--space-3) var(--space-5);
+      border-radius: 100px;
+      font-size: var(--size-sm);
+      font-weight: 500;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease-out;
+      box-shadow: var(--shadow-lg);
+      white-space: nowrap;
+    }
+
+    .sl-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── RESPONSIVE: TABLET ── */
+    @media (max-width: 1100px) {
+      .sl-hero, .sl-grid-section, .sl-request { padding-left: var(--space-6); padding-right: var(--space-6); }
+      .sl-controls, .sl-pills { padding-left: var(--space-6); padding-right: var(--space-6); }
+    }
+
+    /* ── RESPONSIVE: MOBILE ── */
+    @media (max-width: 820px) {
+      .sl-hero { padding: var(--space-8) var(--space-5) var(--space-6); }
+      .sl-controls { padding: var(--space-3) var(--space-5); }
+      .sl-pills { padding: var(--space-3) var(--space-5) var(--space-2); flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .sl-pills::-webkit-scrollbar { display: none; }
+      .sl-pill { flex-shrink: 0; }
+      .sl-grid-section { padding: 0 var(--space-5) calc(110px + var(--sl-safe-bottom)); }
+      .sl-request { padding: var(--space-12) var(--space-5); padding-bottom: calc(var(--space-12) + 110px + var(--sl-safe-bottom)); }
+      .sl-req-form { grid-template-columns: 1fr; }
+      .sl-grid { grid-template-columns: 1fr; }
+      .sl-vibe-desc { margin-left: 0; width: 100%; }
+    }
+
+    /* ── MOBILE DRAWER STYLES ── */
+    .sl-mob-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(28,28,30,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .sl-mob-backdrop.show { opacity: 1; pointer-events: auto; }
+
+    .sl-mob-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--sl-ink);
+      color: var(--color-white);
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.3);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      transform: translateY(calc(100% - 80px - var(--sl-safe-bottom)));
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: var(--sl-safe-bottom);
+    }
+
+    .sl-mob-drawer.expanded { transform: translateY(0); }
+
+    .sl-mob-drawer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px 20px 0 0;
+      background: radial-gradient(circle at 20% 0%, rgba(201,168,108,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .sl-mob-handle {
+      height: 80px;
+      padding: 12px var(--space-5) var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sl-mob-grip {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 4px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 2px;
+    }
+
+    .sl-mob-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: rgba(201,168,108,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--sl-gold);
+    }
+
+    .sl-mob-info { flex: 1; min-width: 0; }
+
+    .sl-mob-label {
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.5);
+      margin-bottom: 2px;
+    }
+
+    .sl-mob-title {
+      font-family: var(--font-display);
+      font-size: var(--size-xl);
+      color: var(--color-white);
+    }
+
+    .sl-mob-title strong { color: var(--sl-gold-soft); font-weight: 600; }
+
+    .sl-mob-toggle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      flex-shrink: 0;
+      transition: transform var(--transition);
+      cursor: pointer;
+    }
+
+    .sl-mob-drawer.expanded .sl-mob-toggle { transform: rotate(180deg); }
+
+    .sl-mob-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-2) var(--space-4) var(--space-4);
+      position: relative;
+      z-index: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sl-mob-section-label {
+      font-family: var(--sl-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.4);
+      padding: var(--space-3) var(--space-2) var(--space-2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sl-mob-empty {
+      text-align: center;
+      padding: var(--space-10) var(--space-5);
+      color: rgba(250,247,242,0.4);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--size-lg);
+    }
+
+    .sl-mob-form {
+      padding: var(--space-4) var(--space-5);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      background: rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .sl-mob-form label {
+      display: block;
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(250,247,242,0.4);
+      margin-bottom: var(--space-1);
+    }
+
+    .sl-mob-form input,
+    .sl-mob-form textarea {
+      width: 100%;
+      font-size: var(--size-sm);
+      font-family: var(--font-body);
+      padding: var(--space-2) var(--space-3);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      color: var(--color-white);
+      outline: none;
+      margin-bottom: var(--space-3);
+    }
+
+    .sl-mob-form input::placeholder,
+    .sl-mob-form textarea::placeholder { color: rgba(250,247,242,0.2); }
+
+    .sl-mob-form input:focus,
+    .sl-mob-form textarea:focus { border-color: var(--sl-gold); }
+
+    .sl-mob-form-row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    .sl-mob-actions {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .sl-mob-actions .sl-btn { flex: 1; }
+
+    /* ── DRAWER HANDLE — "View Your Set List" CTA ── */
+    .sl-mob-handle {
+      height: 80px;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sl-mob-handle-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-5) 0 var(--space-6);
+      width: 100%;
+      padding-top: 14px; /* account for grip */
+    }
+
+    .sl-mob-count-wrap { flex-shrink: 0; }
+
+    .sl-mob-count-num {
+      font-family: var(--font-display);
+      font-size: var(--size-3xl);
+      color: var(--sl-gold-soft);
+      line-height: 1;
+      display: block;
+      font-weight: 400;
+    }
+
+    .sl-mob-count-label {
+      font-family: var(--sl-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(250,247,242,0.45);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .sl-view-setlist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      background: var(--sl-gold);
+      color: var(--sl-ink);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: var(--size-sm);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all var(--transition);
+      flex-shrink: 0;
+      pointer-events: none; /* parent handles the click */
+    }
+
+    .sl-mob-drawer:not(.expanded) .sl-view-setlist-btn { background: var(--sl-gold); color: var(--sl-ink); }
+    .sl-mob-drawer.expanded .sl-view-setlist-btn {
+      background: rgba(255,255,255,0.1);
+      color: rgba(250,247,242,0.7);
+    }
+
+    @media (hover: hover) {
+      .sl-mob-handle:hover .sl-view-setlist-btn { background: var(--sl-gold-soft); }
+      .sl-mob-drawer.expanded .sl-mob-handle:hover .sl-view-setlist-btn { background: rgba(255,255,255,0.16); }
+    }
+
+    /* ── VIDEO PREVIEW BUTTON ── */
+    .sl-play-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,108,0.45);
+      background: rgba(201,168,108,0.08);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      color: var(--sl-gold-dark);
+      flex-shrink: 0;
+      margin-right: 4px;
+      padding-left: 2px; /* nudge play icon to center optically */
+    }
+
+    .sl-play-btn:hover {
+      background: var(--sl-gold);
+      border-color: var(--sl-gold);
+      color: var(--sl-ink);
+      transform: scale(1.08);
+    }
+
+    /* ── VIDEO PLAYER MODAL ── */
+    .vp-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .vp-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .vp-modal {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .vp-box {
+      width: min(90vw, 880px);
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    }
+
+    .vp-box--vertical {
+      width: auto;
+      height: min(82vh, 700px);
+      aspect-ratio: 9/16;
+    }
+
+    .vp-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .vp-close {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background var(--transition);
+      align-self: flex-end;
+    }
+
+    .vp-close:hover { background: rgba(255,255,255,0.22); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid" id="main-nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Jason <span>Guzman</span></a>
+      <div class="nav__links">
+        <a href="about.html" class="nav__link">About</a>
+        <div class="nav__dropdown">
+          <button class="nav__dropdown-toggle">
+            Event Types
+            <svg class="nav__dropdown-icon" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l5 5 5-5"/></svg>
+          </button>
+          <div class="nav__dropdown-menu">
+            <a href="events/weddings.html" class="nav__dropdown-item">Weddings</a>
+            <a href="events/corporate.html" class="nav__dropdown-item">Corporate Events</a>
+            <a href="events/private-parties.html" class="nav__dropdown-item">Private Parties</a>
+          </div>
+        </div>
+        <a href="event-coordinators.html" class="nav__link">For Event Coordinators</a>
+      </div>
+      <div class="nav__ctas">
+        <a href="index.html#consult" class="btn btn--primary btn--sm">Schedule a Call</a>
+        <a href="setlist.html" class="btn btn--outline-light btn--sm nav__link--active">View Song Catalog</a>
+      </div>
+      <button class="nav__hamburger" id="nav-hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" id="mobile-nav">
+    <a href="about.html" class="nav__mobile-link">About</a>
+    <a href="#" class="nav__mobile-link" id="mobile-events-toggle">Event Types ↓</a>
+    <div class="nav__mobile-sub" id="mobile-events-sub" style="display:none">
+      <a href="events/weddings.html" class="nav__mobile-sublink">Weddings</a>
+      <a href="events/corporate.html" class="nav__mobile-sublink">Corporate Events</a>
+      <a href="events/private-parties.html" class="nav__mobile-sublink">Private Parties</a>
+    </div>
+    <a href="event-coordinators.html" class="nav__mobile-link">For Event Coordinators</a>
+    <div class="nav__mobile-ctas">
+      <a href="index.html#consult" class="btn btn--primary btn--lg w-full" style="justify-content:center">Schedule a Call</a>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="sl-app">
+
+    <!-- MAIN CATALOG -->
+    <main class="sl-main" id="sl-main">
+      <section class="sl-hero">
+        <div class="sl-hero-badge"><span class="sl-brand-dot"></span>Now Booking · Austin, TX · Solo or Full Band</div>
+        <h1>Pick the songs.<br>Build the <em>vibe.</em><br>Make it yours.</h1>
+        <p class="sl-hero-sub">Everything I currently play — drawn from real weddings, real receptions, and real "oh my god, that's our song" moments across 20 years of performing.</p>
+      </section>
+
+      <div class="sl-controls">
+        <div class="sl-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="sl-search" placeholder="Search song, artist, or vibe…" aria-label="Search songs">
+        </div>
+      </div>
+
+      <div class="sl-pills" id="sl-pills" role="tablist" aria-label="Filter by vibe"></div>
+
+      <div class="sl-grid-section" id="sl-grid-section"></div>
+
+      <section class="sl-request" id="sl-quote">
+        <div class="sl-request-inner">
+          <p class="overline" style="color:var(--sl-gold); margin-bottom:var(--space-4);">Don't See Your Song?</p>
+          <h2>I learn new ones<br>all the <em>time.</em></h2>
+          <p>Especially if it's in a similar key or style to something already in the catalog. Drop a request below — or send your full set list and I'll follow up with a quote.</p>
+
+          <form class="sl-req-form" id="sl-quote-form" name="song-request" data-netlify="true" netlify-honeypot="bot-field" action="thank-you.html" method="POST">
+            <input type="hidden" name="form-name" value="song-request">
+            <p class="visually-hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
+            <div>
+              <label for="req-name">Your name</label>
+              <input type="text" id="req-name" name="name" placeholder="Your name">
+            </div>
+            <div>
+              <label for="req-email">Email <span aria-hidden="true">*</span></label>
+              <input type="email" id="req-email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="full">
+              <label for="req-message">Songs to learn / questions</label>
+              <textarea id="req-message" name="message" rows="3" placeholder="Songs you'd love to hear, ceremony vs. reception details, solo or full band, anything…"></textarea>
+            </div>
+            <div class="full">
+              <button type="button" class="sl-btn sl-btn-gold" onclick="submitRequest()" style="width:auto; padding-left:var(--space-8);">Send it over →</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Footer lives inside main so it scrolls naturally -->
+      <footer class="footer" style="background:#0e0e10;">
+        <div class="container">
+          <div class="footer__top">
+            <div class="footer__brand">
+              <a href="index.html" class="nav__logo">Jason <span>Guzman</span></a>
+              <p>Austin's premier event pianist. Twenty years of performing for moments that matter.</p>
+            </div>
+            <div>
+              <p class="footer__heading">Event Types</p>
+              <ul class="footer__links">
+                <li><a href="events/weddings.html" class="footer__link">Weddings</a></li>
+                <li><a href="events/corporate.html" class="footer__link">Corporate Events</a></li>
+                <li><a href="events/private-parties.html" class="footer__link">Private Parties</a></li>
+              </ul>
+            </div>
+            <div>
+              <p class="footer__heading">Locations</p>
+              <ul class="footer__links">
+                <li><a href="/wedding-band-austin" class="footer__link">Austin</a></li>
+                <li><a href="/wedding-band-dallas" class="footer__link">Dallas</a></li>
+                <li><a href="/wedding-band-san-antonio" class="footer__link">San Antonio</a></li>
+                <li><a href="/wedding-band-houston" class="footer__link">Houston</a></li>
+              </ul>
+            </div>
+            <div>
+              <p class="footer__heading">Quick Links</p>
+              <ul class="footer__links">
+                <li><a href="about.html" class="footer__link">About Jason</a></li>
+                <li><a href="event-coordinators.html" class="footer__link">For Event Coordinators</a></li>
+                <li><a href="index.html#consult" class="footer__link">Schedule a Call</a></li>
+              </ul>
+            </div>
+            <div>
+              <p class="footer__heading">Contact</p>
+              <ul class="footer__links">
+                <li><span class="footer__link">Austin, Texas</span></li>
+                <li><a href="mailto:jayguzmusic@gmail.com" class="footer__link">jayguzmusic@gmail.com</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer__bottom">
+            <p>© <span id="footer-year">2025</span> Jason Guzman. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- MOBILE DRAWER BACKDROP -->
+  <div class="sl-mob-backdrop" id="sl-mob-backdrop" onclick="toggleDrawer(false)"></div>
+
+  <!-- MOBILE BOTTOM DRAWER -->
+  <div class="sl-mob-drawer" id="sl-mob-drawer">
+    <div class="sl-mob-handle" onclick="toggleDrawer()" role="button" aria-expanded="false" id="sl-drawer-handle">
+      <div class="sl-mob-grip"></div>
+      <div class="sl-mob-handle-inner">
+        <div class="sl-mob-count-wrap">
+          <strong class="sl-mob-count-num" id="m-count">0</strong>
+          <span class="sl-mob-count-label" id="m-count-label">songs picked</span>
+        </div>
+        <div class="sl-view-setlist-btn" aria-hidden="true">
+          <span id="sl-drawer-btn-label">View Your Set List</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl-mob-body">
+      <div class="sl-mob-section-label">
+        <span>Songs · drag to reorder</span>
+        <button class="sl-clear" onclick="clearSetlist()">Clear all</button>
+      </div>
+      <div id="m-sl-scroll"></div>
+    </div>
+
+    <div class="sl-mob-form">
+      <div class="sl-mob-form-row2">
+        <div>
+          <label for="m-name">Your name</label>
+          <input type="text" id="m-name" placeholder="Your name">
+        </div>
+        <div>
+          <label for="m-email">Email</label>
+          <input type="email" id="m-email" placeholder="you@email.com">
+        </div>
+      </div>
+      <label for="m-date">Event date</label>
+      <input type="text" id="m-date" placeholder="e.g. June 14, 2026">
+      <label for="m-notes">Notes & Custom Requests</label>
+      <textarea id="m-notes" rows="3" placeholder="Ceremony details, solo or full band, songs not in the catalog — anything that matters to you."></textarea>
+      <div class="sl-mob-actions">
+        <button class="sl-btn sl-btn-gold" onclick="sendSetlist(true)" id="m-send-btn" disabled>Send to Jason →</button>
+        <button class="sl-btn sl-btn-ghost" onclick="copySetlist()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO PREVIEW MODAL -->
+  <div class="vp-backdrop" id="vp-backdrop" role="dialog" aria-modal="true" aria-label="Video preview">
+    <div class="vp-modal" id="vp-modal">
+      <button class="vp-close" id="vp-close" aria-label="Close video">✕ Close</button>
+      <div class="vp-box" id="vp-box">
+        <video id="vp-video" controls playsinline></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="sl-toast" id="sl-toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    /* ============================================================
+       SONG DATA
+       ============================================================ */
+    const VIBES = {
+      romantic:   { label: "First Dance & Romantic",  tagline: "the slow, the swoon, the tear-up moment" },
+      ceremony:   { label: "Ceremony & Walk-Down",    tagline: "aisle-walking, vow-saying, ring-exchanging" },
+      cocktail:   { label: "Cocktail Hour",           tagline: "smooth, easy, conversation-friendly" },
+      dinner:     { label: "Dinner & Dessert",        tagline: "warm, classic, plates-being-passed" },
+      dancefloor: { label: "Dance Floor Heaters",     tagline: "the everybody-up-and-moving songs" },
+      singalong:  { label: "Sing-Alongs & Anthems",   tagline: "the whole room screaming the bridge" },
+      country:    { label: "Country & Roots",         tagline: "boots, beers, and porch-light energy" },
+      throwback:  { label: "Oldies & Throwbacks",     tagline: "Motown, doo-wop, '50s through '70s" },
+      latin:      { label: "Latin & World",           tagline: "Spanish guitar, salsa-adjacent, romantic" },
+    };
+
+    const SONGS = [
+      {a:"112",t:"Peaches and Cream",v:["dancefloor","throwback"]},
+      {a:"A-Ha",t:"Take On Me",v:["singalong","dancefloor"]},
+      {a:"Alicia Keys",t:"If I Ain't Got You",v:["romantic","cocktail"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212156/IfIAintGotYou_vertical_snippet_eqmubm.mp4",vidV:true},
+      {a:"American Hi-Fi",t:"Flavor of the Week",v:["singalong","dancefloor"]},
+      {a:"Avicii",t:"Wake Me Up",v:["dancefloor","singalong"]},
+      {a:"Backstreet Boys",t:"I Want It That Way",v:["singalong","throwback"]},
+      {a:"Backstreet Boys",t:"Tell Me Why",v:["romantic","throwback"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212155/tell_me_why_backstreet_boys_veticalsnipet_cdxeb0.mp4",vidV:true},
+      {a:"Barry White",t:"Can't Get Enough of Your Love",v:["romantic","throwback","dinner"]},
+      {a:"Ben E. King",t:"Stand By Me",v:["romantic","ceremony","throwback"]},
+      {a:"Bill Withers",t:"Lean on Me",v:["singalong","throwback","cocktail"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212156/Lean_on_me_vertical_snippet_ws9zfu.mov",vidV:true},
+      {a:"Ben Harper",t:"Steal My Kisses",v:["cocktail","dancefloor"]},
+      {a:"Beyoncé",t:"Halo",v:["romantic","ceremony"]},
+      {a:"Beyoncé",t:"XO",v:["romantic","dancefloor"]},
+      {a:"Billy Joel",t:"Just The Way You Are",v:["romantic","dinner"]},
+      {a:"Billy Joel",t:"Only the Good Die Young",v:["singalong","dancefloor"]},
+      {a:"Billy Joel",t:"For the Longest Time",v:["throwback","romantic"]},
+      {a:"Blackstreet",t:"No Diggity",v:["dancefloor","throwback"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212156/No_Diggity_Vertical_snippet_hybak5.mov",vidV:true},
+      {a:"Blink 182",t:"All the Small Things",v:["singalong","dancefloor"]},
+      {a:"Blink 182",t:"I Miss You",v:["singalong"]},
+      {a:"Bob Dylan",t:"Knockin' On Heaven's Door",v:["singalong","cocktail"]},
+      {a:"Bruce Springsteen",t:"Atlantic City",v:["cocktail","dinner"]},
+      {a:"Bruno Mars",t:"Just the Way You Are",v:["romantic","ceremony"]},
+      {a:"Chainsmokers",t:"Closer",v:["singalong","dancefloor"]},
+      {a:"Childish Gambino",t:"3005",v:["cocktail","dancefloor"]},
+      {a:"Chris Stapleton",t:"Tennessee Whiskey",v:["country","romantic","dinner"]},
+      {a:"Counting Crows",t:"Mr. Jones",v:["singalong","cocktail"]},
+      {a:"CCR",t:"Have You Ever Seen the Rain",v:["singalong","throwback","cocktail"]},
+      {a:"Cyndi Lauper",t:"Time After Time",v:["romantic","throwback"]},
+      {a:"Dan + Shay",t:"Tequila",v:["country","romantic"]},
+      {a:"Darius Rucker",t:"Wagon Wheel",v:["country","singalong","dancefloor"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212157/wagon_wheel_vertical_snippet_y4iiyc.mov",vidV:true},
+      {a:"Death Cab for Cutie",t:"I Will Follow You Into the Dark",v:["romantic","ceremony"]},
+      {a:"Deep Blue Something",t:"Breakfast at Tiffany's",v:["singalong","throwback"]},
+      {a:"Dion",t:"Runaround Sue",v:["throwback","dancefloor"]},
+      {a:"Dolly Parton",t:"Jolene",v:["country","singalong"]},
+      {a:"Don McLean",t:"American Pie",v:["singalong","cocktail"]},
+      {a:"Drake",t:"Hold On We're Going Home",v:["romantic","dancefloor"]},
+      {a:"Drake & Rihanna",t:"Take Care",v:["dancefloor","cocktail"]},
+      {a:"Eagle Eye Cherry",t:"Save Tonight",v:["cocktail","singalong"]},
+      {a:"Ed Sheeran",t:"Thinking Out Loud",v:["romantic","ceremony"]},
+      {a:"Ed Sheeran",t:"Shape of You",v:["dancefloor","singalong"]},
+      {a:"Ed Sheeran",t:"Lego House",v:["romantic","cocktail"]},
+      {a:"Elton John",t:"Candle in the Wind",v:["dinner","throwback"]},
+      {a:"Elton John",t:"Rocket Man",v:["singalong","throwback"]},
+      {a:"Elton John",t:"Tiny Dancer",v:["singalong","romantic"]},
+      {a:"Elton John",t:"Your Song",v:["romantic","ceremony","dinner"]},
+      {a:"Elvis Presley",t:"Can't Help Falling in Love",v:["romantic","ceremony","throwback"]},
+      {a:"Fall Out Boy",t:"Sugar We're Going Down",v:["singalong","dancefloor"]},
+      {a:"Fleetwood Mac",t:"Landslide",v:["romantic","cocktail","throwback"]},
+      {a:"Fountains of Wayne",t:"Stacy's Mom",v:["singalong","dancefloor"]},
+      {a:"Frank Sinatra",t:"Fly Me to the Moon",v:["romantic","dinner","throwback"]},
+      {a:"Frankie Valli",t:"Can't Take My Eyes Off of You",v:["romantic","throwback","dancefloor"]},
+      {a:"G. Love",t:"Hot Cookin'",v:["cocktail"]},
+      {a:"Garth Brooks",t:"Friends in Low Places",v:["country","singalong","dancefloor"]},
+      {a:"Gavin DeGraw",t:"I Don't Wanna Be",v:["singalong","dancefloor"]},
+      {a:"Gavin DeGraw",t:"Not Over You",v:["singalong"]},
+      {a:"George Michael",t:"Faith",v:["dancefloor","throwback"]},
+      {a:"Gin Blossoms",t:"Hey Jealousy",v:["singalong","cocktail"]},
+      {a:"Ginuwine",t:"Pony",v:["dancefloor","throwback"]},
+      {a:"Goo Goo Dolls",t:"Slide",v:["singalong"]},
+      {a:"Grateful Dead",t:"Ripple",v:["cocktail","dinner"]},
+      {a:"Grouplove",t:"Tongue Tied",v:["singalong","dancefloor"]},
+      {a:"Harry Styles",t:"Watermelon Sugar",v:["dancefloor","singalong"]},
+      {a:"Hootie & the Blowfish",t:"Only Wanna Be With You",v:["singalong","romantic"]},
+      {a:"Howie Day",t:"Collide",v:["romantic","ceremony"]},
+      {a:"Jack Johnson",t:"Better Together",v:["romantic","ceremony","cocktail"]},
+      {a:"Jack Johnson",t:"Flake",v:["cocktail"]},
+      {a:"Jackson 5",t:"I Want You Back",v:["dancefloor","throwback"]},
+      {a:"James Taylor",t:"Fire and Rain",v:["dinner","cocktail"]},
+      {a:"Jason Mraz",t:"I'm Yours",v:["romantic","ceremony","cocktail"]},
+      {a:"Jesse McCartney",t:"Beautiful Soul",v:["romantic","throwback"]},
+      {a:"John Denver",t:"Country Roads",v:["singalong","country"]},
+      {a:"John Legend",t:"All of Me",v:["romantic","ceremony"]},
+      {a:"John Legend",t:"Ordinary People",v:["romantic","dinner"]},
+      {a:"John Mayer",t:"Last Train Home",v:["dancefloor","cocktail"]},
+      {a:"John Mayer",t:"Your Body is a Wonderland",v:["romantic","cocktail"]},
+      {a:"John Mayer",t:"Gravity",v:["dinner","romantic"]},
+      {a:"John Mellencamp",t:"Jack and Diane",v:["singalong","throwback"]},
+      {a:"Johnny Cash",t:"Ring of Fire",v:["country","throwback","singalong"]},
+      {a:"Justin Bieber",t:"Love Yourself",v:["singalong","cocktail"]},
+      {a:"Justin Bieber",t:"Peaches",v:["dancefloor"]},
+      {a:"Justin Timberlake",t:"Cry Me a River",v:["dancefloor"]},
+      {a:"Kings of Leon",t:"Sex on Fire",v:["singalong","dancefloor"]},
+      {a:"Kygo",t:"Firestone",v:["dancefloor"]},
+      {a:"Lauryn Hill",t:"Killing Me Softly",v:["romantic","cocktail"]},
+      {a:"Luis Miguel",t:"Bésame Mucho",v:["latin","romantic","dinner"]},
+      {a:"Luke Bryan",t:"Country Girl (Shake It For Me)",v:["country","dancefloor"]},
+      {a:"Lynyrd Skynyrd",t:"Sweet Home Alabama",v:["singalong","country","dancefloor"]},
+      {a:"Madonna",t:"Like a Prayer",v:["singalong","throwback","dancefloor"]},
+      {a:"Marc Anthony",t:"I Need to Know",v:["latin","dancefloor"]},
+      {a:"Marc Cohn",t:"Walking in Memphis",v:["cocktail","singalong"]},
+      {a:"Mariah Carey",t:"Always Be My Baby",v:["romantic","throwback"]},
+      {a:"Mario",t:"Let Me Love You",v:["romantic","throwback"]},
+      {a:"Mark Morrison",t:"Return of the Mack",v:["dancefloor","throwback"]},
+      {a:"Maroon 5",t:"Sunday Morning",v:["cocktail","romantic"]},
+      {a:"Maroon 5",t:"This Love",v:["dancefloor","singalong"]},
+      {a:"Marvin Gaye",t:"Let's Get It On",v:["romantic","throwback","dinner"]},
+      {a:"Matchbox 20",t:"3am",v:["cocktail","singalong"]},
+      {a:"Michael Bublé",t:"Everything",v:["romantic","dinner"]},
+      {a:"Michael Jackson",t:"The Way You Make Me Feel",v:["dancefloor","throwback"]},
+      {a:"Miguel",t:"Sure Thing",v:["romantic","cocktail"]},
+      {a:"Mr. Big",t:"To Be With You",v:["romantic","throwback"]},
+      {a:"Nelly",t:"Ride With Me",v:["dancefloor","throwback"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212157/Ride_with_Me_Nelly_ending_vertical_snippet_rawzng.mp4",vidV:true},
+      {a:"Oasis",t:"Champagne Supernova",v:["singalong","cocktail"]},
+      {a:"Oasis",t:"Don't Look Back In Anger",v:["singalong"]},
+      {a:"Otis Redding",t:"Sittin' on the Dock of the Bay",v:["throwback","cocktail","dinner"]},
+      {a:"Phil Collins",t:"You'll Be in My Heart",v:["romantic","ceremony"]},
+      {a:"Phil Collins",t:"Against All Odds",v:["romantic","dinner"]},
+      {a:"Phil Collins",t:"You Can't Hurry Love",v:["throwback","dancefloor"]},
+      {a:"Papa Roach",t:"Last Resort",v:["singalong","dancefloor"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212155/eminem_last_resort_vertical_snippet_dbsxl7.mov",vidV:true},
+      {a:"Prince",t:"Kiss",v:["dancefloor","throwback"]},
+      {a:"Ray Charles",t:"What'd I Say",v:["throwback","dancefloor"]},
+      {a:"Rick Astley",t:"Never Gonna Give You Up",v:["singalong","throwback","dancefloor"]},
+      {a:"Rihanna",t:"Umbrella",v:["singalong","dancefloor"]},
+      {a:"Rihanna",t:"We Found Love",v:["dancefloor"]},
+      {a:"Rod Stewart",t:"Maggie May",v:["singalong","throwback"]},
+      {a:"Rolling Stones",t:"Beast of Burden",v:["cocktail","throwback"]},
+      {a:"Rolling Stones",t:"Sympathy for the Devil",v:["dancefloor","throwback"]},
+      {a:"Roxette",t:"Listen to Your Heart",v:["romantic","throwback"]},
+      {a:"Rusted Root",t:"Send Me on My Way",v:["cocktail","singalong"]},
+      {a:"Santana",t:"Maria Maria",v:["latin","dancefloor"]},
+      {a:"Santana",t:"Smooth",v:["latin","dancefloor","singalong"]},
+      {a:"Shawn Mendes",t:"Lost in Japan",v:["romantic","cocktail"]},
+      {a:"Simon & Garfunkel",t:"Cecilia",v:["singalong","throwback"]},
+      {a:"Simple Plan",t:"Addicted",v:["singalong"]},
+      {a:"Skid Row",t:"I Remember You",v:["romantic","throwback"]},
+      {a:"Smash Mouth",t:"All Star",v:["singalong","dancefloor"]},
+      {a:"Spice Girls",t:"Wannabe",v:["singalong","throwback","dancefloor"]},
+      {a:"Spin Doctors",t:"Two Princes",v:["singalong"]},
+      {a:"Steve Winwood",t:"Back in the High Life Again",v:["dinner","throwback"]},
+      {a:"Steve Winwood",t:"Higher Love",v:["dancefloor","throwback"]},
+      {a:"Stevie Wonder",t:"Isn't She Lovely",v:["romantic","ceremony","dinner","throwback"]},
+      {a:"Sublime",t:"What I Got",v:["cocktail","singalong"]},
+      {a:"Taking Back Sunday",t:"Cute Without the 'E'",v:["singalong"]},
+      {a:"Taylor Swift",t:"Blank Space",v:["singalong","dancefloor"]},
+      {a:"Taylor Swift",t:"Lover",v:["romantic","ceremony"]},
+      {a:"The Beatles",t:"Hey Jude",v:["singalong","throwback"]},
+      {a:"The Beatles",t:"Let It Be",v:["singalong","throwback","ceremony"]},
+      {a:"The Beatles",t:"Twist and Shout",v:["dancefloor","throwback","singalong"]},
+      {a:"The Drifters",t:"Under the Boardwalk",v:["throwback","cocktail","dinner"]},
+      {a:"The Foundations",t:"Build Me Up Buttercup",v:["singalong","throwback","dancefloor"]},
+      {a:"The Four Seasons",t:"December 1963 (Oh What a Night)",v:["throwback","dancefloor","singalong"]},
+      {a:"The Fray",t:"Over My Head",v:["singalong","cocktail"]},
+      {a:"The Killers",t:"Mr. Brightside",v:["singalong","dancefloor"]},
+      {a:"The Lumineers",t:"Ho Hey",v:["singalong","ceremony","cocktail"]},
+      {a:"The Lumineers",t:"Angela",v:["cocktail","romantic"]},
+      {a:"The Proclaimers",t:"I'm Gonna Be (500 Miles)",v:["singalong","dancefloor"]},
+      {a:"The Temptations",t:"Ain't Too Proud to Beg",v:["throwback","dancefloor"]},
+      {a:"Tones and I",t:"Dance Monkey",v:["singalong","dancefloor"]},
+      {a:"The White Stripes",t:"Seven Nation Army",v:["singalong","dancefloor"]},
+      {a:"Third Eye Blind",t:"Semi-Charmed Life",v:["singalong","dancefloor"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212156/semi_charged_life_vertical_snippet_ysoeic.mp4",vidV:true},
+      {a:"Tom Petty",t:"American Girl",v:["singalong","cocktail"]},
+      {a:"Train",t:"Drops of Jupiter",v:["singalong","dinner"]},
+      {a:"Uncle Kracker",t:"Follow Me",v:["cocktail","romantic"]},
+      {a:"Usher",t:"You Remind Me",v:["dancefloor","throwback"]},
+      {a:"Usher",t:"Yeah!",v:["dancefloor","throwback"]},
+      {a:"Van Morrison",t:"Brown Eyed Girl",v:["singalong","throwback","cocktail"]},
+      {a:"Van Morrison",t:"Moondance",v:["dinner","cocktail","throwback"],vid:"https://res.cloudinary.com/dja4ppkvq/video/upload/v1777212174/moondance_horizontal_snippet_jpwdkc.mov",vidV:false},
+      {a:"Vanessa Carlton",t:"A Thousand Miles",v:["singalong","throwback"]},
+      {a:"Walk the Moon",t:"Shut Up and Dance",v:["singalong","dancefloor"]},
+      {a:"Weezer",t:"Say It Ain't So",v:["singalong"]},
+      {a:"Whitney Houston",t:"I Wanna Dance With Somebody",v:["singalong","dancefloor","throwback"]},
+      {a:"Zac Brown Band",t:"Chicken Fried",v:["country","singalong","dancefloor"]},
+    ];
+
+    SONGS.forEach((s, i) => s.id = i);
+
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let activeFilter = "all";
+    let searchTerm = "";
+    let setlist = [];
+    let dragId = null;
+
+    /* ============================================================
+       PILLS
+       ============================================================ */
+    function renderPills() {
+      const counts = { all: SONGS.length };
+      Object.keys(VIBES).forEach(k => counts[k] = 0);
+      SONGS.forEach(s => s.v.forEach(v => { if (counts[v] !== undefined) counts[v]++; }));
+
+      const order = ["all","romantic","ceremony","cocktail","dinner","dancefloor","singalong","country","throwback","latin"];
+      document.getElementById("sl-pills").innerHTML = order.map(key => {
+        const label = key === "all" ? "All Songs" : VIBES[key].label;
+        return `<button class="sl-pill${key === activeFilter ? ' active' : ''}" data-filter="${key}" role="tab" aria-selected="${key === activeFilter}">${label} <span class="sl-pill-count">${counts[key]}</span></button>`;
+      }).join("");
+
+      document.querySelectorAll(".sl-pill").forEach(p => {
+        p.addEventListener("click", () => {
+          activeFilter = p.dataset.filter;
+          renderPills();
+          renderGrid();
+          if (activeFilter !== "all") {
+            const target = document.getElementById(`sl-vibe-${activeFilter}`);
+            if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    }
+
+    function songMatches(s) {
+      if (!searchTerm) return true;
+      const q = searchTerm.toLowerCase();
+      return s.a.toLowerCase().includes(q) || s.t.toLowerCase().includes(q) ||
+             s.v.some(v => VIBES[v]?.label.toLowerCase().includes(q));
+    }
+
+    /* ============================================================
+       GRID
+       ============================================================ */
+    function renderGrid() {
+      const section = document.getElementById("sl-grid-section");
+
+      if (activeFilter === "all" && !searchTerm) {
+        const order = ["romantic","ceremony","cocktail","dinner","dancefloor","singalong","country","throwback","latin"];
+        section.innerHTML = order.map(vk => {
+          const songs = SONGS.filter(s => s.v.includes(vk));
+          if (!songs.length) return "";
+          return `<div class="sl-vibe" id="sl-vibe-${vk}">
+            <div class="sl-vibe-header">
+              <h2 class="sl-vibe-title">${VIBES[vk].label}</h2>
+              <span class="sl-vibe-desc">${VIBES[vk].tagline} · ${songs.length}</span>
+            </div>
+            <div class="sl-grid">${songs.map(songCard).join("")}</div>
+          </div>`;
+        }).join("");
+      } else {
+        let songs = SONGS;
+        if (activeFilter !== "all") songs = songs.filter(s => s.v.includes(activeFilter));
+        songs = songs.filter(songMatches);
+
+        if (!songs.length) {
+          section.innerHTML = `<div class="sl-no-results">No matches — try a different search, or request it below.</div>`;
+          return;
+        }
+
+        const title = activeFilter === "all" ? `Results for "${searchTerm}"` : VIBES[activeFilter].label;
+        const tagline = activeFilter === "all"
+          ? `${songs.length} match${songs.length === 1 ? "" : "es"}`
+          : `${VIBES[activeFilter].tagline} · ${songs.length}`;
+
+        section.innerHTML = `<div class="sl-vibe">
+          <div class="sl-vibe-header">
+            <h2 class="sl-vibe-title">${title}</h2>
+            <span class="sl-vibe-desc">${tagline}</span>
+          </div>
+          <div class="sl-grid">${songs.map(songCard).join("")}</div>
+        </div>`;
+      }
+
+      document.querySelectorAll(".sl-song").forEach(el => {
+        el.addEventListener("click", () => toggleSong(parseInt(el.dataset.id)));
+      });
+    }
+
+    function songCard(s) {
+      const inList = setlist.includes(s.id);
+      const addIcon = inList
+        ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>`
+        : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>`;
+      const playBtn = s.vid
+        ? `<button class="sl-play-btn" onclick="event.stopPropagation();openVideoModal('${s.vid}',${!!s.vidV})" title="Watch clip" aria-label="Watch clip for ${escHtml(s.t)}"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14l11-7-11-7z"/></svg></button>`
+        : '';
+      return `<div class="sl-song${inList ? ' in-list' : ''}" data-id="${s.id}">
+        <div class="sl-song-meta">
+          <div class="sl-song-artist">${escHtml(s.a)}</div>
+          <div class="sl-song-title">${escHtml(s.t)}</div>
+        </div>
+        ${playBtn}<button class="sl-add-btn${inList ? ' active' : ''}" tabindex="-1" aria-label="${inList ? 'Remove' : 'Add'}">${addIcon}</button>
+      </div>`;
+    }
+
+    /* ============================================================
+       SETLIST TOGGLE
+       ============================================================ */
+    function toggleSong(id) {
+      const song = SONGS[id];
+      if (setlist.includes(id)) {
+        setlist = setlist.filter(x => x !== id);
+        showToast(`Removed "${song.t}"`);
+      } else {
+        setlist.push(id);
+        showToast(`Added "${song.t}"`);
+      }
+      updateAll();
+    }
+
+    function clearSetlist() {
+      if (!setlist.length) return;
+      if (!confirm("Clear your whole set list?")) return;
+      setlist = [];
+      updateAll();
+      showToast("Set list cleared");
+    }
+
+    /* ============================================================
+       RENDER SETLISTS
+       ============================================================ */
+    function renderListInto(containerId) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+
+      if (!setlist.length) {
+        el.innerHTML = containerId === "sl-scroll"
+          ? `<div class="sl-empty"><span class="sl-empty-icon">🎹</span><h3>Nothing here yet</h3><p>Tap any song to start building your set list.</p></div>`
+          : `<div class="sl-mob-empty">Tap any song to start building.</div>`;
+        return;
+      }
+
+      el.innerHTML = setlist.map((id, i) => {
+        const s = SONGS[id];
+        return `<div class="sl-item" data-id="${id}" draggable="true">
+          <div class="sl-handle" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span class="sl-num">${String(i+1).padStart(2,"0")}</span>
+          <div class="sl-text">
+            <div class="sl-artist">${escHtml(s.a)}</div>
+            <div class="sl-title">${escHtml(s.t)}</div>
+          </div>
+          <button class="sl-remove" onclick="event.stopPropagation();toggleSong(${id})" aria-label="Remove">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>`;
+      }).join("");
+
+      attachReorder(el);
+    }
+
+    function updateCounts() {
+      const n = setlist.length;
+      const slCount = document.getElementById("sl-count");
+      const sendBtn = document.getElementById("sl-send-btn");
+      const mCount  = document.getElementById("m-count");
+      const mLabel  = document.getElementById("m-count-label");
+      const mSend   = document.getElementById("m-send-btn");
+      if (slCount) slCount.textContent = n;
+      if (sendBtn) sendBtn.disabled = n === 0;
+      if (mCount)  mCount.textContent = n;
+      if (mLabel)  mLabel.textContent = n === 1 ? "song picked" : "songs picked";
+      if (mSend)   mSend.disabled = n === 0;
+    }
+
+    function updateAll() {
+      updateCounts();
+      renderListInto("sl-scroll");
+      renderListInto("m-sl-scroll");
+      renderGrid();
+    }
+
+    /* ============================================================
+       DRAG-TO-REORDER
+       ============================================================ */
+    function attachReorder(container) {
+      container.querySelectorAll(".sl-item").forEach(el => {
+        el.addEventListener("dragstart", e => {
+          dragId = parseInt(el.dataset.id);
+          el.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+        });
+        el.addEventListener("dragend", () => {
+          el.classList.remove("dragging");
+          container.querySelectorAll(".sl-item").forEach(x => x.classList.remove("drop-above","drop-below"));
+          dragId = null;
+        });
+        el.addEventListener("dragover", e => {
+          e.preventDefault();
+          const targetId = parseInt(el.dataset.id);
+          if (targetId === dragId) return;
+          const mid = el.getBoundingClientRect().top + el.offsetHeight / 2;
+          el.classList.toggle("drop-above", e.clientY < mid);
+          el.classList.toggle("drop-below", e.clientY >= mid);
+        });
+        el.addEventListener("dragleave", () => el.classList.remove("drop-above","drop-below"));
+        el.addEventListener("drop", e => {
+          e.preventDefault();
+          const targetId = parseInt(el.dataset.id);
+          if (targetId === dragId || dragId === null) return;
+          const mid = el.getBoundingClientRect().top + el.offsetHeight / 2;
+          reorder(dragId, targetId, e.clientY < mid);
+          el.classList.remove("drop-above","drop-below");
+        });
+
+        const handle = el.querySelector(".sl-handle");
+        if (handle) attachTouchReorder(el, handle, container);
+      });
+    }
+
+    function reorder(fromId, targetId, above) {
+      const fi = setlist.indexOf(fromId);
+      if (fi === -1) return;
+      setlist.splice(fi, 1);
+      const ti = setlist.indexOf(targetId);
+      if (ti === -1) return;
+      setlist.splice(above ? ti : ti + 1, 0, fromId);
+      renderListInto("sl-scroll");
+      renderListInto("m-sl-scroll");
+    }
+
+    function attachTouchReorder(item, handle, container) {
+      let touching = false;
+      let startY = 0;
+      let moveY = 0;
+
+      handle.addEventListener("touchstart", e => {
+        e.preventDefault();
+        touching = true;
+        startY = e.touches[0].clientY;
+        dragId = parseInt(item.dataset.id);
+        item.classList.add("dragging");
+      }, { passive: false });
+
+      handle.addEventListener("touchmove", e => {
+        if (!touching) return;
+        e.preventDefault();
+        moveY = e.touches[0].clientY;
+        container.querySelectorAll(".sl-item").forEach(other => {
+          other.classList.remove("drop-above","drop-below");
+          if (other === item) return;
+          const r = other.getBoundingClientRect();
+          if (moveY >= r.top && moveY <= r.bottom) {
+            const mid = r.top + r.height / 2;
+            other.classList.toggle("drop-above", moveY < mid);
+            other.classList.toggle("drop-below", moveY >= mid);
+          }
+        });
+      }, { passive: false });
+
+      handle.addEventListener("touchend", () => {
+        if (!touching) return;
+        touching = false;
+        item.classList.remove("dragging");
+        let target = null, above = false;
+        container.querySelectorAll(".sl-item").forEach(other => {
+          if (other.classList.contains("drop-above")) { target = other; above = true; }
+          else if (other.classList.contains("drop-below")) { target = other; above = false; }
+          other.classList.remove("drop-above","drop-below");
+        });
+        if (target && dragId !== null) {
+          const tid = parseInt(target.dataset.id);
+          if (tid !== dragId) reorder(dragId, tid, above);
+        }
+        dragId = null;
+      });
+    }
+
+    /* ============================================================
+       ACTIONS
+       ============================================================ */
+    function buildSummary() {
+      return setlist.map((id, i) => `${i+1}. ${SONGS[id].a} — ${SONGS[id].t}`).join("\n");
+    }
+
+    function copySetlist() {
+      if (!setlist.length) { showToast("Nothing to copy yet"); return; }
+      const text = `Jason Guzman Set List:\n\n${buildSummary()}`;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => showToast("Set list copied ✓"), () => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = Object.assign(document.createElement("textarea"), { value: text, style: "position:fixed;opacity:0" });
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); showToast("Set list copied ✓"); } catch { showToast("Copy failed"); }
+      document.body.removeChild(ta);
+    }
+
+    function getVals(mob) {
+      const p = mob ? "m-" : "sl-";
+      return {
+        name:  (document.getElementById(p+"name")?.value  || "").trim(),
+        email: (document.getElementById(p+"email")?.value || "").trim(),
+        date:  (document.getElementById(p+"date")?.value  || "").trim(),
+        notes: (document.getElementById(p+"notes")?.value || "").trim(),
+      };
+    }
+
+    function sendSetlist(mob) {
+      const { name, email, date, notes } = getVals(mob);
+      if (!setlist.length) { showToast("Add at least one song first"); return; }
+      if (!email) { showToast("Email is required"); return; }
+
+      /* ── Hook for Netlify/Formspree when ready:
+         fetch("/", { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"},
+           body: new URLSearchParams({ "form-name":"setlist-submission", name, email, date, notes,
+             songs: buildSummary() }).toString() })
+      ── */
+
+      const subject = encodeURIComponent(`Set List from ${name || "a future client"}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nEvent Date: ${date}\n\nNotes:\n${notes}\n\n--- Set List (${setlist.length} songs) ---\n${buildSummary()}`
+      );
+      window.location.href = `mailto:jayguzmusic@gmail.com?subject=${subject}&body=${body}`;
+      showToast("Opening your email…");
+    }
+
+    function submitRequest() {
+      const name  = (document.getElementById("req-name")?.value  || "").trim();
+      const email = (document.getElementById("req-email")?.value || "").trim();
+      const msg   = (document.getElementById("req-message")?.value || "").trim();
+      if (!email) { showToast("Email is required"); return; }
+
+      const subject = encodeURIComponent(`Song Request from ${name || "a visitor"}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}` +
+        (setlist.length ? `\n\nThey've also picked ${setlist.length} songs:\n${buildSummary()}` : "")
+      );
+      window.location.href = `mailto:jayguzmusic@gmail.com?subject=${subject}&body=${body}`;
+      showToast("Opening your email…");
+    }
+
+    /* ============================================================
+       MOBILE DRAWER
+       ============================================================ */
+    function toggleDrawer(force) {
+      const drawer   = document.getElementById("sl-mob-drawer");
+      const backdrop = document.getElementById("sl-mob-backdrop");
+      const handle   = document.getElementById("sl-drawer-handle");
+      const btnLabel = document.getElementById("sl-drawer-btn-label");
+      const open = typeof force === "boolean" ? force : !drawer.classList.contains("expanded");
+      drawer.classList.toggle("expanded", open);
+      backdrop.classList.toggle("show", open);
+      document.body.style.overflow = open ? "hidden" : "";
+      if (handle) handle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (btnLabel) btnLabel.textContent = open ? "Close" : "View Your Set List";
+    }
+
+    /* ============================================================
+       UTILS
+       ============================================================ */
+    function escHtml(s) {
+      return s.replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("sl-toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(window.__slToast);
+      window.__slToast = setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    renderPills();
+    renderGrid();
+    updateAll();
+
+    document.getElementById("sl-search").addEventListener("input", e => {
+      searchTerm = e.target.value;
+      renderGrid();
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        closeVideoModal();
+        toggleDrawer(false);
+      }
+    });
+
+    /* ============================================================
+       VIDEO PREVIEW MODAL
+       ============================================================ */
+    function openVideoModal(url, vertical) {
+      const backdrop = document.getElementById('vp-backdrop');
+      const box      = document.getElementById('vp-box');
+      const video    = document.getElementById('vp-video');
+      box.classList.toggle('vp-box--vertical', vertical);
+      video.src = url;
+      backdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      video.play().catch(() => {});
+    }
+
+    function closeVideoModal() {
+      const backdrop = document.getElementById('vp-backdrop');
+      const video    = document.getElementById('vp-video');
+      if (!backdrop.classList.contains('is-open')) return;
+      backdrop.classList.remove('is-open');
+      video.pause();
+      setTimeout(() => { video.src = ''; }, 280);
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('vp-close').addEventListener('click', closeVideoModal);
+    document.getElementById('vp-backdrop').addEventListener('click', e => {
+      if (e.target === document.getElementById('vp-backdrop')) closeVideoModal();
+    });
+  </script>
+</body>
+</html>

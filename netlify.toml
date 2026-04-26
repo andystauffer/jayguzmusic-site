@@ -1,0 +1,85 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Canonical domain: non-www → www
+[[redirects]]
+  from = "https://jayguzmusic.com/*"
+  to = "https://www.jayguzmusic.com/:splat"
+  status = 301
+  force = true
+
+# Serve event pages at Austin-branded clean URLs (200 rewrite — URL stays clean)
+[[redirects]]
+  from = "/wedding-band-austin"
+  to = "/events/weddings.html"
+  status = 200
+
+[[redirects]]
+  from = "/corporate-events-austin"
+  to = "/events/corporate.html"
+  status = 200
+
+[[redirects]]
+  from = "/private-parties-austin"
+  to = "/events/private-parties.html"
+  status = 200
+
+# Redirect old /events/* paths to the canonical Austin-branded clean URLs
+[[redirects]]
+  from = "/events/weddings"
+  to = "/wedding-band-austin"
+  status = 301
+
+[[redirects]]
+  from = "/events/weddings.html"
+  to = "/wedding-band-austin"
+  status = 301
+
+[[redirects]]
+  from = "/events/corporate"
+  to = "/corporate-events-austin"
+  status = 301
+
+[[redirects]]
+  from = "/events/corporate.html"
+  to = "/corporate-events-austin"
+  status = 301
+
+[[redirects]]
+  from = "/events/private-parties"
+  to = "/private-parties-austin"
+  status = 301
+
+[[redirects]]
+  from = "/events/private-parties.html"
+  to = "/private-parties-austin"
+  status = 301
+
+# Remove .html extension from all root-level pages (clean canonical URLs)
+[[redirects]]
+  from = "/*.html"
+  to = "/:splat"
+  status = 301
