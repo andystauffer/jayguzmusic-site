@@ -2,7 +2,7 @@
 
 **Written:** 2026-08-30
 **Goal:** Move hosting and billing for jayguzmusic.com off the Proofmap Netlify team and onto Jason's own Netlify account, at no cost to him.
-**Client-facing companion doc:** the plain-language version for Jason lives at the artifact URL in the 2026-08-30 session notes. This file is the operator runbook — it is not for Jason.
+**Client-facing companion doc:** https://claude.ai/code/artifact/182390ea-b8f8-4dd0-a2dc-26ea3a216cd0 — plain-language walkthrough written for Jason (no jargon, no git). Private until shared. This file is the operator runbook and is **not** for Jason.
 
 ---
 
