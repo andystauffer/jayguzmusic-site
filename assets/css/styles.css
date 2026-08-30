@@ -19,7 +19,7 @@
   --color-gold-dark:   #8F4536;  /* ember, inline links on light */
   --color-white:       #FFFFFF;
   --color-text-dark:   #263A3B;
-  --color-text-muted:  #5A6E6D;
+  --color-text-muted:  #536766;  /* clears AA on every light ground: 4.95:1 on shell */
   --color-border:      #E4DBD5;
 
   /* New roles introduced by the rebrand */
@@ -58,6 +58,9 @@
   --space-4:  1rem;
   --space-5:  1.25rem;
   --space-6:  1.5rem;
+  --space-7:  1.75rem;  /* was referenced 24x but never defined — every
+                           padding using it resolved to invalid and
+                           collapsed to 0 (pre-existing bug) */
   --space-8:  2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
@@ -89,20 +92,20 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 17px;   /* editorial, not app chrome */
 }
 
 body {
   font-family: var(--font-body);
   font-size: var(--size-base);
-  line-height: 1.6;
+  line-height: 1.75;
   color: var(--color-text-dark);
   background: var(--color-cream);
   -webkit-font-smoothing: antialiased;
-  /* Fraunces carries its warmth on the SOFT and WONK axes — without
-     these it renders as an ordinary transitional serif. Karla has
-     neither axis and ignores the declaration. */
-  font-variation-settings: 'SOFT' 40, 'WONK' 1;
+  /* SOFT rounds Fraunces' terminals, which is where its warmth lives.
+     WONK stays at 0: its alternate glyphs (the ampersand especially)
+     read as a rendering fault rather than as character. */
+  font-variation-settings: 'SOFT' 40, 'WONK' 0;
 }
 
 img, video { max-width: 100%; display: block; }
@@ -130,7 +133,10 @@ input, textarea, select {
    ============================================================ */
 .display-xl {
   font-family: var(--font-display);
-  font-size: clamp(var(--size-5xl), 8vw, var(--size-7xl));
+  /* Floor lowered from --size-5xl: at the new 17px root that was 51px, and
+     Fraunces sets wider than Cormorant, so the hero headline was cramped on
+     a small phone. Measured: neither value actually overflows. */
+  font-size: clamp(2.25rem, 7.5vw, var(--size-7xl));
   font-weight: 300;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -175,8 +181,8 @@ input, textarea, select {
 .overline {
   font-family: var(--font-body);
   font-size: var(--size-xs);
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
@@ -263,72 +269,90 @@ input, textarea, select {
 /* ============================================================
    BUTTONS
    ============================================================ */
+/* Sentence case, pill radius, 1px borders. Uppercase + heavy tracking
+   + 2px hard edges read as procurement software; this audience is
+   being invited to a conversation, not filling in a purchase order. */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-8);
+  padding: var(--space-4) var(--space-8);
+  min-height: 48px;                 /* comfortable thumb target */
   font-family: var(--font-body);
-  font-size: var(--size-sm);
+  font-size: var(--size-base);
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
   transition: all var(--transition);
   white-space: nowrap;
 }
 
+.btn:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 3px;
+}
+
 .btn--primary {
-  background: var(--color-gold);
-  color: var(--color-dark);
-  border: 2px solid var(--color-gold);
+  background: var(--color-action);
+  color: var(--color-white);
+  border-color: var(--color-action);
 }
 .btn--primary:hover {
-  background: var(--color-gold-light);
-  border-color: var(--color-gold-light);
+  background: var(--color-action-hover);
+  border-color: var(--color-action-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgb(var(--rgb-accent) / 0.3);
-}
-
-.btn--outline-light {
-  background: transparent;
-  color: var(--color-white);
-  border: 2px solid rgb(var(--rgb-light) / 0.4);
-}
-.btn--outline-light:hover {
-  border-color: var(--color-white);
-  background: rgb(var(--rgb-light) / 0.08);
-}
-
-.btn--outline-dark {
-  background: transparent;
-  color: var(--color-text-dark);
-  border: 2px solid var(--color-text-dark);
-}
-.btn--outline-dark:hover {
-  background: var(--color-text-dark);
-  color: var(--color-white);
-}
-
-.btn--ghost-gold {
-  background: transparent;
-  color: var(--color-gold);
-  border: 2px solid var(--color-gold);
-}
-.btn--ghost-gold:hover {
-  background: var(--color-gold);
-  color: var(--color-dark);
+  box-shadow: 0 8px 22px -8px rgb(var(--rgb-accent) / 0.65);
 }
 
 .btn--lg {
   padding: var(--space-4) var(--space-10);
-  font-size: var(--size-base);
+  font-size: var(--size-lg);
+  min-height: 54px;
 }
 
 .btn--sm {
-  padding: var(--space-2) var(--space-5);
-  font-size: var(--size-xs);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--size-sm);
+  min-height: 40px;
 }
+
+/* Secondary actions become quiet underlined links so there is exactly
+   one thing on screen that looks like the next step. */
+.btn--outline-light,
+.btn--outline-dark,
+.btn--ghost-gold {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  padding-left: var(--space-2);
+  padding-right: var(--space-2);
+  text-decoration: underline;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 1px;
+}
+
+.btn--outline-light {
+  color: var(--color-candle);
+  text-decoration-color: rgb(var(--rgb-candle) / 0.45);
+}
+.btn--outline-light:hover {
+  color: var(--color-white);
+  text-decoration-color: var(--color-white);
+}
+
+.btn--outline-dark,
+.btn--ghost-gold {
+  color: var(--color-gold-dark);
+  text-decoration-color: rgb(var(--rgb-accent) / 0.45);
+}
+.btn--outline-dark:hover,
+.btn--ghost-gold:hover {
+  color: var(--color-action);
+  text-decoration-color: var(--color-action);
+}
+
 
 /* ============================================================
    NAVIGATION
@@ -373,7 +397,7 @@ input, textarea, select {
 }
 
 .nav__logo span {
-  color: var(--color-gold);
+  color: var(--color-candle);
 }
 
 .nav__links {
@@ -396,7 +420,7 @@ input, textarea, select {
 }
 
 .nav__link--active {
-  color: var(--color-gold);
+  color: var(--color-candle);
 }
 
 /* Dropdown */
@@ -466,7 +490,7 @@ input, textarea, select {
 }
 
 .nav__dropdown-item:hover {
-  color: var(--color-gold);
+  color: var(--color-candle);
   background: rgb(var(--rgb-accent) / 0.06);
   padding-left: var(--space-8);
 }
@@ -560,18 +584,20 @@ input, textarea, select {
   content: '';
   position: absolute;
   inset: 0;
+  /* Candlelight rather than ember: this is stage light falling on a
+     teal ground, and the warm/cool split is what sells "dusk". */
   background:
     radial-gradient(
       ellipse 110% 130% at 58% 0%,
-      rgb(var(--rgb-accent) / 0.18) 0%,
-      rgb(var(--rgb-accent) / 0.10) 35%,
-      rgb(var(--rgb-accent) / 0.04) 60%,
+      rgb(var(--rgb-candle) / 0.20) 0%,
+      rgb(var(--rgb-candle) / 0.11) 35%,
+      rgb(var(--rgb-candle) / 0.04) 60%,
       transparent 80%
     ),
     radial-gradient(
       ellipse 70% 80% at 82% 85%,
-      rgb(var(--rgb-accent) / 0.22) 0%,
-      rgb(var(--rgb-accent) / 0.10) 40%,
+      rgb(var(--rgb-candle) / 0.26) 0%,
+      rgb(var(--rgb-candle) / 0.11) 40%,
       transparent 70%
     );
   z-index: 0;
@@ -612,6 +638,7 @@ input, textarea, select {
 .hero__content {
   position: relative;
   z-index: 2;
+  min-width: 0;   /* flex item guard; not fixing a measured overflow today */
   padding: calc(var(--nav-height) + var(--space-16)) var(--space-8) var(--space-24);
   max-width: 1280px;
   margin: 0 auto;
@@ -619,7 +646,7 @@ input, textarea, select {
 }
 
 .hero__eyebrow {
-  color: var(--color-gold);
+  color: var(--color-candle);
   margin-bottom: var(--space-5);
 }
 
@@ -644,7 +671,8 @@ input, textarea, select {
 
 .hero__headline em {
   font-style: italic;
-  color: var(--color-gold);
+  color: var(--color-gold-light);   /* ember, lifted: 3.9:1 on teal, and large
+                                       display type only needs 3:1 */
 }
 
 .hero__subtext {
@@ -713,7 +741,7 @@ input, textarea, select {
 }
 
 .section-header--dark .overline {
-  color: var(--color-gold);
+  color: var(--color-candle);
 }
 
 .section-header h2 {
@@ -747,23 +775,26 @@ input, textarea, select {
 
 .pillar-card {
   padding: var(--space-8);
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   background: var(--color-white);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition);
 }
 
 .pillar-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--color-gold);
 }
 
 .pillar-card__icon {
   width: 48px;
   height: 48px;
   margin-bottom: var(--space-5);
-  color: var(--color-gold);
+  padding: 10px;
+  border-radius: 50%;
+  background: rgb(var(--rgb-accent) / 0.09);
+  color: var(--color-gold-dark);
 }
 
 .pillar-card__icon svg {
@@ -793,7 +824,7 @@ input, textarea, select {
 
 .pillar-card--dark:hover {
   background: rgb(var(--rgb-accent) / 0.06);
-  border-color: var(--color-gold);
+  border-color: var(--color-candle);
 }
 
 .pillar-card--dark h3 {
@@ -822,7 +853,7 @@ input, textarea, select {
   width: 36px;
   height: 36px;
   margin-top: 2px;
-  color: var(--color-gold);
+  color: var(--color-candle);
   opacity: 0.8;
 }
 
@@ -867,7 +898,7 @@ input, textarea, select {
   background-size: cover;
   background-position: center;
   transition: transform 0.6s ease;
-  filter: brightness(0.5);
+  filter: brightness(0.82);
 }
 
 .event-card:hover .event-card__bg {
@@ -878,7 +909,12 @@ input, textarea, select {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(var(--rgb-dark) / 0.9) 0%, transparent 60%);
+  background: linear-gradient(
+    to top,
+    rgb(var(--rgb-dark) / 0.88) 4%,
+    rgb(var(--rgb-dark) / 0.30) 46%,
+    transparent 76%
+  );
 }
 
 .event-card__content {
@@ -887,13 +923,16 @@ input, textarea, select {
   padding: var(--space-8);
 }
 
+/* Candlelight, not ember: now that the photography is no longer crushed
+   to half brightness, a mid-tone accent disappears into it. */
 .event-card__tag {
   display: inline-block;
   font-size: var(--size-xs);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-candle);
+  text-shadow: 0 1px 6px rgb(var(--rgb-dark) / 0.85);
   margin-bottom: var(--space-3);
 }
 
@@ -902,6 +941,7 @@ input, textarea, select {
   font-size: var(--size-3xl);
   font-weight: 400;
   color: var(--color-white);
+  text-shadow: 0 1px 10px rgb(var(--rgb-dark) / 0.7);
   line-height: 1.2;
   margin-bottom: var(--space-4);
 }
@@ -913,7 +953,7 @@ input, textarea, select {
   font-size: var(--size-sm);
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--color-gold);
+  color: var(--color-candle);
   opacity: 0;
   transform: translateY(8px);
   transition: all var(--transition);
@@ -1003,7 +1043,7 @@ input, textarea, select {
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
-  opacity: 0.7;
+  opacity: 0.88;
 }
 
 .clip-thumb:hover .clip-thumb__img {
@@ -1061,7 +1101,7 @@ input, textarea, select {
 
 /* Placeholder clip */
 .clip-placeholder {
-  background: linear-gradient(135deg, #2a2a2d 0%, #1c1c1e 100%);
+  background: linear-gradient(135deg, var(--color-dark-alt) 0%, var(--color-dark) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1102,7 +1142,7 @@ input, textarea, select {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-gold);
+  color: var(--color-candle);
 }
 
 .about-video-placeholder__icon svg {
@@ -1143,12 +1183,12 @@ input, textarea, select {
 
 .reels-fade--left {
   left: 0;
-  background: linear-gradient(to right, #1C1C1E 0%, transparent 100%);
+  background: linear-gradient(to right, var(--color-dark) 0%, transparent 100%);
 }
 
 .reels-fade--right {
   right: 0;
-  background: linear-gradient(to left, #1C1C1E 0%, transparent 100%);
+  background: linear-gradient(to left, var(--color-dark) 0%, transparent 100%);
 }
 
 .reels-track {
@@ -1178,7 +1218,7 @@ input, textarea, select {
   aspect-ratio: 9 / 16;
   border-radius: 20px;
   overflow: hidden;
-  background: #111;
+  background: #12292B;   /* deep teal, one step under --color-dark */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
@@ -1233,7 +1273,7 @@ input, textarea, select {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1c1c1e;
+  color: var(--color-white);
   pointer-events: none;
   transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -1282,7 +1322,7 @@ input, textarea, select {
   border-radius: 50%;
   background: rgb(var(--rgb-dark) / 0.82);
   border: 1px solid rgb(var(--rgb-accent) / 0.3);
-  color: var(--color-gold);
+  color: var(--color-candle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1293,7 +1333,7 @@ input, textarea, select {
 
 .reels-arrow:hover:not(:disabled) {
   background: rgb(var(--rgb-accent) / 0.18);
-  border-color: var(--color-gold);
+  border-color: var(--color-candle);
 }
 
 
@@ -1419,7 +1459,8 @@ input, textarea, select {
   padding: var(--space-8);
   background: var(--color-white);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -1512,7 +1553,7 @@ input, textarea, select {
 }
 
 .perf-chapter .overline {
-  color: var(--color-gold);
+  color: var(--color-candle);
   margin-bottom: var(--space-3);
   display: block;
 }
@@ -1538,7 +1579,7 @@ input, textarea, select {
   font-family: var(--font-display);
   font-size: var(--size-2xl);
   font-style: italic;
-  color: var(--color-gold);
+  color: var(--color-candle);
   font-weight: 500;
   line-height: 1;
 }
@@ -1555,7 +1596,7 @@ input, textarea, select {
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-candle);
   line-height: 1;
 }
 
@@ -1648,7 +1689,12 @@ input, textarea, select {
 }
 
 .band-callout .overline {
-  color: var(--color-gold);
+  color: var(--color-candle);
+}
+
+/* The panel is a flex column, so the CTA was stretching edge to edge. */
+.band-callout__content .btn {
+  align-self: flex-start;
 }
 
 .band-callout h2 {
@@ -1663,17 +1709,27 @@ input, textarea, select {
 /* ============================================================
    CONSULTATION FORM
    ============================================================ */
+/* The highest-intent moment on the site. It was a dark card with 5%
+   translucent-white inputs — a developer console at the exact point a
+   bride decides whether to reach out. Inverted to light. */
 .form-section {
-  background: var(--color-dark);
+  background: var(--color-cream-alt);
 }
 
+/* The markup carries .section-header--dark here; neutralise it in CSS
+   rather than editing two pages of HTML. */
+.form-section .section-header--dark h2 { color: var(--color-text-dark); }
+.form-section .section-header--dark p  { color: var(--color-text-muted); }
+.form-section .section-header--dark .overline { color: var(--color-gold-dark); }
+
 .form-card {
-  background: var(--color-dark-alt);
-  border: 1px solid rgb(var(--rgb-light) / 0.07);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-12);
   max-width: 680px;
   margin: 0 auto;
+  box-shadow: var(--shadow-md);
 }
 
 .form-grid {
@@ -1695,11 +1751,10 @@ input, textarea, select {
 }
 
 .form-group label {
-  font-size: var(--size-xs);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgb(var(--rgb-light) / 0.5);
+  font-size: var(--size-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
 }
 
 .form-group input,
@@ -1707,26 +1762,28 @@ input, textarea, select {
 .form-group textarea {
   width: 100%;
   min-width: 0;
-  background: rgb(var(--rgb-light) / 0.05);
-  border: 1px solid rgb(var(--rgb-light) / 0.1);
-  border-radius: var(--radius-sm);
+  min-height: 48px;
+  background: #FDFAF8;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   padding: var(--space-3) var(--space-4);
-  color: var(--color-white);
-  font-size: var(--size-sm);
-  transition: border-color var(--transition);
+  color: var(--color-text-dark);
+  font-size: var(--size-base);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: rgb(var(--rgb-light) / 0.25);
+  color: #A6A09B;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--color-gold);
-  background: rgb(var(--rgb-light) / 0.07);
+  border-color: var(--color-action);
+  box-shadow: 0 0 0 3px rgb(var(--rgb-accent) / 0.16);
+  background: var(--color-white);
 }
 
 .form-group select {
@@ -1739,8 +1796,8 @@ input, textarea, select {
 }
 
 .form-group select option {
-  background: var(--color-dark-alt);
-  color: var(--color-white);
+  background: var(--color-white);
+  color: var(--color-text-dark);
 }
 
 .form-group textarea {
@@ -1756,7 +1813,7 @@ input, textarea, select {
 .form-note {
   margin-top: var(--space-3);
   font-size: var(--size-xs);
-  color: rgb(var(--rgb-light) / 0.35);
+  color: var(--color-text-muted);
   letter-spacing: 0.04em;
 }
 
@@ -1784,7 +1841,7 @@ input, textarea, select {
 }
 
 .cta-banner .overline {
-  color: var(--color-gold);
+  color: var(--color-candle);
   margin-bottom: var(--space-4);
 }
 
@@ -1812,7 +1869,7 @@ input, textarea, select {
    FOOTER
    ============================================================ */
 .footer {
-  background: #111113;
+  background: #142B2E;   /* footer: deepest teal */
   color: rgb(var(--rgb-light) / 0.5);
   padding: var(--space-16) 0 var(--space-8);
 }
@@ -1858,7 +1915,7 @@ input, textarea, select {
   transition: color var(--transition);
 }
 
-.footer__link:hover { color: var(--color-gold); }
+.footer__link:hover { color: var(--color-candle); }
 
 .footer__bottom {
   display: flex;
@@ -1873,7 +1930,7 @@ input, textarea, select {
   color: inherit;
   transition: color var(--transition);
 }
-.footer__legal a:hover { color: var(--color-gold); }
+.footer__legal a:hover { color: var(--color-candle); }
 
 /* ============================================================
    PAGE HERO (inner pages)
@@ -1890,7 +1947,7 @@ input, textarea, select {
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.25;
+  opacity: 0.42;
 }
 
 .page-hero::after {
@@ -1905,7 +1962,7 @@ input, textarea, select {
   z-index: 1;
 }
 
-.page-hero .overline { color: var(--color-gold); margin-bottom: var(--space-4); }
+.page-hero .overline { color: var(--color-candle); margin-bottom: var(--space-4); }
 .page-hero h1 { color: var(--color-white); margin-bottom: var(--space-5); }
 .page-hero p { color: rgb(var(--rgb-light) / 0.7); max-width: 560px; font-size: var(--size-lg); line-height: 1.7; margin-bottom: var(--space-8); }
 
