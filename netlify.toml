@@ -1,6 +1,16 @@
 [build]
   publish = "."
 
+# ============================================================
+# STAGING GUARD — DELETE THIS BLOCK BEFORE ATTACHING THE DOMAIN
+# Keeps jayguzmusic.netlify.app out of Google while we review.
+# The header overrides the `index, follow` meta tag in each page.
+# ============================================================
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
@@ -31,7 +41,8 @@
   status = 301
   force = true
 
-# Serve event pages at Austin-branded clean URLs (200 rewrite — URL stays clean)
+# Serve event pages at Austin-branded clean URLs (200 rewrite — URL stays clean).
+# These must stay ABOVE the 301s below so the branded URL resolves, not redirects.
 [[redirects]]
   from = "/wedding-band-austin"
   to = "/events/weddings.html"
@@ -47,39 +58,48 @@
   to = "/events/private-parties.html"
   status = 200
 
-# Redirect old /events/* paths to the canonical Austin-branded clean URLs
+# Redirect old /events/* paths to the canonical Austin-branded clean URLs.
+# force = true is REQUIRED: without it Netlify serves the matching static file
+# and the redirect never fires, leaving each page live on multiple URLs.
 [[redirects]]
   from = "/events/weddings"
   to = "/wedding-band-austin"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/events/weddings.html"
   to = "/wedding-band-austin"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/events/corporate"
   to = "/corporate-events-austin"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/events/corporate.html"
   to = "/corporate-events-austin"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/events/private-parties"
   to = "/private-parties-austin"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/events/private-parties.html"
   to = "/private-parties-austin"
   status = 301
+  force = true
 
 # Remove .html extension from all root-level pages (clean canonical URLs)
 [[redirects]]
   from = "/*.html"
   to = "/:splat"
   status = 301
+  force = true
