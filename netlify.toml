@@ -97,9 +97,53 @@
   status = 301
   force = true
 
-# Remove .html extension from all root-level pages (clean canonical URLs)
+# Remove .html extension from root-level pages (clean canonical URLs).
+# Listed explicitly: Netlify only treats "*" as a splat at the END of a path,
+# so a "/*.html" pattern never matches and silently does nothing.
 [[redirects]]
-  from = "/*.html"
-  to = "/:splat"
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about.html"
+  to = "/about"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/event-coordinators.html"
+  to = "/event-coordinators"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/setlist.html"
+  to = "/setlist"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/thank-you.html"
+  to = "/thank-you"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wedding-band-dallas.html"
+  to = "/wedding-band-dallas"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wedding-band-houston.html"
+  to = "/wedding-band-houston"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wedding-band-san-antonio.html"
+  to = "/wedding-band-san-antonio"
   status = 301
   force = true
