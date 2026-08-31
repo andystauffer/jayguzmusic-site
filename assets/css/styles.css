@@ -28,6 +28,8 @@
   --color-candle:      #D9AE7E;  /* the old brass, desaturated */
   --color-candle-dim:  #B98F63;
   --color-teal-mid:    #4F8B87;  /* non-text: icons, rules, focus rings */
+  --color-accent-text: #9C4E3E;  /* small accent TEXT on light grounds — ember
+                                    itself is only 3.0:1 there and fails AA */
   --color-mist:        #E7EFEC;  /* pale teal third surface */
 
   /* Channel tokens — every rgba() literal in this file now derives
@@ -127,7 +129,17 @@ input, textarea, select {
   text-underline-offset: 3px;
   transition: color 0.15s ease;
 }
-.link-inline:hover { color: var(--color-gold); }
+.link-inline:hover { color: var(--color-action); }
+
+/* Deep ember is ~1.6:1 on the teal ground; candlelight is 6:1 */
+.section--dark .link-inline,
+.section--dark-alt .link-inline,
+.page-hero .link-inline,
+.cta-banner .link-inline { color: var(--color-candle); }
+.section--dark .link-inline:hover,
+.section--dark-alt .link-inline:hover,
+.page-hero .link-inline:hover,
+.cta-banner .link-inline:hover { color: var(--color-white); }
 
 /* ============================================================
    TYPOGRAPHY
@@ -343,15 +355,23 @@ input, textarea, select {
   text-decoration-color: var(--color-white);
 }
 
-.btn--outline-dark,
-.btn--ghost-gold {
-  color: var(--color-gold-dark);
+.btn--outline-dark {
+  color: var(--color-accent-text);
   text-decoration-color: rgb(var(--rgb-accent) / 0.45);
 }
-.btn--outline-dark:hover,
-.btn--ghost-gold:hover {
+.btn--outline-dark:hover {
   color: var(--color-action);
   text-decoration-color: var(--color-action);
+}
+
+/* ghost-gold is only ever used on a dark ground, where deep ember is 1.8:1 */
+.btn--ghost-gold {
+  color: var(--color-candle);
+  text-decoration-color: rgb(var(--rgb-candle) / 0.45);
+}
+.btn--ghost-gold:hover {
+  color: var(--color-white);
+  text-decoration-color: var(--color-white);
 }
 
 
@@ -705,7 +725,7 @@ input, textarea, select {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  color: rgb(var(--rgb-light) / 0.4);
+  color: rgb(var(--rgb-light) / 0.62);
   font-size: var(--size-xs);
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -737,7 +757,7 @@ input, textarea, select {
 }
 
 .section-header .overline {
-  color: var(--color-gold);
+  color: var(--color-accent-text);
   margin-bottom: var(--space-4);
 }
 
@@ -1129,7 +1149,7 @@ input, textarea, select {
 
 .about-video-placeholder p {
   font-size: var(--size-sm);
-  color: rgb(var(--rgb-light) / 0.3);
+  color: rgb(var(--rgb-light) / 0.55);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1655,8 +1675,11 @@ input, textarea, select {
   opacity: 0.6;
 }
 
+/* This panel owns its own dark background, so it must own its text colour
+   too — it previously inherited white from the section around it. */
 .band-callout__content {
   background: var(--color-dark-alt);
+  color: var(--color-white);
   padding: var(--space-16) var(--space-12);
   display: flex;
   flex-direction: column;
@@ -1665,8 +1688,11 @@ input, textarea, select {
 }
 
 .band-callout .overline {
-  color: var(--color-candle);
+  color: #EBC79A;   /* dark-alt is a lighter ground than --color-dark */
 }
+
+.band-callout__content h2 { color: var(--color-white); }
+.band-callout__content p  { color: rgb(var(--rgb-light) / 0.72); }
 
 /* The panel is a flex column, so the CTA was stretching edge to edge. */
 .band-callout__content .btn {
@@ -1875,7 +1901,7 @@ input, textarea, select {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgb(var(--rgb-light) / 0.3);
+  color: rgb(var(--rgb-light) / 0.62);
   margin-bottom: var(--space-5);
 }
 
@@ -2019,11 +2045,11 @@ input, textarea, select {
   gap: var(--space-3);
   margin-top: var(--space-5);
   font-size: var(--size-sm);
-  color: rgb(var(--rgb-light) / 0.5);
+  color: var(--color-text-muted);
 }
 
 .ec-quick-share__link {
-  color: var(--color-gold);
+  color: var(--color-accent-text);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color var(--transition);
@@ -2034,7 +2060,7 @@ input, textarea, select {
 }
 
 .ec-quick-share__divider {
-  color: rgb(var(--rgb-light) / 0.3);
+  color: rgb(var(--rgb-dark) / 0.72);
 }
 
 /* Stats */
@@ -2047,7 +2073,8 @@ input, textarea, select {
 .stat-item {
   text-align: center;
   padding: var(--space-8);
-  background: rgb(var(--rgb-light) / 0.04);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
 
@@ -2065,7 +2092,7 @@ input, textarea, select {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgb(var(--rgb-light) / 0.45);
+  color: var(--color-text-muted);
 }
 
 /* ============================================================
