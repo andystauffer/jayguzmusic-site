@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Song Catalog | Jason Guzman — Build Your Set List</title>
-  <meta name="description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
+  <title>Song Catalog | Jay Guzman — Build Your Set List</title>
+  <meta name="description" content="Browse Jay Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.jayguzmusic.com/setlist">
 
-  <meta property="og:title" content="Song Catalog | Jason Guzman — Build Your Set List">
-  <meta property="og:description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
+  <meta property="og:title" content="Song Catalog | Jay Guzman — Build Your Set List">
+  <meta property="og:description" content="Browse Jay Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event and send it directly.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.jayguzmusic.com/setlist">
   <meta property="og:image" content="https://www.jayguzmusic.com/assets/images/og-image.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Song Catalog | Jason Guzman — Build Your Set List">
-  <meta name="twitter:description" content="Browse Jason Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event.">
+  <meta name="twitter:title" content="Song Catalog | Jay Guzman — Build Your Set List">
+  <meta name="twitter:description" content="Browse Jay Guzman's full song catalog — 150+ songs across Pop, Jazz, Latin, Country, R&B, and more. Build a custom set list for your Austin event.">
   <meta name="twitter:image" content="https://www.jayguzmusic.com/assets/images/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1156,7 +1156,7 @@
   <!-- NAV -->
   <nav class="nav nav--solid" id="main-nav">
     <div class="nav__inner">
-      <a href="/" class="nav__logo">Jason <span>Guzman</span></a>
+      <a href="/" class="nav__logo">Jay <span>Guzman</span></a>
       <div class="nav__links">
         <a href="/about" class="nav__link">About</a>
         <div class="nav__dropdown">
@@ -1204,7 +1204,7 @@
       <section class="sl-hero">
         <div class="sl-hero-badge"><span class="sl-brand-dot"></span>Now Booking · Austin, TX · Solo or Full Band</div>
         <h1>Pick the songs.<br>Build the <em>vibe.</em><br>Make it yours.</h1>
-        <p class="sl-hero-sub">Everything I currently play — drawn from real weddings, real receptions, and real "oh my god, that's our song" moments across 20 years of performing.</p>
+        <p class="sl-hero-sub">Everything I currently play — drawn from real weddings, real receptions, and real "oh my god, that's our song" moments across more than a decade of performing.</p>
       </section>
 
       <div class="sl-controls">
@@ -1251,8 +1251,8 @@
         <div class="container">
           <div class="footer__top">
             <div class="footer__brand">
-              <a href="/" class="nav__logo">Jason <span>Guzman</span></a>
-              <p>Austin's premier event pianist. Twenty years of performing for moments that matter.</p>
+              <a href="/" class="nav__logo">Jay <span>Guzman</span></a>
+              <p>Austin's premier event pianist. Over a decade of performing for moments that matter.</p>
             </div>
             <div>
               <p class="footer__heading">Event Types</p>
@@ -1274,7 +1274,7 @@
             <div>
               <p class="footer__heading">Quick Links</p>
               <ul class="footer__links">
-                <li><a href="/about" class="footer__link">About Jason</a></li>
+                <li><a href="/about" class="footer__link">About Jay</a></li>
                 <li><a href="/event-coordinators" class="footer__link">For Event Coordinators</a></li>
                 <li><a href="/#consult" class="footer__link">Schedule a Call</a></li>
               </ul>
@@ -1289,7 +1289,7 @@
             </div>
           </div>
           <div class="footer__bottom">
-            <p>© <span id="footer-year">2025</span> Jason Guzman. All rights reserved.</p>
+            <p>© <span id="footer-year">2025</span> Jay Guzman. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -1339,7 +1339,7 @@
       <label for="m-notes">Notes & Custom Requests</label>
       <textarea id="m-notes" rows="3" placeholder="Ceremony details, solo or full band, songs not in the catalog — anything that matters to you."></textarea>
       <div class="sl-mob-actions">
-        <button class="sl-btn sl-btn-gold" onclick="sendSetlist(true)" id="m-send-btn" disabled>Send to Jason →</button>
+        <button class="sl-btn sl-btn-gold" onclick="sendSetlist(true)" id="m-send-btn" disabled>Send to Jay →</button>
         <button class="sl-btn sl-btn-ghost" onclick="copySetlist()">Copy</button>
       </div>
     </div>
@@ -1832,7 +1832,7 @@
 
     function copySetlist() {
       if (!setlist.length) { showToast("Nothing to copy yet"); return; }
-      const text = `Jason Guzman Set List:\n\n${buildSummary()}`;
+      const text = `Jay Guzman Set List:\n\n${buildSummary()}`;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => showToast("Set list copied ✓"), () => fallbackCopy(text));
       } else {
