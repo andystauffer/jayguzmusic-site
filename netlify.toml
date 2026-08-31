@@ -36,8 +36,23 @@
 
 # Canonical domain: non-www → www
 [[redirects]]
+  from = "https://jayguzmanmusicandevents.com/*"
+  to = "https://www.jayguzmanmusicandevents.com/:splat"
+  status = 301
+  force = true
+
+# Old domain → new. Inert until jayguzmusic.com's DNS points at this site
+# (it currently serves a separate Wix site), but in place so the switch
+# forwards visitors and link equity the moment it does.
+[[redirects]]
   from = "https://jayguzmusic.com/*"
-  to = "https://www.jayguzmusic.com/:splat"
+  to = "https://www.jayguzmanmusicandevents.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.jayguzmusic.com/*"
+  to = "https://www.jayguzmanmusicandevents.com/:splat"
   status = 301
   force = true
 
