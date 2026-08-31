@@ -1468,12 +1468,6 @@ input, textarea, select {
   transform: translateY(-2px);
 }
 
-.testimonial-card__stars {
-  display: flex;
-  gap: var(--space-1);
-  color: var(--color-gold);
-  font-size: var(--size-base);
-}
 
 .testimonial-card__quote {
   font-family: var(--font-display);
