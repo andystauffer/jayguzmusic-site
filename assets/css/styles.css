@@ -625,21 +625,32 @@ input, textarea, select {
   pointer-events: none;
 }
 
+/* This was built for a transparent-PNG cutout floating over the ground.
+   With real photography it becomes a bleed image filling the right of the
+   hero, with .hero::after's left-to-right gradient carrying the headline. */
 .hero__portrait-wrap {
   position: absolute;
-  top: 48%;
-  transform: translateY(-50%);
-  right: 10vw;
+  inset: 0 0 0 auto;
+  width: 74%;
   z-index: 0;
   pointer-events: none;
 }
 
 .hero__portrait {
   display: block;
-  width: 66vw;
-  height: auto;
-  max-height: 98vh;
-  filter: drop-shadow(0 8px 40px rgba(0, 0, 0, 0.45));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+/* Feather the inner edge so the photo dissolves into the ground rather
+   than ending on a hard vertical line. */
+.hero__portrait-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--color-dark) 0%, transparent 34%);
 }
 
 .hero::after {

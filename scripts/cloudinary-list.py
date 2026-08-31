@@ -8,7 +8,14 @@ Usage:
 
 Read-only: only ever issues GET to the Admin API's resources endpoint.
 """
-import base64, json, os, sys, urllib.parse, urllib.request, re, pathlib
+import base64, json, os, sys, ssl, urllib.parse, urllib.request, re, pathlib
+
+# python.org builds on macOS ship without the system cert store
+try:
+    import certifi
+    _SSL = ssl.create_default_context(cafile=certifi.where())
+except ImportError:
+    _SSL = ssl.create_default_context()
 
 def load_env():
     p = pathlib.Path(__file__).resolve().parent.parent / ".env"
@@ -50,7 +57,7 @@ def main():
     req.add_header("Authorization",
         "Basic " + base64.b64encode(f"{key}:{secret}".encode()).decode())
     try:
-        data = json.load(urllib.request.urlopen(req, timeout=30))
+        data = json.load(urllib.request.urlopen(req, timeout=30, context=_SSL))
     except urllib.error.HTTPError as e:
         sys.exit(f"Cloudinary returned {e.code}: {e.read().decode()[:300]}")
 
