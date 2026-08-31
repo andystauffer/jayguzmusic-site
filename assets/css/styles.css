@@ -1495,22 +1495,14 @@ input, textarea, select {
   margin: 0 auto;
 }
 
-/* Source attribution under the grid */
-.testimonial-source {
-  text-align: center;
-  margin-top: var(--space-8);
-  font-size: var(--size-sm);
-  color: var(--color-text-muted);
-}
-.testimonial-source a {
-  color: var(--color-accent-text);
+/* Per-review source link, inside the card's meta line */
+.testimonial-card__source {
+  color: inherit;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 2px;
+  text-decoration-color: rgb(var(--rgb-dark) / 0.3);
 }
-.section--dark .testimonial-source,
-.section--dark-alt .testimonial-source { color: rgb(var(--rgb-light) / 0.72); }
-.section--dark .testimonial-source a,
-.section--dark-alt .testimonial-source a { color: var(--color-candle); }
+.testimonial-card__source:hover { color: var(--color-accent-text); }
 
 .testimonial-card:hover {
   box-shadow: var(--shadow-md);
