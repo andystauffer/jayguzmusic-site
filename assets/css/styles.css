@@ -1487,6 +1487,31 @@ input, textarea, select {
   transition: all var(--transition);
 }
 
+/* Pages that carry a single real review shouldn't leave it stranded in a
+   third of a three-column grid. */
+.testimonial-card:only-child {
+  grid-column: 1 / -1;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+/* Source attribution under the grid */
+.testimonial-source {
+  text-align: center;
+  margin-top: var(--space-8);
+  font-size: var(--size-sm);
+  color: var(--color-text-muted);
+}
+.testimonial-source a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.section--dark .testimonial-source,
+.section--dark-alt .testimonial-source { color: rgb(var(--rgb-light) / 0.72); }
+.section--dark .testimonial-source a,
+.section--dark-alt .testimonial-source a { color: var(--color-candle); }
+
 .testimonial-card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
