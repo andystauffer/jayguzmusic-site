@@ -69,10 +69,11 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
-  --radius-sm:   2px;
-  --radius-md:  14px;
-  --radius-lg:  22px;
-  --radius-pill: 999px;
+  /* Tighter than the first pass: harder, cleaner edges read as more
+     considered and less soft. Nothing on the site is a full pill. */
+  --radius-sm:  2px;
+  --radius-md:  6px;
+  --radius-lg: 10px;
 
   /* Warm-tinted, not pure black — a black shadow on a warm ground
      is the fastest way to make a palette look cheap. */
@@ -283,7 +284,7 @@ input, textarea, select {
   font-size: var(--size-base);
   font-weight: 600;
   letter-spacing: 0.01em;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   border: 1px solid transparent;
   transition: all var(--transition);
   white-space: nowrap;
@@ -787,20 +788,7 @@ input, textarea, select {
   box-shadow: var(--shadow-lg);
 }
 
-.pillar-card__icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: var(--space-5);
-  padding: 10px;
-  border-radius: 50%;
-  background: rgb(var(--rgb-accent) / 0.09);
-  color: var(--color-gold-dark);
-}
 
-.pillar-card__icon svg {
-  width: 100%;
-  height: 100%;
-}
 
 .pillar-card h3 {
   font-family: var(--font-display);
@@ -848,19 +836,7 @@ input, textarea, select {
   background: rgb(var(--rgb-accent) / 0.04);
 }
 
-.coverage-note__icon {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  margin-top: 2px;
-  color: var(--color-candle);
-  opacity: 0.8;
-}
 
-.coverage-note__icon svg {
-  width: 100%;
-  height: 100%;
-}
 
 .coverage-note__body h4 {
   font-family: var(--font-display);
@@ -1216,7 +1192,7 @@ input, textarea, select {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: #12292B;   /* deep teal, one step under --color-dark */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -1765,7 +1741,7 @@ input, textarea, select {
   min-height: 48px;
   background: #FDFAF8;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
   color: var(--color-text-dark);
   font-size: var(--size-base);
@@ -1985,17 +1961,6 @@ input, textarea, select {
   border: 1px solid var(--color-border);
 }
 
-.instrument-item__icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: rgb(var(--rgb-accent) / 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--color-gold-dark);
-}
 
 .instrument-item h4 {
   font-family: var(--font-display);
@@ -2118,17 +2083,6 @@ input, textarea, select {
   padding: var(--space-16);
 }
 
-.thank-you-card__icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgb(var(--rgb-accent) / 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto var(--space-8);
-  color: var(--color-gold);
-}
 
 .thank-you-card h1 { color: var(--color-white); margin-bottom: var(--space-4); }
 .thank-you-card p { color: rgb(var(--rgb-light) / 0.6); font-size: var(--size-lg); max-width: 480px; margin: 0 auto var(--space-10); line-height: 1.7; }
