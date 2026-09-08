@@ -6,47 +6,47 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/about</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/setlist</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/setlist.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/event-coordinators</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/event-coordinators.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-austin</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-austin.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/corporate-events-austin</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/corporate-events-austin.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/private-parties-austin</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/private-parties-austin.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-dallas</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-dallas.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-houston</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-houston.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-san-antonio</loc>
+    <loc>https://www.jayguzmanmusicandevents.com/wedding-band-san-antonio.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

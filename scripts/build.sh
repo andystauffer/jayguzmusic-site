@@ -14,6 +14,7 @@ mkdir -p dist
 # Everything the browser needs, and only that.
 rsync -a \
   --exclude='.git' \
+  --exclude='.wix' \
   --exclude='.env*' \
   --exclude='dist' \
   --exclude='scripts' \
