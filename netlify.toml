@@ -56,109 +56,15 @@
   status = 301
   force = true
 
-# Serve event pages at Austin-branded clean URLs (200 rewrite — URL stays clean).
-# These must stay ABOVE the 301s below so the branded URL resolves, not redirects.
-[[redirects]]
-  from = "/wedding-band-austin"
-  to = "/events/weddings.html"
-  status = 200
-
-[[redirects]]
-  from = "/corporate-events-austin"
-  to = "/events/corporate.html"
-  status = 200
-
-[[redirects]]
-  from = "/private-parties-austin"
-  to = "/events/private-parties.html"
-  status = 200
-
-# Redirect old /events/* paths to the canonical Austin-branded clean URLs.
-# force = true is REQUIRED: without it Netlify serves the matching static file
-# and the redirect never fires, leaving each page live on multiple URLs.
-[[redirects]]
-  from = "/events/weddings"
-  to = "/wedding-band-austin"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/events/weddings.html"
-  to = "/wedding-band-austin"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/events/corporate"
-  to = "/corporate-events-austin"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/events/corporate.html"
-  to = "/corporate-events-austin"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/events/private-parties"
-  to = "/private-parties-austin"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/events/private-parties.html"
-  to = "/private-parties-austin"
-  status = 301
-  force = true
-
-# Remove .html extension from root-level pages (clean canonical URLs).
-# Listed explicitly: Netlify only treats "*" as a splat at the END of a path,
-# so a "/*.html" pattern never matches and silently does nothing.
-[[redirects]]
-  from = "/index.html"
-  to = "/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/about.html"
-  to = "/about"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/event-coordinators.html"
-  to = "/event-coordinators"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/setlist.html"
-  to = "/setlist"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/thank-you.html"
-  to = "/thank-you"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/wedding-band-dallas.html"
-  to = "/wedding-band-dallas"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/wedding-band-houston.html"
-  to = "/wedding-band-houston"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/wedding-band-san-antonio.html"
-  to = "/wedding-band-san-antonio"
-  status = 301
-  force = true
+# ============================================================
+# The 14 routing rules that used to live here are gone.
+#
+# Every page now sits at <url>/index.html, so the file path IS the URL
+# and no rewrite is needed to serve it. That also makes the site
+# portable — these clean URLs resolve on any static host, which the
+# rewrite-based layout could not do.
+#
+# The /events/* 301s went too. Those paths were only ever an internal
+# file location, never a public URL, and nothing has been indexed:
+# the staging URL has carried X-Robots-Tag noindex throughout.
+# ============================================================
