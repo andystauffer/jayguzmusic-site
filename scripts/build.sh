@@ -9,7 +9,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 rm -rf dist
-mkdir -p dist
+mkdir -p dist/client dist/server
 
 # Everything the browser needs, and only that.
 rsync -a \
@@ -25,11 +25,18 @@ rsync -a \
   --exclude='netlify.toml' \
   --exclude='vercel.json' \
   --exclude='wix.config.json' \
+  --exclude='worker' \
   --exclude='package*.json' \
-  ./ dist/
+  ./ dist/client/
+
+# The worker gives us clean URLs. Wix serves a matching static file directly
+# and hands anything else to this, so /about.html is served by the CDN and
+# /about falls through to the worker, which fetches it. Entry MUST be named
+# entry.mjs — Wix looks for /user-code/entry.mjs and 500s otherwise.
+cp worker/entry.mjs dist/server/entry.mjs
 
 # Fail loudly rather than ship a secret.
-if find dist -name '.env*' -o -name '*.key' -o -name '*.pem' | grep -q .; then
+if find dist/client -name '.env*' -o -name '*.key' -o -name '*.pem' | grep -q .; then
   echo "ABORT: secret-shaped file found in dist/" >&2
   exit 1
 fi
@@ -37,11 +44,16 @@ if grep -rlq "CLOUDINARY_API_SECRET" dist/ 2>/dev/null; then
   echo "ABORT: CLOUDINARY_API_SECRET appears in dist/" >&2
   exit 1
 fi
-if [ ! -f dist/index.html ]; then
-  echo "ABORT: dist/index.html missing — Wix requires an entry HTML file at the top level" >&2
+if [ ! -f dist/client/index.html ]; then
+  echo "ABORT: dist/client/index.html missing — Wix requires an entry HTML file at the top level" >&2
   exit 1
 fi
 
-FILES=$(find dist -type f | wc -l | tr -d ' ')
-BYTES=$(find dist -type f -exec ls -l {} \; | awk '{s+=$5} END {print s}')
-printf 'dist/ built: %s files, %.0fKB\n' "$FILES" "$(echo "$BYTES/1024" | bc -l)"
+if [ ! -f dist/server/entry.mjs ]; then
+  echo "ABORT: dist/server/entry.mjs missing — Wix requires this exact filename" >&2
+  exit 1
+fi
+
+FILES=$(find dist/client -type f | wc -l | tr -d ' ')
+BYTES=$(find dist/client -type f -exec ls -l {} \; | awk '{s+=$5} END {print s}')
+printf 'dist/ built: %s client files, %.0fKB + worker\n' "$FILES" "$(echo "$BYTES/1024" | bc -l)"
