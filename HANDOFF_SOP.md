@@ -1,3 +1,7 @@
+> **SUPERSEDED (2026-09-08).** This documents a Netlify hosting transfer that is
+> no longer the plan — the site is moving to Wix Headless. See `WIX_MIGRATION.md`
+> for current state. Kept for the account and domain history it records.
+
 # SOP — Transfer hosting to Jason's Netlify account
 
 **Written:** 2026-08-30
