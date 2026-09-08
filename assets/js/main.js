@@ -124,17 +124,52 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 /* ============================================================
    FORM — basic client-side UX
    ============================================================ */
-const consultForm = document.getElementById('consult-form');
+/* Forms post to Netlify Forms, which only exists on Netlify. On any other
+   host that POST is answered by the static /thank-you page — the visitor
+   sees a success screen and the enquiry is silently lost. So submit by
+   fetch and fall back to email if the host can't accept it. The native
+   POST still works with JS disabled. */
+const ENQUIRY_EMAIL = 'jayguzmusic@gmail.com';
 
-if (consultForm) {
-  consultForm.addEventListener('submit', (e) => {
-    const btn = consultForm.querySelector('[type="submit"]');
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
+/* Kept separate from the submit handler so it can be exercised directly. */
+function buildEnquiryMailto(data) {
+  const subject = 'Event enquiry from ' + (data.get('first-name') || 'the website');
+  const body = Array.from(data.entries())
+    .filter(([k, v]) => v && k !== 'bot-field' && k !== 'form-name')
+    .map(([k, v]) => k.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + ': ' + v)
+    .join('\n');
+  return 'mailto:' + ENQUIRY_EMAIL +
+         '?subject=' + encodeURIComponent(subject) +
+         '&body=' + encodeURIComponent(body);
+}
+
+document.querySelectorAll('form[data-netlify]').forEach((form) => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector('[type="submit"]');
+    const label = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+    const data = new FormData(form);
+    if (data.get('bot-field')) return;                 // honeypot tripped
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString(),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      window.location.href = form.getAttribute('action') || '/thank-you';
+    } catch (err) {
+      // No form handler on this host — hand the enquiry to the mail client
+      // rather than dropping it.
+      window.location.href = buildEnquiryMailto(data);
+      if (btn) { btn.disabled = false; btn.textContent = label; }
     }
   });
-}
+});
 
 /* ============================================================
    REELS CAROUSEL
