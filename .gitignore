@@ -8,3 +8,6 @@ node_modules/
 *.log
 .idea/
 .vscode/
+
+# build output — assembled by scripts/build.sh, never committed
+dist/
