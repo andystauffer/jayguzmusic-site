@@ -1,71 +1,107 @@
-# jayguzmusic.com
+# jayguzmanmusicandevents.com
 
-Marketing site for Jason "Jay" Guzman — Austin-based event pianist, vocalist, and live entertainer.
+Marketing site for Jason "Jay" Guzman — Austin-based event pianist, vocalist, and
+live entertainer.
 
-**Production URL:** https://www.jayguzmusic.com/
+**Production URL:** https://www.jayguzmanmusicandevents.com/ *(cutover pending — see `CUTOVER.md`)*
+**Staging:** https://jayguzmusic.netlify.app (carries `X-Robots-Tag: noindex` until cutover)
 
-## Stack
+## Architecture
 
-Static HTML / CSS / vanilla JS. No build step. No framework. Drop the folder onto any static host.
+Static HTML / CSS / vanilla JS — no framework. **Netlify** serves the frontend;
+**Wix** is the backend for forms, contacts and inbox, reached from the browser
+over a headless client. Jay's existing Wix Premium plan covers the custom domain.
+
+```
+  jayguzmanmusicandevents.com → Netlify (static)
+                                    │ headless client
+                                    ▼
+                          Wix site c6da36f6 — Forms · Contacts · Inbox
+```
+
+Every page is a flat `.html` file at the repo root, so the file path *is* the
+URL. Netlify serves `/about` from `about.html` natively and 301s `/about/` →
+`/about`; no rewrite rules are needed, and the same build works on any static
+host.
 
 ## Folder structure
 
 ```
 jayguzmusic-site/
-├── index.html               # Home
-├── about.html               # About / bio
-├── setlist.html             # Interactive song catalog
-├── event-coordinators.html  # B2B page for planners
-├── thank-you.html           # Form confirmation
-├── 404.html                 # Not-found page
+├── index.html                    # Home
+├── about.html
+├── setlist.html                  # Interactive song catalog
+├── event-coordinators.html       # B2B page for planners
+├── wedding-band-{austin,dallas,houston,san-antonio}.html
+├── corporate-events-austin.html
+├── private-parties-austin.html
+├── thank-you.html                # Form confirmation
+├── 404.html
 ├── robots.txt
-├── sitemap.xml
-├── netlify.toml             # Netlify config (headers, redirects, caching)
-├── vercel.json              # Vercel config (headers, redirects, clean URLs)
-├── PRE_LAUNCH.md            # Pre-launch checklist
-├── events/
-│   ├── weddings.html
-│   ├── corporate.html
-│   ├── rehearsal-dinners.html
-│   └── private-parties.html
-└── assets/
-    ├── css/styles.css
-    ├── js/main.js
-    └── images/              # Replace placeholders before launch — see PRE_LAUNCH.md
+├── sitemap-index.xml             # NOT sitemap.xml — see WIX_MIGRATION.md §4
+├── netlify.toml                  # headers, redirects, caching, build config
+├── assets/
+│   ├── css/styles.css
+│   └── js/
+│       ├── main.js               # nav, carousels, form submit handler
+│       └── wix-forms.js          # Wix Forms submission layer
+├── scripts/
+│   ├── build.sh                  # assembles dist/ — the deploy boundary
+│   ├── cloudinary-*.py           # media helpers (read .env)
+│   └── wix-forms/                # form schema + create/read scripts
+├── worker/                       # Wix-hosting only; redundant on Netlify
+└── dist/                         # build output, gitignored
 ```
+
+Images and video are served from Cloudinary, not the repo.
+
+## Build
+
+There **is** a build step. `scripts/build.sh` assembles `dist/client` from the
+served files only and is the deploy boundary: it aborts rather than ship a
+secret-shaped file, or if `CLOUDINARY_API_SECRET` appears in the output.
+
+```bash
+./scripts/build.sh
+```
+
+Never point a host's publish directory at `.` — the repo root contains `.env`.
 
 ## Deploy
 
-### Netlify (drag-and-drop)
-1. Log in at https://app.netlify.com
-2. Drag the `jayguzmusic-site/` folder onto the Sites dashboard
-3. Connect custom domain `www.jayguzmusic.com` under Domain Settings
-4. Forms (consultation, coordinator-inquiry, song-request) work automatically — view submissions under Forms tab
+Netlify builds from the repo: `command = "./scripts/build.sh"`,
+`publish = "dist/client"` (see `netlify.toml`).
 
-### Netlify (CLI)
 ```bash
-npm i -g netlify-cli
-cd jayguzmusic-site
-netlify deploy --prod
+npx netlify deploy --prod        # manual deploy
 ```
 
-### Vercel (CLI)
-```bash
-npm i -g vercel
-cd jayguzmusic-site
-vercel --prod
-```
+## Forms
 
-Forms are wired for Netlify (`data-netlify="true"`). If deploying to Vercel, replace the form `action` with a third-party form handler (Formspree, Basin, etc.) or a Vercel serverless function.
+Three forms — `consultation`, `coordinator-inquiry`, `song-request`.
+
+Submission order is **Wix Forms → Netlify Forms → `mailto:`**. `wix-forms.js` is
+inert until `WIX_FORMS_CONFIG` has a clientID and form IDs, so it ships safely
+before the Wix side exists. The Netlify fallback catches a Wix outage — it needs
+an email notification configured or those leads reach a dashboard Jay never opens.
+
+`song-request` is the exception: its button calls `submitRequest()` directly and
+has only ever opened a `mailto`, carrying the visitor's selected setlist.
 
 ## Local preview
 
 ```bash
-cd jayguzmusic-site
-python3 -m http.server 8000
-# Visit http://localhost:8000
+python3 -m http.server 8000      # then visit http://localhost:8000
 ```
 
-## Before going live
+Clean URLs won't resolve locally — `python3 -m http.server` serves literal paths.
+Test `/about.html`, or run `npx netlify dev` to match production routing.
 
-See [PRE_LAUNCH.md](./PRE_LAUNCH.md) for the full checklist (real photos, real video URLs, real testimonials, analytics, form notifications).
+## Docs
+
+| File | What it is |
+|---|---|
+| `CUTOVER.md` | **Current** — the Netlify cutover runbook |
+| `WIX_MIGRATION.md` | Project state; Wix behaviour established by testing |
+| `HANDOFF_SOP.md` | Superseded |
+| `PRE_LAUNCH.md` | Superseded |

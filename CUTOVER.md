@@ -103,17 +103,15 @@ clientID + form IDs into `WIX_FORMS_CONFIG` in `assets/js/wix-forms.js`, rebuild
 
 ## 4. Phase B — Netlify becomes the real host
 
-**B1 `[CLAUDE]` Stop publishing the repo root.**
-`netlify.toml` currently has `publish = "."`. The repo root holds `.env`. Change to:
+**B1 `[CLAUDE]` ~~Stop publishing the repo root.~~ DONE 2026-09-10.**
+`netlify.toml` published `.` — the repo root, which holds `.env`. Now builds
+via `./scripts/build.sh` and publishes `dist/client`, putting Netlify behind
+the same deploy boundary as Wix, including the secret-shaped-file and
+`CLOUDINARY_API_SECRET` aborts.
 
-```toml
-[build]
-  command = "./scripts/build.sh"
-  publish = "dist/client"
-```
-
-This puts Netlify behind the same deploy boundary as Wix, including the
-build's secret-shaped-file and `CLOUDINARY_API_SECRET` aborts.
+`build.sh` also had a `bc` dependency in its final size calculation. Harmless
+locally, but `bc` isn't guaranteed in Netlify CI and under `set -e` a missing
+binary fails the whole build. Switched to `awk`.
 
 **B2 `[CLAUDE]` Keep the Netlify Forms fallback deliberately.**
 On Netlify the `data-netlify` path works again, so the chain becomes

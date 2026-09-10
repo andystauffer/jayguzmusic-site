@@ -55,5 +55,7 @@ if [ ! -f dist/server/entry.mjs ]; then
 fi
 
 FILES=$(find dist/client -type f | wc -l | tr -d ' ')
-BYTES=$(find dist/client -type f -exec ls -l {} \; | awk '{s+=$5} END {print s}')
-printf 'dist/ built: %s client files, %.0fKB + worker\n' "$FILES" "$(echo "$BYTES/1024" | bc -l)"
+# awk, not bc — this now runs in Netlify CI, and bc is not guaranteed to be
+# installed there. Under `set -e` a missing bc would fail the whole build.
+SIZE=$(find dist/client -type f -exec ls -l {} \; | awk '{s+=$5} END {printf "%.0f", s/1024}')
+printf 'dist/ built: %s client files, %sKB + worker\n' "$FILES" "$SIZE"

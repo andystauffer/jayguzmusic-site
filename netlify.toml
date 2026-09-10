@@ -1,5 +1,10 @@
+# `publish` must never be "." — the repo root holds .env. scripts/build.sh
+# assembles dist/client from the served files only, and aborts rather than
+# ship a secret-shaped file. Netlify reads THIS file from the repo root, not
+# from the publish directory, so excluding it from dist/ is correct.
 [build]
-  publish = "."
+  command = "./scripts/build.sh"
+  publish = "dist/client"
 
 # ============================================================
 # STAGING GUARD — DELETE THIS BLOCK BEFORE ATTACHING THE DOMAIN

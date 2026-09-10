@@ -1,5 +1,12 @@
 # Pre-Launch Checklist
 
+> **SUPERSEDED (2026-09-10).** This describes a launch on `www.jayguzmusic.com`
+> — a different domain on a different Wix account — and a repo whose images were
+> local placeholders. Images moved to Cloudinary in `e83d525`; the target domain
+> is now `jayguzmanmusicandevents.com`. Kept for the photography and copy notes
+> only. For current state see `WIX_MIGRATION.md`; for the launch steps see
+> `CUTOVER.md`.
+
 Domain locked in: **www.jayguzmusic.com** ✅
 
 ## 1. Confirm contact email
