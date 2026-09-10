@@ -80,13 +80,18 @@ npx netlify deploy --prod        # manual deploy
 
 Three forms — `consultation`, `coordinator-inquiry`, `song-request`.
 
-Submission order is **Wix Forms → Netlify Forms → `mailto:`**. `wix-forms.js` is
-inert until `WIX_FORMS_CONFIG` has a clientID and form IDs, so it ships safely
-before the Wix side exists. The Netlify fallback catches a Wix outage — it needs
-an email notification configured or those leads reach a dashboard Jay never opens.
+All three post to **Wix Forms** on Jay's premium site, which is the single
+capture path — submissions reach his dashboard and create a contact. If Wix
+can't be reached the enquiry falls back to `mailto:`, which lands in an inbox
+he actually reads. There is deliberately no second capture service.
 
-`song-request` is the exception: its button calls `submitRequest()` directly and
-has only ever opened a `mailto`, carrying the visitor's selected setlist.
+`data-netlify` remains on the forms only so that a JS-disabled native POST is
+caught by Netlify rather than answered by the static `/thank-you` page.
+
+`song-request` carries one extra field: the set list the visitor built on the
+page lives in a JS array, so a capture-phase submit listener copies it into a
+hidden input before `main.js` reads FormData. Capture matters — `main.js` binds
+in the bubble phase and would otherwise send an empty set list.
 
 ## Local preview
 

@@ -113,16 +113,22 @@ the same deploy boundary as Wix, including the secret-shaped-file and
 locally, but `bc` isn't guaranteed in Netlify CI and under `set -e` a missing
 binary fails the whole build. Switched to `awk`.
 
-**B2 `[CLAUDE]` Keep the Netlify Forms fallback deliberately.**
-On Netlify the `data-netlify` path works again, so the chain becomes
-**Wix → Netlify Forms → mailto**. If Wix is unreachable the lead still lands
-somewhere rather than being dropped.
+**B2 `[CLAUDE]` ~~Keep the Netlify Forms fallback.~~ DROPPED 2026-09-10.**
+Wix is the sole capture path. The chain is **Wix → mailto**.
 
-**B3 `[MANUAL]` Point Netlify Forms notifications at Jay.**
-Netlify → Site settings → Forms → Notifications → email `jayguzmusic@gmail.com`.
+A second capture service meant leads could land in a Netlify dashboard Jay
+never opens, which is barely better than losing them — and it needed its own
+notification setup to be useful at all. The mailto fallback reaches his actual
+inbox, so it is the better failure mode for this business.
 
-> Without this, a Wix outage sends leads to the Netlify dashboard where **Jay
-> never sees them**. The fallback is only a fallback if it reaches him.
+`data-netlify` stays on the forms for one narrow case: with JS disabled the
+handler never runs, and the native POST is caught by Netlify instead of being
+answered by the static `/thank-you` page, which would show a success screen
+and drop the enquiry.
+
+Trade-off, stated plainly: if Wix is unreachable the visitor has to actually
+complete the mailto, and some won't. Netlify Forms would have caught those
+silently — in a place nobody checks.
 
 **B4 `[CLAUDE] + [MANUAL]` ~~End-to-end form test.~~ DONE 2026-09-10.**
 All three forms submitted over the real path — anonymous visitor token, then

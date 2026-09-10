@@ -124,11 +124,16 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 /* ============================================================
    FORM — basic client-side UX
    ============================================================ */
-/* Forms post to Netlify Forms, which only exists on Netlify. On any other
-   host that POST is answered by the static /thank-you page — the visitor
-   sees a success screen and the enquiry is silently lost. So submit by
-   fetch and fall back to email if the host can't accept it. The native
-   POST still works with JS disabled. */
+/* Wix Forms is the destination: submissions land in Jay's dashboard and
+   create a contact. There is deliberately no second capture service — a
+   lead sitting in a dashboard nobody opens is barely better than a lost
+   one, so if Wix can't be reached we hand the enquiry to the visitor's
+   mail client, which reaches an inbox Jay actually reads.
+
+   `data-netlify` stays on the forms for one narrow case: with JS disabled
+   none of this runs, and the form's native POST is caught by Netlify
+   rather than answered by the static /thank-you page, which would show a
+   success screen and silently drop the enquiry. */
 const ENQUIRY_EMAIL = 'jayguzmusic@gmail.com';
 
 /* Kept separate from the submit handler so it can be exercised directly. */
@@ -158,24 +163,18 @@ document.querySelectorAll('form[data-netlify]').forEach((form) => {
     if (data.get('bot-field')) return;                 // honeypot tripped
 
     try {
-      // Wix Forms first. Returns false when unconfigured, in which
-      // case fall through to the Netlify post below.
       const formName = form.getAttribute('name');
-      if (window.submitWixForm && await window.submitWixForm(formName, data)) {
+      const sent = window.submitWixForm &&
+                   await window.submitWixForm(formName, data);
+      if (sent) {
         window.location.href = form.getAttribute('action') || '/thank-you';
         return;
       }
-
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString(),
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      window.location.href = form.getAttribute('action') || '/thank-you';
+      // false means this form has no clientId or form id configured — a
+      // wiring mistake, not an outage, but either way don't drop the lead.
+      throw new Error('Wix Forms not configured for "' + formName + '"');
     } catch (err) {
-      // No form handler on this host — hand the enquiry to the mail client
-      // rather than dropping it.
+      console.warn('[form] Wix submission failed, falling back to email:', err);
       window.location.href = buildEnquiryMailto(data);
       if (btn) { btn.disabled = false; btn.textContent = label; }
     }
