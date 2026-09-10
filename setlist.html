@@ -1228,8 +1228,12 @@
             <input type="hidden" name="form-name" value="song-request">
             <p class="visually-hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
             <div>
-              <label for="req-name">Your name</label>
-              <input type="text" id="req-name" name="name" placeholder="Your name">
+              <label for="req-first-name">First name</label>
+              <input type="text" id="req-first-name" name="first-name" placeholder="First name" autocomplete="given-name">
+            </div>
+            <div>
+              <label for="req-last-name">Last name</label>
+              <input type="text" id="req-last-name" name="last-name" placeholder="Last name" autocomplete="family-name">
             </div>
             <div>
               <label for="req-email">Email <span aria-hidden="true">*</span></label>
@@ -1239,8 +1243,9 @@
               <label for="req-message">Songs to learn / questions</label>
               <textarea id="req-message" name="message" rows="3" placeholder="Songs you'd love to hear, ceremony vs. reception details, solo or full band, anything…"></textarea>
             </div>
+            <input type="hidden" id="req-selected-songs" name="selected-songs">
             <div class="full">
-              <button type="button" class="sl-btn sl-btn-gold" onclick="submitRequest()" style="width:auto; padding-left:var(--space-8);">Send it over →</button>
+              <button type="submit" class="sl-btn sl-btn-gold" style="width:auto; padding-left:var(--space-8);">Send it over →</button>
             </div>
           </form>
         </div>
@@ -1878,20 +1883,18 @@
       showToast("Opening your email…");
     }
 
-    function submitRequest() {
-      const name  = (document.getElementById("req-name")?.value  || "").trim();
-      const email = (document.getElementById("req-email")?.value || "").trim();
-      const msg   = (document.getElementById("req-message")?.value || "").trim();
-      if (!email) { showToast("Email is required"); return; }
-
-      const subject = encodeURIComponent(`Song Request from ${name || "a visitor"}`);
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}` +
-        (setlist.length ? `\n\nThey've also picked ${setlist.length} songs:\n${buildSummary()}` : "")
-      );
-      window.location.href = `mailto:jayguzmusic@gmail.com?subject=${subject}&body=${body}`;
-      showToast("Opening your email…");
-    }
+    /* The set list the visitor built lives in a JS array, not in the form, so
+       copy it into a hidden input before the submit handler in main.js reads
+       FormData. Capture phase: listeners on the same element fire capture
+       before bubble, and main.js binds in the bubble phase. */
+    (function () {
+      var form = document.getElementById("sl-quote-form");
+      if (!form) return;
+      form.addEventListener("submit", function () {
+        var field = document.getElementById("req-selected-songs");
+        if (field) field.value = setlist.length ? buildSummary() : "";
+      }, true);
+    })();
 
     /* ============================================================
        MOBILE DRAWER

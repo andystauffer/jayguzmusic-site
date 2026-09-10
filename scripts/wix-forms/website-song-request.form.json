@@ -1,0 +1,211 @@
+{
+  "form": {
+    "name": "Website - Song Request",
+    "namespace": "wix.form_app.form",
+    "formFields": [
+      {
+        "id": "38563fae-696c-49c8-99bd-ed299ef5745a",
+        "identifier": "CONTACTS_FIRST_NAME",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "first_name",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "FIRST_NAME"
+          },
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "First Name",
+              "showLabel": true,
+              "placeholder": "First name"
+            }
+          }
+        }
+      },
+      {
+        "id": "019900e2-666d-4a40-9f82-2ad84738c0dc",
+        "identifier": "CONTACTS_LAST_NAME",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "last_name",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "LAST_NAME"
+          },
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Last Name",
+              "showLabel": true,
+              "placeholder": "Last name"
+            }
+          }
+        }
+      },
+      {
+        "id": "5ce12e82-bbe4-4cfa-9cb9-f78f8695b4d6",
+        "identifier": "CONTACTS_EMAIL",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "email",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "EMAIL",
+            "emailInfo": {
+              "tag": "UNTAGGED"
+            }
+          },
+          "required": true,
+          "stringOptions": {
+            "validation": {
+              "format": "EMAIL"
+            },
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Email",
+              "showLabel": true,
+              "placeholder": "you@email.com"
+            }
+          }
+        }
+      },
+      {
+        "id": "b5d4699d-0d43-45bd-8dee-0e7e12018582",
+        "identifier": "TEXT_AREA",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "message",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Songs to learn / questions",
+              "showLabel": true,
+              "placeholder": "Songs you'd love to hear, ceremony vs. reception details, solo or full band"
+            }
+          }
+        }
+      },
+      {
+        "id": "b5523c84-ad18-407f-9cb5-9597e33d242a",
+        "identifier": "TEXT_AREA",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "selected_songs",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Set list built on the site",
+              "showLabel": true,
+              "placeholder": "Filled automatically from their selections"
+            }
+          }
+        }
+      },
+      {
+        "id": "a25f78d7-6c9f-46a0-ac76-55b0875cabb1",
+        "identifier": "SUBMIT_BUTTON",
+        "fieldType": "DISPLAY",
+        "displayOptions": {
+          "displayFieldType": "PAGE_NAVIGATION",
+          "pageNavigationOptions": {
+            "submitText": "Send it over"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "id": "b0038126-3b6e-4011-9132-a93c5812c50b",
+        "name": "Page 1",
+        "layout": {
+          "large": {
+            "items": [
+              {
+                "fieldId": "38563fae-696c-49c8-99bd-ed299ef5745a",
+                "row": 0,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "019900e2-666d-4a40-9f82-2ad84738c0dc",
+                "row": 1,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "5ce12e82-bbe4-4cfa-9cb9-f78f8695b4d6",
+                "row": 2,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "b5d4699d-0d43-45bd-8dee-0e7e12018582",
+                "row": 3,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "b5523c84-ad18-407f-9cb5-9597e33d242a",
+                "row": 4,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "a25f78d7-6c9f-46a0-ac76-55b0875cabb1",
+                "row": 5,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "submitSettings": {
+      "submitSuccessAction": "THANK_YOU_MESSAGE",
+      "thankYouMessageOptions": {
+        "durationInSeconds": 8,
+        "richContent": {
+          "nodes": [
+            {
+              "type": "PARAGRAPH",
+              "id": "thankyou1",
+              "nodes": [
+                {
+                  "type": "TEXT",
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "text": "Thanks - Jay will take a look and get back to you soon.",
+                    "decorations": []
+                  }
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "CENTER"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -30,7 +30,8 @@ const WIX_FORMS_CONFIG = {
     // "Website - Event Consultation" on c6da36f6, created 2026-09-10
     consultation: 'f3eeeeec-4ab0-4f49-bb73-87075198c48f',
     'coordinator-inquiry': '',
-    'song-request': '',
+    // "Website - Song Request" on c6da36f6, created 2026-09-10
+    'song-request': '69563c61-5e8a-48c8-8e19-208310e55a71',
   },
 };
 
@@ -45,6 +46,13 @@ const FIELD_TARGETS = {
     phone: 'phone',
     'event-type': 'event_type',
     message: 'message',
+  },
+  'song-request': {
+    'first-name': 'first_name',
+    'last-name': 'last_name',
+    email: 'email',
+    message: 'message',
+    'selected-songs': 'selected_songs',
   },
 };
 
