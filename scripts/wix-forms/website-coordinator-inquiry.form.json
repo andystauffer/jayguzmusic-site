@@ -1,0 +1,415 @@
+{
+  "form": {
+    "name": "Website - Coordinator Inquiry",
+    "namespace": "wix.form_app.form",
+    "formFields": [
+      {
+        "id": "987087a9-6168-4224-af7a-78f75f0cec15",
+        "identifier": "CONTACTS_FIRST_NAME",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "first_name",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "FIRST_NAME"
+          },
+          "required": true,
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "First Name",
+              "showLabel": true,
+              "placeholder": "First name"
+            }
+          }
+        }
+      },
+      {
+        "id": "63dfa06d-6f54-47ac-9ca2-294aff1c7fde",
+        "identifier": "CONTACTS_LAST_NAME",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "last_name",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "LAST_NAME"
+          },
+          "required": true,
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Last Name",
+              "showLabel": true,
+              "placeholder": "Last name"
+            }
+          }
+        }
+      },
+      {
+        "id": "50d3ac1a-525c-42f3-8962-002812eff89f",
+        "identifier": "CONTACTS_COMPANY",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "company",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "COMPANY"
+          },
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Company / Agency",
+              "showLabel": true,
+              "placeholder": "Your company name"
+            }
+          }
+        }
+      },
+      {
+        "id": "0e8c27c2-2a75-41c1-b55e-11925f46db7a",
+        "identifier": "CONTACTS_EMAIL",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "email",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "EMAIL",
+            "emailInfo": {
+              "tag": "UNTAGGED"
+            }
+          },
+          "required": true,
+          "stringOptions": {
+            "validation": {
+              "format": "EMAIL"
+            },
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Email Address",
+              "showLabel": true,
+              "placeholder": "your@email.com"
+            }
+          }
+        }
+      },
+      {
+        "id": "996f498e-4a0a-4103-a41b-ddb93c75ec40",
+        "identifier": "CONTACTS_PHONE",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "phone",
+          "pii": true,
+          "inputType": "STRING",
+          "contactMapping": {
+            "contactField": "PHONE",
+            "phoneInfo": {
+              "tag": "UNTAGGED"
+            }
+          },
+          "stringOptions": {
+            "validation": {
+              "format": "PHONE"
+            },
+            "componentType": "PHONE_INPUT",
+            "phoneInputOptions": {
+              "label": "Phone Number",
+              "showLabel": true,
+              "placeholder": "(512) 000-0000"
+            }
+          }
+        }
+      },
+      {
+        "id": "d76be48e-c0c5-48c1-b857-29f5e874429d",
+        "identifier": "DROPDOWN",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "event_types",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {
+              "enum": [
+                "weddings",
+                "corporate",
+                "mixed",
+                "other"
+              ]
+            },
+            "componentType": "DROPDOWN",
+            "dropdownOptions": {
+              "label": "Typical Event Types You Coordinate",
+              "showLabel": true,
+              "placeholder": "Select primary type",
+              "options": [
+                {
+                  "id": "5dcd7bbe-d927-4524-b57b-57c2f25cd2d0",
+                  "label": "Weddings",
+                  "value": "weddings"
+                },
+                {
+                  "id": "48170eb3-6a64-4b79-ad84-3192b0271f62",
+                  "label": "Corporate Events",
+                  "value": "corporate"
+                },
+                {
+                  "id": "c1b68039-b7bf-4b12-8ea2-9498958e29e6",
+                  "label": "Mixed \u2014 Weddings & Corporate",
+                  "value": "mixed"
+                },
+                {
+                  "id": "8642b6b2-871c-46e8-b9d5-b2ed8161d969",
+                  "label": "Other",
+                  "value": "other"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "470a38d3-a7b0-4c61-a8f3-c9fc27a1019d",
+        "identifier": "TEXT_INPUT",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "venues",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Venue(s) You Work With Most",
+              "showLabel": true,
+              "placeholder": "Venue names or area"
+            }
+          }
+        }
+      },
+      {
+        "id": "ac8eae1a-cb2b-436a-ac51-363cd148f1e7",
+        "identifier": "DROPDOWN",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "referral_source",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {
+              "enum": [
+                "search",
+                "social",
+                "coordinator-referral",
+                "wedding-platform",
+                "other"
+              ]
+            },
+            "componentType": "DROPDOWN",
+            "dropdownOptions": {
+              "label": "How did you hear about me?",
+              "showLabel": true,
+              "placeholder": "Select one",
+              "options": [
+                {
+                  "id": "ada3af01-8c41-4be7-ac4d-104daf44e4bf",
+                  "label": "Search Engine (Google, etc.)",
+                  "value": "search"
+                },
+                {
+                  "id": "13bdeeed-35ff-4af7-b353-778bf1597217",
+                  "label": "Social Media",
+                  "value": "social"
+                },
+                {
+                  "id": "9682fcf5-c61e-4564-ba89-ccd159326b68",
+                  "label": "Event Coordinator Referral",
+                  "value": "coordinator-referral"
+                },
+                {
+                  "id": "960537bb-4580-4a0b-a95a-2cd475f2088d",
+                  "label": "Wedding / Event Platform (The Knot, WeddingWire, etc.)",
+                  "value": "wedding-platform"
+                },
+                {
+                  "id": "aa89aa33-95bd-4b27-88f9-f6e00b6cdc04",
+                  "label": "Other",
+                  "value": "other"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "8b90053d-5d5d-4c33-bed1-0906bfb3e468",
+        "identifier": "TEXT_INPUT",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "referral_coordinator_name",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "Which coordinator referred you?",
+              "showLabel": true,
+              "placeholder": "Coordinator's name"
+            }
+          }
+        }
+      },
+      {
+        "id": "d938757c-0727-45c6-93dd-31f5ce4bbc14",
+        "identifier": "TEXT_AREA",
+        "fieldType": "INPUT",
+        "inputOptions": {
+          "target": "message",
+          "inputType": "STRING",
+          "stringOptions": {
+            "validation": {},
+            "componentType": "TEXT_INPUT",
+            "textInputOptions": {
+              "label": "How Can I Support Your Work?",
+              "showLabel": true,
+              "placeholder": "Tell me about your clients, your events, or a specific client you'd like to refer"
+            }
+          }
+        }
+      },
+      {
+        "id": "b32673aa-c677-4bc4-b349-a345b416afe4",
+        "identifier": "SUBMIT_BUTTON",
+        "fieldType": "DISPLAY",
+        "displayOptions": {
+          "displayFieldType": "PAGE_NAVIGATION",
+          "pageNavigationOptions": {
+            "submitText": "Send My Message"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "id": "c3a58b88-827c-405f-950e-fba7ce2ad482",
+        "name": "Page 1",
+        "layout": {
+          "large": {
+            "items": [
+              {
+                "fieldId": "987087a9-6168-4224-af7a-78f75f0cec15",
+                "row": 0,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "63dfa06d-6f54-47ac-9ca2-294aff1c7fde",
+                "row": 1,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "50d3ac1a-525c-42f3-8962-002812eff89f",
+                "row": 2,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "0e8c27c2-2a75-41c1-b55e-11925f46db7a",
+                "row": 3,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "996f498e-4a0a-4103-a41b-ddb93c75ec40",
+                "row": 4,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "d76be48e-c0c5-48c1-b857-29f5e874429d",
+                "row": 5,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "470a38d3-a7b0-4c61-a8f3-c9fc27a1019d",
+                "row": 6,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "ac8eae1a-cb2b-436a-ac51-363cd148f1e7",
+                "row": 7,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "8b90053d-5d5d-4c33-bed1-0906bfb3e468",
+                "row": 8,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "d938757c-0727-45c6-93dd-31f5ce4bbc14",
+                "row": 9,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "b32673aa-c677-4bc4-b349-a345b416afe4",
+                "row": 10,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "submitSettings": {
+      "submitSuccessAction": "THANK_YOU_MESSAGE",
+      "thankYouMessageOptions": {
+        "durationInSeconds": 8,
+        "richContent": {
+          "nodes": [
+            {
+              "type": "PARAGRAPH",
+              "id": "thankyou1",
+              "nodes": [
+                {
+                  "type": "TEXT",
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "text": "Thanks for reaching out. Jay will get back to you within 24 hours.",
+                    "decorations": []
+                  }
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "CENTER"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

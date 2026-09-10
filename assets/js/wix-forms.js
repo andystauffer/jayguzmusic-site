@@ -29,7 +29,8 @@ const WIX_FORMS_CONFIG = {
   forms: {
     // "Website - Event Consultation" on c6da36f6, created 2026-09-10
     consultation: 'f3eeeeec-4ab0-4f49-bb73-87075198c48f',
-    'coordinator-inquiry': '',
+    // "Website - Coordinator Inquiry" on c6da36f6, created 2026-09-10
+    'coordinator-inquiry': 'c3eb2afe-4c5e-4c25-88b3-85d97e61d642',
     // "Website - Song Request" on c6da36f6, created 2026-09-10
     'song-request': '69563c61-5e8a-48c8-8e19-208310e55a71',
   },
@@ -45,6 +46,18 @@ const FIELD_TARGETS = {
     email: 'email',
     phone: 'phone',
     'event-type': 'event_type',
+    message: 'message',
+  },
+  'coordinator-inquiry': {
+    'first-name': 'first_name',
+    'last-name': 'last_name',
+    company: 'company',
+    email: 'email',
+    phone: 'phone',
+    'event-types': 'event_types',
+    venues: 'venues',
+    'referral-source': 'referral_source',
+    'referral-coordinator-name': 'referral_coordinator_name',
     message: 'message',
   },
   'song-request': {
