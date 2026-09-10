@@ -151,7 +151,13 @@ function buildEnquiryMailto(data) {
          '&body=' + encodeURIComponent(body);
 }
 
-document.querySelectorAll('form[data-netlify]').forEach((form) => {
+/* Select on data-wix-form, NOT data-netlify. Netlify's post-processing
+   detects a form at deploy time and then STRIPS data-netlify and
+   netlify-honeypot from the served HTML — so form[data-netlify] matches
+   nothing in production, no handler binds, and every enquiry native-POSTs
+   into Netlify Forms instead of reaching Wix. That failure is invisible
+   locally and silent in production. data-wix-form is ours and survives. */
+document.querySelectorAll('form[data-wix-form]').forEach((form) => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
