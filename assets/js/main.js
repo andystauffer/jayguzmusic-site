@@ -133,9 +133,9 @@ const ENQUIRY_EMAIL = 'jayguzmusic@gmail.com';
 
 /* Kept separate from the submit handler so it can be exercised directly. */
 function buildEnquiryMailto(data) {
-  // The consultation form no longer collects a name, so identify the sender
-  // by whatever it does have. `name` still exists on the coordinator form.
-  const who = data.get('name') || data.get('email') || 'the website';
+  // `first-name` on the consultation form, `name` on the coordinator form.
+  // Falls through to email so the subject is never anonymous.
+  const who = data.get('first-name') || data.get('name') || data.get('email') || 'the website';
   const subject = 'Event enquiry from ' + who;
   const body = Array.from(data.entries())
     .filter(([k, v]) => v && k !== 'bot-field' && k !== 'form-name')
