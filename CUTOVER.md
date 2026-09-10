@@ -137,6 +137,26 @@ Trade-off, stated plainly: if Wix is unreachable the visitor has to actually
 complete the mailto, and some won't. Netlify Forms would have caught those
 silently — in a place nobody checks.
 
+**B3 `[CLAUDE]` Netlify strips `data-netlify` from the served HTML. DONE 2026-09-10.**
+Found only by fetching the deployed page. Netlify detects a form at deploy time
+and then removes `data-netlify` and `netlify-honeypot` from the HTML it serves:
+
+```
+local  <form id="consult-form" ... data-netlify="true" netlify-honeypot="bot-field">
+live   <form action='/thank-you' id='consult-form' method='POST' name='consultation'>
+```
+
+`main.js` selected `form[data-netlify]`, so in production **the selector matched
+nothing**, no handler bound, and every enquiry would have native-POSTed into
+Netlify Forms instead of Wix — silently, with the visitor still seeing the
+success page. The handler now binds to `data-wix-form`, our own attribute,
+which survives post-processing.
+
+> The general lesson, and the reason `WIX_MIGRATION.md` §8 says to check
+> rendered output: **a host can rewrite your markup after you deploy it.**
+> Anything the JS depends on in the HTML has to be verified on the live URL,
+> not in the repo.
+
 **B4 `[CLAUDE] + [MANUAL]` ~~End-to-end form test.~~ DONE 2026-09-10.**
 All three forms submitted over the real path — anonymous visitor token, then
 `POST /form-submission-service/v4/submissions` keyed by field target. Every
