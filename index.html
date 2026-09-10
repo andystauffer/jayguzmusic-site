@@ -567,14 +567,6 @@
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="first-name">First Name <span aria-hidden="true">*</span></label>
-              <input type="text" id="first-name" name="first-name" required placeholder="First name" autocomplete="given-name">
-            </div>
-            <div class="form-group">
-              <label for="last-name">Last Name <span aria-hidden="true">*</span></label>
-              <input type="text" id="last-name" name="last-name" required placeholder="Last name" autocomplete="family-name">
-            </div>
-            <div class="form-group">
               <label for="email">Email Address <span aria-hidden="true">*</span></label>
               <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
             </div>
@@ -582,7 +574,7 @@
               <label for="phone">Phone Number</label>
               <input type="tel" id="phone" name="phone" placeholder="(512) 000-0000" autocomplete="tel">
             </div>
-            <div class="form-group">
+            <div class="form-group form-group--full">
               <label for="event-type">Event Type <span aria-hidden="true">*</span></label>
               <select id="event-type" name="event-type" required>
                 <option value="" disabled selected>Select event type</option>
@@ -592,43 +584,9 @@
                 <option value="other">Other</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="event-date">Event Date <span aria-hidden="true">*</span></label>
-              <input type="date" id="event-date" name="event-date" required>
-            </div>
-            <div class="form-group">
-              <label for="venue">Venue / Location</label>
-              <input type="text" id="venue" name="venue" placeholder="Venue name or city">
-            </div>
-            <div class="form-group">
-              <label for="guest-count">Estimated Guest Count</label>
-              <select id="guest-count" name="guest-count">
-                <option value="" disabled selected>Select range</option>
-                <option value="under-50">Under 50</option>
-                <option value="50-100">50 – 100</option>
-                <option value="100-200">100 – 200</option>
-                <option value="200+">200+</option>
-              </select>
-            </div>
             <div class="form-group form-group--full">
               <label for="message">Tell Me About Your Event</label>
               <textarea id="message" name="message" placeholder="Vibe, specific songs you love, anything that matters to you…"></textarea>
-            </div>
-            <div class="form-group form-group--full">
-              <label for="referral-source">How did you hear about me? <span aria-hidden="true">*</span></label>
-              <select id="referral-source" name="referral-source" required>
-                <option value="" disabled selected>Select one</option>
-                <option value="search">Search Engine (Google, etc.)</option>
-                <option value="social">Social Media</option>
-                <option value="coordinator-referral">Event Coordinator Referral</option>
-                <option value="past-client">Past Client</option>
-                <option value="wedding-platform">Wedding / Event Platform (The Knot, WeddingWire, etc.)</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="form-group form-group--full" id="referral-name-group" style="display:none;">
-              <label for="referral-name">Which coordinator referred you?</label>
-              <input type="text" id="referral-name" name="referral-coordinator-name" placeholder="Coordinator's name">
             </div>
           </div>
 
@@ -716,20 +674,6 @@
   <script>
     // Footer year
     document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-    // Show referral coordinator name field conditionally
-    document.getElementById('referral-source').addEventListener('change', function() {
-      var group = document.getElementById('referral-name-group');
-      var input = document.getElementById('referral-name');
-      if (this.value === 'coordinator-referral') {
-        group.style.display = '';
-        input.required = true;
-      } else {
-        group.style.display = 'none';
-        input.required = false;
-        input.value = '';
-      }
-    });
 
     // Lazy-load YouTube iframes
     document.querySelectorAll('iframe[data-src]').forEach(iframe => {

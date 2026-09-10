@@ -1,61 +1,16 @@
 {
   "form": {
+    "id": "f3eeeeec-4ab0-4f49-bb73-87075198c48f",
+    "revision": "1",
     "name": "Website - Event Consultation",
     "namespace": "wix.form_app.form",
     "formFields": [
-      {
-        "id": "fc4aa4e3-2a97-4f9b-be65-814f6296ede3",
-        "identifier": "CONTACTS_FIRST_NAME",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "first_name",
-          "inputType": "STRING",
-          "pii": true,
-          "required": true,
-          "contactMapping": {
-            "contactField": "FIRST_NAME"
-          },
-          "stringOptions": {
-            "validation": {},
-            "componentType": "TEXT_INPUT",
-            "textInputOptions": {
-              "label": "First Name",
-              "showLabel": true,
-              "placeholder": "First name"
-            }
-          }
-        }
-      },
-      {
-        "id": "d99e2b25-43b4-455a-9098-65ae3e094cb8",
-        "identifier": "CONTACTS_LAST_NAME",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "last_name",
-          "inputType": "STRING",
-          "pii": true,
-          "required": true,
-          "contactMapping": {
-            "contactField": "LAST_NAME"
-          },
-          "stringOptions": {
-            "validation": {},
-            "componentType": "TEXT_INPUT",
-            "textInputOptions": {
-              "label": "Last Name",
-              "showLabel": true,
-              "placeholder": "Last name"
-            }
-          }
-        }
-      },
       {
         "id": "51268750-8a3f-4166-bc86-e1cd677fca09",
         "identifier": "CONTACTS_EMAIL",
         "fieldType": "INPUT",
         "inputOptions": {
           "target": "email",
-          "inputType": "STRING",
           "pii": true,
           "required": true,
           "contactMapping": {
@@ -64,6 +19,7 @@
               "tag": "UNTAGGED"
             }
           },
+          "inputType": "STRING",
           "stringOptions": {
             "validation": {
               "format": "EMAIL"
@@ -128,111 +84,24 @@
               "placeholder": "Select event type",
               "options": [
                 {
-                  "id": "b6ac65e8-01d1-4a8b-b0ec-f874c230b6cc",
+                  "id": "358b0852-28ac-4d70-ada0-272339b6dfc3",
                   "label": "Wedding",
                   "value": "wedding"
                 },
                 {
-                  "id": "bdb034b4-70e6-4627-94e6-3414b2e63813",
+                  "id": "b815950b-d9e9-4e8d-a3ea-8887755d4892",
                   "label": "Corporate Event",
                   "value": "corporate"
                 },
                 {
-                  "id": "3769c60b-99ac-47b7-92c6-ac319a150d7b",
+                  "id": "5c05d416-b03e-4e90-a1cd-32d7cfd78e85",
                   "label": "Private Party",
                   "value": "private-party"
                 },
                 {
-                  "id": "5eaff0af-2455-47ff-8508-1198335aaa31",
+                  "id": "c891bdb2-9068-4097-abd0-da84b50eb02d",
                   "label": "Other",
                   "value": "other"
-                }
-              ]
-            }
-          }
-        }
-      },
-      {
-        "id": "84aea085-5aa1-4161-8266-6ed438e4a70f",
-        "identifier": "DATE_INPUT",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "event_date",
-          "inputType": "STRING",
-          "required": true,
-          "stringOptions": {
-            "validation": {
-              "format": "DATE"
-            },
-            "componentType": "DATE_INPUT",
-            "dateInputOptions": {
-              "label": "Event Date",
-              "showLabel": true,
-              "showPlaceholder": false,
-              "showDateLabels": true
-            }
-          }
-        }
-      },
-      {
-        "id": "124438d7-7cfc-4ab2-b768-9f30480a8d85",
-        "identifier": "TEXT_INPUT",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "venue",
-          "inputType": "STRING",
-          "stringOptions": {
-            "validation": {},
-            "componentType": "TEXT_INPUT",
-            "textInputOptions": {
-              "label": "Venue / Location",
-              "showLabel": true,
-              "placeholder": "Venue name or city"
-            }
-          }
-        }
-      },
-      {
-        "id": "a9c1399c-7be3-4900-9351-f0da67713a16",
-        "identifier": "DROPDOWN",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "guest_count",
-          "inputType": "STRING",
-          "stringOptions": {
-            "validation": {
-              "enum": [
-                "under-50",
-                "50-100",
-                "100-200",
-                "200+"
-              ]
-            },
-            "componentType": "DROPDOWN",
-            "dropdownOptions": {
-              "label": "Estimated Guest Count",
-              "showLabel": true,
-              "placeholder": "Select range",
-              "options": [
-                {
-                  "id": "5e06d96a-2dc8-4766-838a-13f800a6f333",
-                  "label": "Under 50",
-                  "value": "under-50"
-                },
-                {
-                  "id": "0dc47e13-53f7-4e54-9e4f-2a74a75be81a",
-                  "label": "50 - 100",
-                  "value": "50-100"
-                },
-                {
-                  "id": "00a2e545-e81f-4e4a-a451-3ca90385bc4b",
-                  "label": "100 - 200",
-                  "value": "100-200"
-                },
-                {
-                  "id": "356d8c52-afd2-4748-8e1a-1b9e5ee487b1",
-                  "label": "200+",
-                  "value": "200+"
                 }
               ]
             }
@@ -258,84 +127,6 @@
         }
       },
       {
-        "id": "d8dedd14-8caf-4515-99c1-55e43ca057a2",
-        "identifier": "DROPDOWN",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "referral_source",
-          "inputType": "STRING",
-          "required": true,
-          "stringOptions": {
-            "validation": {
-              "enum": [
-                "search",
-                "social",
-                "coordinator-referral",
-                "past-client",
-                "wedding-platform",
-                "other"
-              ]
-            },
-            "componentType": "DROPDOWN",
-            "dropdownOptions": {
-              "label": "How did you hear about me?",
-              "showLabel": true,
-              "placeholder": "Select one",
-              "options": [
-                {
-                  "id": "2960dda3-57e4-41b3-bac5-dee60b1c7e5b",
-                  "label": "Search Engine (Google, etc.)",
-                  "value": "search"
-                },
-                {
-                  "id": "03b097de-8e7b-4298-8e27-d2005ecb9afb",
-                  "label": "Social Media",
-                  "value": "social"
-                },
-                {
-                  "id": "bdd38e94-ea7a-487c-8552-8c1293d42862",
-                  "label": "Event Coordinator Referral",
-                  "value": "coordinator-referral"
-                },
-                {
-                  "id": "8a6bd551-3d79-4ad7-9cfa-a1d333c8c4eb",
-                  "label": "Past Client",
-                  "value": "past-client"
-                },
-                {
-                  "id": "98949128-6916-468e-9af2-09321d750d26",
-                  "label": "Wedding / Event Platform (The Knot, WeddingWire, etc.)",
-                  "value": "wedding-platform"
-                },
-                {
-                  "id": "d55b12dc-caa5-429b-9685-7ff5cfe5a4f3",
-                  "label": "Other",
-                  "value": "other"
-                }
-              ]
-            }
-          }
-        }
-      },
-      {
-        "id": "c7b7c340-0f0a-412c-856d-454508d3458a",
-        "identifier": "TEXT_INPUT",
-        "fieldType": "INPUT",
-        "inputOptions": {
-          "target": "referral_coordinator_name",
-          "inputType": "STRING",
-          "stringOptions": {
-            "validation": {},
-            "componentType": "TEXT_INPUT",
-            "textInputOptions": {
-              "label": "Which coordinator referred you?",
-              "showLabel": true,
-              "placeholder": "Coordinator's name"
-            }
-          }
-        }
-      },
-      {
         "id": "3e8460cf-1458-4018-b0f5-423b7de8cee8",
         "identifier": "SUBMIT_BUTTON",
         "fieldType": "DISPLAY",
@@ -355,85 +146,36 @@
           "large": {
             "items": [
               {
-                "fieldId": "fc4aa4e3-2a97-4f9b-be65-814f6296ede3",
+                "fieldId": "51268750-8a3f-4166-bc86-e1cd677fca09",
                 "row": 0,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "d99e2b25-43b4-455a-9098-65ae3e094cb8",
+                "fieldId": "317f925d-cedd-43aa-ab3a-59afa9dc13f9",
                 "row": 1,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "51268750-8a3f-4166-bc86-e1cd677fca09",
+                "fieldId": "922c2d29-8d34-4b11-8409-b964f545be54",
                 "row": 2,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "317f925d-cedd-43aa-ab3a-59afa9dc13f9",
+                "fieldId": "287148f7-d5dc-4947-8244-23ae3c9c9d10",
                 "row": 3,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "922c2d29-8d34-4b11-8409-b964f545be54",
-                "row": 4,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "84aea085-5aa1-4161-8266-6ed438e4a70f",
-                "row": 5,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "124438d7-7cfc-4ab2-b768-9f30480a8d85",
-                "row": 6,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "a9c1399c-7be3-4900-9351-f0da67713a16",
-                "row": 7,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "287148f7-d5dc-4947-8244-23ae3c9c9d10",
-                "row": 8,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "d8dedd14-8caf-4515-99c1-55e43ca057a2",
-                "row": 9,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
-                "fieldId": "c7b7c340-0f0a-412c-856d-454508d3458a",
-                "row": 10,
-                "column": 0,
-                "width": 12,
-                "height": 1
-              },
-              {
                 "fieldId": "3e8460cf-1458-4018-b0f5-423b7de8cee8",
-                "row": 11,
+                "row": 4,
                 "column": 0,
                 "width": 12,
                 "height": 1

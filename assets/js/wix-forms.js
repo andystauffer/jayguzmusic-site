@@ -39,17 +39,10 @@ const WIX_FORMS_CONFIG = {
    loudly in review instead of silently vanishing from a lead. */
 const FIELD_TARGETS = {
   consultation: {
-    'first-name': 'first_name',
-    'last-name': 'last_name',
     email: 'email',
     phone: 'phone',
     'event-type': 'event_type',
-    'event-date': 'event_date',
-    venue: 'venue',
-    'guest-count': 'guest_count',
     message: 'message',
-    'referral-source': 'referral_source',
-    'referral-coordinator-name': 'referral_coordinator_name',
   },
 };
 
