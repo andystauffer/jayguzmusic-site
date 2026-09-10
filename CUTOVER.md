@@ -1,7 +1,7 @@
 # Cutover plan — Netlify frontend, Wix backend
 
 **Created:** 2026-09-10
-**Status:** not started
+**Status:** Phases A and B complete. Phase C (the domain) not started.
 **Companion:** `WIX_MIGRATION.md` (project state, established Wix behaviour)
 
 ---
@@ -58,7 +58,7 @@ mattering.
 
 ## 3. Phase A — Wix backend (no user-visible change)
 
-**A1 `[MANUAL]` Create the headless client.**
+**A1 `[MANUAL]` ~~Create the headless client.~~ DONE 2026-09-10.**
 Dashboard → site `c6da36f6` → Settings → Headless Settings → **Create New Client**.
 Copy the **clientID**. This is a public value — it ships in client-side JS.
 
@@ -66,7 +66,7 @@ Copy the **clientID**. This is a public value — it ships in client-side JS.
 > is a direct API call with a visitor token, not a redirect. Only add them if we
 > later use Wix-hosted login or checkout pages.
 
-**A2 `[MANUAL]` Create an API key.**
+**A2 `[MANUAL]` ~~Create an API key.~~ DONE 2026-09-10.**
 Same page → **Manage API Key**. Scope to Forms/CRM if offered. Put it in `.env`:
 
 ```
@@ -77,26 +77,33 @@ WIX_ACCOUNT_ID=f549d57e-…
 The key must be generated from `f549d57e` — Wix rejects site-level calls made
 with another account's key.
 
-**A3 `[CLAUDE]` Read the existing forms.**
+**A3 `[CLAUDE]` ~~Read the existing forms.~~ DONE 2026-09-10.**
 ```bash
 ./scripts/wix-forms/read-forms.sh c6da36f6-95ac-4db1-9286-c690672a61a0
 ```
 Confirms the seven experiments and that nothing claims our names.
 
-**A4 `[CLAUDE]` Create the forms.**
+**A4 `[CLAUDE]` ~~Create the forms.~~ DONE 2026-09-10.**
 ```bash
 ./scripts/wix-forms/create-form.sh c6da36f6-95ac-4db1-9286-c690672a61a0 \
   scripts/wix-forms/website-event-consultation.form.json
 ```
-Then the same for coordinator-inquiry and song-request, built from the same pattern.
+Three forms created on `c6da36f6`, all verified end to end:
+
+| Form | ID | Fields |
+|---|---|---|
+| Website - Event Consultation | `f3eeeeec-4ab0-4f49-bb73-87075198c48f` | 6 |
+| Website - Coordinator Inquiry | `c3eb2afe-4c5e-4c25-88b3-85d97e61d642` | 10 |
+| Website - Song Request | `69563c61-5e8a-48c8-8e19-208310e55a71` | 5 |
+
 The script refuses to create a name that already exists.
 
-**A5 `[MANUAL]` Open each form in the dashboard.**
+**A5 `[MANUAL]` ~~Open each form in the dashboard.~~ DONE 2026-09-10.**
 Confirm every field renders. **This is the check that matters** — a form whose
 fields carry unrecognised `identifier` values is accepted by the API, takes
 submissions, and opens *empty* in the editor. Thirty seconds here is worth it.
 
-**A6 `[CLAUDE]` Wire the frontend.**
+**A6 `[CLAUDE]` ~~Wire the frontend.~~ DONE 2026-09-10.**
 clientID + form IDs into `WIX_FORMS_CONFIG` in `assets/js/wix-forms.js`, rebuild.
 
 ---
