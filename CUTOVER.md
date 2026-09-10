@@ -149,9 +149,22 @@ deleted afterwards; Jay's own 2026-08-29 lead verified untouched.
 > not an error); and the id returned by the POST is not always the id the
 > confirmed row ends up with.
 
-**B5 `[MANUAL]` Decide the Netlify account owner.**
-If this should ultimately be Jay's asset, move the Netlify site into an account
-he owns *now*, while it costs nothing. Later it means a DNS change under time pressure.
+**B5 `[MANUAL]` ~~Decide the Netlify account owner.~~ DECIDED 2026-09-10.**
+Ship from Andy's Netlify account. Hand it over later if and when it matters.
+
+Safe because **the domain never lives in Netlify.** DNS stays in Jay's Wix
+account and merely points at Netlify, so the worst case is repointing an `A`
+record — minutes, not a recovery operation.
+
+When handing over, the mechanism is **transfer the project**, not "add Jay as
+an owner": per Netlify's docs *"depending on your team plan, you may need to
+upgrade in order to add new members"*, so adding a member can mean paying for
+a seat. Transfer is free — Project configuration > General > Transfer project.
+
+One constraint to plan around: a project transfers only *"to any team where you
+are an Owner or Developer"*, and transfers *"between teams with no shared Owners
+or Developers"* need a support ticket. So the order is: Jay creates his team,
+adds Andy to it, Andy transfers the project, Andy steps out.
 
 ---
 
@@ -253,9 +266,8 @@ existing form submissions.
 
 ## 9. Open questions
 
-1. **Netlify account ownership** (B5) — whose asset is this long-term?
-2. **`song-request`** carries the visitor's selected setlist and has never posted
-   anywhere but `mailto`. Wiring it to Wix is a behaviour change; the setlist
-   payload needs a home in the form schema or it's dropped.
-3. **Jay's Forms tier** — the dashboard shows 7/10 forms used. Ours makes 8–10.
-   The cap is reachable; the six experiments could be retired if he confirms.
+*(Both earlier questions are now closed: `song-request` is wired to Wix with the
+setlist carried in its own `selected_songs` field, and four experiment forms
+were deleted, so the site sits at 6/10 with room to spare.)*
+
+Nothing outstanding. Phases A and B are complete; Phase C is the remaining work.
