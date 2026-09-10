@@ -22,7 +22,10 @@
    → OAuth apps. The form ids come from CreateForm. Both are
    public values, safe to ship. */
 const WIX_FORMS_CONFIG = {
-  clientId: '',
+  // Headless client "Jayguzmusicandevents_official_site" on Wix site
+  // c6da36f6 (Jay's premium site). Verified 2026-09-10: issues anonymous
+  // visitor tokens, HTTP 200. Public value — it is meant to ship here.
+  clientId: '725f99c3-aa1e-4a85-979c-2a830714f8d5',
   forms: {
     consultation: '',
     'coordinator-inquiry': '',
