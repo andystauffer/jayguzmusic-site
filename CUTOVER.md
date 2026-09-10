@@ -124,9 +124,24 @@ Netlify → Site settings → Forms → Notifications → email `jayguzmusic@gma
 > Without this, a Wix outage sends leads to the Netlify dashboard where **Jay
 > never sees them**. The fallback is only a fallback if it reaches him.
 
-**B4 `[CLAUDE] + [MANUAL]` End-to-end form test on the Netlify URL.**
-Submit with an obviously fake name. Verify it appears in Wix **Submissions**
-*and* **Contacts**. Delete the test row. Repeat per form.
+**B4 `[CLAUDE] + [MANUAL]` ~~End-to-end form test.~~ DONE 2026-09-10.**
+All three forms submitted over the real path — anonymous visitor token, then
+`POST /form-submission-service/v4/submissions` keyed by field target. Every
+field stored (6, 10, 5), every submission reached Submissions, and one merged
+Contact was created from the shared email. Test rows and the test contact
+deleted afterwards; Jay's own 2026-08-29 lead verified untouched.
+
+> **A 200 can come back `PENDING`, not `CONFIRMED`.** Wix confirms
+> asynchronously within seconds, with no further call from us. A `PENDING`
+> submission is not yet queryable and **404s on GET** — which looks exactly
+> like a failed submission and isn't. Per the docs: *"read it from the
+> response rather than assuming."* Verify a test submission a minute later,
+> never immediately.
+
+> Two other traps found here: the submissions query ignores a `formId` filter
+> and needs `filter.namespace` instead (a `formId` filter silently returns 0,
+> not an error); and the id returned by the POST is not always the id the
+> confirmed row ends up with.
 
 **B5 `[MANUAL]` Decide the Netlify account owner.**
 If this should ultimately be Jay's asset, move the Netlify site into an account

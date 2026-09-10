@@ -150,6 +150,13 @@ async function submitWixForm(formName, data) {
   );
 
   if (!res.ok) throw new Error('submission HTTP ' + res.status);
+
+  /* A 200 can carry status PENDING rather than CONFIRMED — Wix confirms
+     asynchronously, within seconds, without any further call from us. So
+     treat 200 as success and redirect. Don't add a status check here: a
+     PENDING submission is not yet queryable and 404s on GET, which reads
+     like a failure and isn't. Verify a test submission a minute later,
+     not immediately. */
   return true;
 }
 
