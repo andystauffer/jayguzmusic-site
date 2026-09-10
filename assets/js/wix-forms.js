@@ -27,7 +27,8 @@ const WIX_FORMS_CONFIG = {
   // visitor tokens, HTTP 200. Public value — it is meant to ship here.
   clientId: '725f99c3-aa1e-4a85-979c-2a830714f8d5',
   forms: {
-    consultation: '',
+    // "Website - Event Consultation" on c6da36f6, created 2026-09-10
+    consultation: 'f3eeeeec-4ab0-4f49-bb73-87075198c48f',
     'coordinator-inquiry': '',
     'song-request': '',
   },

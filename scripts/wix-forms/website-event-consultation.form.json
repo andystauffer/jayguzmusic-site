@@ -1,6 +1,6 @@
 {
   "form": {
-    "name": "Website — Event Consultation",
+    "name": "Website - Event Consultation",
     "namespace": "wix.form_app.form",
     "formFields": [
       {
@@ -10,14 +10,17 @@
         "inputOptions": {
           "target": "first_name",
           "inputType": "STRING",
+          "pii": true,
           "required": true,
           "contactMapping": {
-            "fieldId": "contacts.firstName"
+            "contactField": "FIRST_NAME"
           },
           "stringOptions": {
+            "validation": {},
             "componentType": "TEXT_INPUT",
             "textInputOptions": {
               "label": "First Name",
+              "showLabel": true,
               "placeholder": "First name"
             }
           }
@@ -30,14 +33,17 @@
         "inputOptions": {
           "target": "last_name",
           "inputType": "STRING",
+          "pii": true,
           "required": true,
           "contactMapping": {
-            "fieldId": "contacts.lastName"
+            "contactField": "LAST_NAME"
           },
           "stringOptions": {
+            "validation": {},
             "componentType": "TEXT_INPUT",
             "textInputOptions": {
               "label": "Last Name",
+              "showLabel": true,
               "placeholder": "Last name"
             }
           }
@@ -50,15 +56,22 @@
         "inputOptions": {
           "target": "email",
           "inputType": "STRING",
+          "pii": true,
           "required": true,
           "contactMapping": {
-            "fieldId": "contacts.emails"
+            "contactField": "EMAIL",
+            "emailInfo": {
+              "tag": "UNTAGGED"
+            }
           },
           "stringOptions": {
+            "validation": {
+              "format": "EMAIL"
+            },
             "componentType": "TEXT_INPUT",
-            "format": "EMAIL",
             "textInputOptions": {
               "label": "Email Address",
+              "showLabel": true,
               "placeholder": "your@email.com"
             }
           }
@@ -70,15 +83,22 @@
         "fieldType": "INPUT",
         "inputOptions": {
           "target": "phone",
+          "pii": true,
           "inputType": "STRING",
-          "required": false,
           "contactMapping": {
-            "fieldId": "contacts.phones"
+            "contactField": "PHONE",
+            "phoneInfo": {
+              "tag": "UNTAGGED"
+            }
           },
           "stringOptions": {
+            "validation": {
+              "format": "PHONE"
+            },
             "componentType": "PHONE_INPUT",
             "phoneInputOptions": {
               "label": "Phone Number",
+              "showLabel": true,
               "placeholder": "(512) 000-0000"
             }
           }
@@ -93,24 +113,37 @@
           "inputType": "STRING",
           "required": true,
           "stringOptions": {
+            "validation": {
+              "enum": [
+                "wedding",
+                "corporate",
+                "private-party",
+                "other"
+              ]
+            },
             "componentType": "DROPDOWN",
             "dropdownOptions": {
               "label": "Event Type",
+              "showLabel": true,
               "placeholder": "Select event type",
               "options": [
                 {
+                  "id": "b6ac65e8-01d1-4a8b-b0ec-f874c230b6cc",
                   "label": "Wedding",
                   "value": "wedding"
                 },
                 {
+                  "id": "bdb034b4-70e6-4627-94e6-3414b2e63813",
                   "label": "Corporate Event",
                   "value": "corporate"
                 },
                 {
+                  "id": "3769c60b-99ac-47b7-92c6-ac319a150d7b",
                   "label": "Private Party",
                   "value": "private-party"
                 },
                 {
+                  "id": "5eaff0af-2455-47ff-8508-1198335aaa31",
                   "label": "Other",
                   "value": "other"
                 }
@@ -128,9 +161,15 @@
           "inputType": "STRING",
           "required": true,
           "stringOptions": {
+            "validation": {
+              "format": "DATE"
+            },
             "componentType": "DATE_INPUT",
             "dateInputOptions": {
-              "label": "Event Date"
+              "label": "Event Date",
+              "showLabel": true,
+              "showPlaceholder": false,
+              "showDateLabels": true
             }
           }
         }
@@ -142,11 +181,12 @@
         "inputOptions": {
           "target": "venue",
           "inputType": "STRING",
-          "required": false,
           "stringOptions": {
+            "validation": {},
             "componentType": "TEXT_INPUT",
             "textInputOptions": {
               "label": "Venue / Location",
+              "showLabel": true,
               "placeholder": "Venue name or city"
             }
           }
@@ -159,26 +199,38 @@
         "inputOptions": {
           "target": "guest_count",
           "inputType": "STRING",
-          "required": false,
           "stringOptions": {
+            "validation": {
+              "enum": [
+                "under-50",
+                "50-100",
+                "100-200",
+                "200+"
+              ]
+            },
             "componentType": "DROPDOWN",
             "dropdownOptions": {
               "label": "Estimated Guest Count",
+              "showLabel": true,
               "placeholder": "Select range",
               "options": [
                 {
+                  "id": "5e06d96a-2dc8-4766-838a-13f800a6f333",
                   "label": "Under 50",
                   "value": "under-50"
                 },
                 {
-                  "label": "50 – 100",
+                  "id": "0dc47e13-53f7-4e54-9e4f-2a74a75be81a",
+                  "label": "50 - 100",
                   "value": "50-100"
                 },
                 {
-                  "label": "100 – 200",
+                  "id": "00a2e545-e81f-4e4a-a451-3ca90385bc4b",
+                  "label": "100 - 200",
                   "value": "100-200"
                 },
                 {
+                  "id": "356d8c52-afd2-4748-8e1a-1b9e5ee487b1",
                   "label": "200+",
                   "value": "200+"
                 }
@@ -194,12 +246,13 @@
         "inputOptions": {
           "target": "message",
           "inputType": "STRING",
-          "required": false,
           "stringOptions": {
+            "validation": {},
             "componentType": "TEXT_INPUT",
             "textInputOptions": {
               "label": "Tell Me About Your Event",
-              "placeholder": "Vibe, specific songs you love, anything that matters to you…"
+              "showLabel": true,
+              "placeholder": "Vibe, specific songs you love, anything that matters to you"
             }
           }
         }
@@ -213,32 +266,49 @@
           "inputType": "STRING",
           "required": true,
           "stringOptions": {
+            "validation": {
+              "enum": [
+                "search",
+                "social",
+                "coordinator-referral",
+                "past-client",
+                "wedding-platform",
+                "other"
+              ]
+            },
             "componentType": "DROPDOWN",
             "dropdownOptions": {
               "label": "How did you hear about me?",
+              "showLabel": true,
               "placeholder": "Select one",
               "options": [
                 {
+                  "id": "2960dda3-57e4-41b3-bac5-dee60b1c7e5b",
                   "label": "Search Engine (Google, etc.)",
                   "value": "search"
                 },
                 {
+                  "id": "03b097de-8e7b-4298-8e27-d2005ecb9afb",
                   "label": "Social Media",
                   "value": "social"
                 },
                 {
+                  "id": "bdd38e94-ea7a-487c-8552-8c1293d42862",
                   "label": "Event Coordinator Referral",
                   "value": "coordinator-referral"
                 },
                 {
+                  "id": "8a6bd551-3d79-4ad7-9cfa-a1d333c8c4eb",
                   "label": "Past Client",
                   "value": "past-client"
                 },
                 {
+                  "id": "98949128-6916-468e-9af2-09321d750d26",
                   "label": "Wedding / Event Platform (The Knot, WeddingWire, etc.)",
                   "value": "wedding-platform"
                 },
                 {
+                  "id": "d55b12dc-caa5-429b-9685-7ff5cfe5a4f3",
                   "label": "Other",
                   "value": "other"
                 }
@@ -254,11 +324,12 @@
         "inputOptions": {
           "target": "referral_coordinator_name",
           "inputType": "STRING",
-          "required": false,
           "stringOptions": {
+            "validation": {},
             "componentType": "TEXT_INPUT",
             "textInputOptions": {
               "label": "Which coordinator referred you?",
+              "showLabel": true,
               "placeholder": "Coordinator's name"
             }
           }
@@ -269,8 +340,9 @@
         "identifier": "SUBMIT_BUTTON",
         "fieldType": "DISPLAY",
         "displayOptions": {
-          "submitButtonOptions": {
-            "text": "Send My Inquiry"
+          "displayFieldType": "PAGE_NAVIGATION",
+          "pageNavigationOptions": {
+            "submitText": "Send My Inquiry"
           }
         }
       }
@@ -278,7 +350,7 @@
     "steps": [
       {
         "id": "0423b4b6-6f69-4474-a406-43def6636908",
-        "name": "Website — Event Consultation",
+        "name": "Page 1",
         "layout": {
           "large": {
             "items": [
@@ -286,82 +358,82 @@
                 "fieldId": "fc4aa4e3-2a97-4f9b-be65-814f6296ede3",
                 "row": 0,
                 "column": 0,
-                "width": 6,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "d99e2b25-43b4-455a-9098-65ae3e094cb8",
-                "row": 0,
-                "column": 6,
-                "width": 6,
+                "row": 1,
+                "column": 0,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "51268750-8a3f-4166-bc86-e1cd677fca09",
-                "row": 1,
+                "row": 2,
                 "column": 0,
-                "width": 6,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "317f925d-cedd-43aa-ab3a-59afa9dc13f9",
-                "row": 1,
-                "column": 6,
-                "width": 6,
+                "row": 3,
+                "column": 0,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "922c2d29-8d34-4b11-8409-b964f545be54",
-                "row": 2,
+                "row": 4,
                 "column": 0,
-                "width": 6,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "84aea085-5aa1-4161-8266-6ed438e4a70f",
-                "row": 2,
-                "column": 6,
-                "width": 6,
+                "row": 5,
+                "column": 0,
+                "width": 12,
                 "height": 1
               },
               {
                 "fieldId": "124438d7-7cfc-4ab2-b768-9f30480a8d85",
-                "row": 3,
-                "column": 0,
-                "width": 6,
-                "height": 1
-              },
-              {
-                "fieldId": "a9c1399c-7be3-4900-9351-f0da67713a16",
-                "row": 3,
-                "column": 6,
-                "width": 6,
-                "height": 1
-              },
-              {
-                "fieldId": "287148f7-d5dc-4947-8244-23ae3c9c9d10",
-                "row": 4,
-                "column": 0,
-                "width": 12,
-                "height": 2
-              },
-              {
-                "fieldId": "d8dedd14-8caf-4515-99c1-55e43ca057a2",
                 "row": 6,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "c7b7c340-0f0a-412c-856d-454508d3458a",
+                "fieldId": "a9c1399c-7be3-4900-9351-f0da67713a16",
                 "row": 7,
                 "column": 0,
                 "width": 12,
                 "height": 1
               },
               {
-                "fieldId": "3e8460cf-1458-4018-b0f5-423b7de8cee8",
+                "fieldId": "287148f7-d5dc-4947-8244-23ae3c9c9d10",
                 "row": 8,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "d8dedd14-8caf-4515-99c1-55e43ca057a2",
+                "row": 9,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "c7b7c340-0f0a-412c-856d-454508d3458a",
+                "row": 10,
+                "column": 0,
+                "width": 12,
+                "height": 1
+              },
+              {
+                "fieldId": "3e8460cf-1458-4018-b0f5-423b7de8cee8",
+                "row": 11,
                 "column": 0,
                 "width": 12,
                 "height": 1
@@ -371,31 +443,33 @@
         }
       }
     ],
-    "rules": [
-      {
-        "id": "9f1a6f2e-7c3d-4a58-9b21-1d0e5c8a4b77",
-        "name": "Show coordinator name only for coordinator referrals",
-        "conditions": [
-          {
-            "fieldId": "d8dedd14-8caf-4515-99c1-55e43ca057a2",
-            "operator": "EQUALS",
-            "value": "coordinator-referral"
-          }
-        ],
-        "actions": [
-          {
-            "type": "SHOW",
-            "targets": [
-              "c7b7c340-0f0a-412c-856d-454508d3458a"
-            ]
-          }
-        ]
-      }
-    ],
     "submitSettings": {
-      "submitSuccessAction": {
-        "successMessage": {
-          "message": "Thanks for reaching out. Jay will get back to you soon."
+      "submitSuccessAction": "THANK_YOU_MESSAGE",
+      "thankYouMessageOptions": {
+        "durationInSeconds": 8,
+        "richContent": {
+          "nodes": [
+            {
+              "type": "PARAGRAPH",
+              "id": "thankyou1",
+              "nodes": [
+                {
+                  "type": "TEXT",
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "text": "Thanks for reaching out. Jay will get back to you soon.",
+                    "decorations": []
+                  }
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "CENTER"
+                }
+              }
+            }
+          ]
         }
       }
     }

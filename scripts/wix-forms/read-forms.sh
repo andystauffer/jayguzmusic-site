@@ -27,22 +27,24 @@ if [[ -z "$SITE_ID" ]]; then
   echo "usage: $0 <SITE_ID> [\"Form Name\"]" >&2
   exit 2
 fi
-if [[ -z "${WIX_API_KEY:-}" || -z "${WIX_ACCOUNT_ID:-}" ]]; then
-  echo "set WIX_API_KEY and WIX_ACCOUNT_ID in $ENV_FILE" >&2
+if [[ -z "${WIX_API_KEY:-}" ]]; then
+  echo "set WIX_API_KEY in $ENV_FILE" >&2
   exit 2
 fi
 
-curl -sS -X POST "https://www.wixapis.com/form-schema-service/v4/forms/query" \
+# Capture rather than pipe: the heredoc below occupies python's stdin, so a
+# pipe here would be silently discarded (curl: "Failure writing output").
+RESPONSE="$(curl -sS -X POST "https://www.wixapis.com/form-schema-service/v4/forms/query" \
   -H "Authorization: $WIX_API_KEY" \
-  -H "wix-account-id: $WIX_ACCOUNT_ID" \
   -H "wix-site-id: $SITE_ID" \
   -H "Content-Type: application/json" \
-  -d '{"query":{}}' \
-| python3 - "$WANT" <<'PY'
-import json, sys
+  -d '{"query":{"filter":{"namespace":"wix.form_app.form"}}}')"
+
+FORMS_JSON="$RESPONSE" python3 - "$WANT" <<'PY'
+import json, os, sys
 
 want = sys.argv[1] if len(sys.argv) > 1 else ""
-raw = sys.stdin.read()
+raw = os.environ["FORMS_JSON"]
 try:
     forms = json.loads(raw).get("forms", [])
 except Exception:

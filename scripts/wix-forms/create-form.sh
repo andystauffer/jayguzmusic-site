@@ -37,8 +37,8 @@ if [[ ! -f "$PAYLOAD" ]]; then
   echo "no such payload: $PAYLOAD" >&2
   exit 2
 fi
-if [[ -z "${WIX_API_KEY:-}" || -z "${WIX_ACCOUNT_ID:-}" ]]; then
-  echo "set WIX_API_KEY and WIX_ACCOUNT_ID in $ENV_FILE" >&2
+if [[ -z "${WIX_API_KEY:-}" ]]; then
+  echo "set WIX_API_KEY in $ENV_FILE" >&2
   exit 2
 fi
 
@@ -62,10 +62,9 @@ echo "form:   $FORM_NAME"
 # identically named rows with no way to tell them apart.
 EXISTING="$(curl -sS -X POST "https://www.wixapis.com/form-schema-service/v4/forms/query" \
   -H "Authorization: $WIX_API_KEY" \
-  -H "wix-account-id: $WIX_ACCOUNT_ID" \
   -H "wix-site-id: $SITE_ID" \
   -H "Content-Type: application/json" \
-  -d '{"query":{}}' || true)"
+  -d '{"query":{"filter":{"namespace":"wix.form_app.form"}}}' || true)"
 
 if python3 - "$FORM_NAME" <<PY
 import json, sys
@@ -89,7 +88,6 @@ read -r -p "create it? [y/N] " reply
 
 curl -sS -X POST "https://www.wixapis.com/form-schema-service/v4/forms" \
   -H "Authorization: $WIX_API_KEY" \
-  -H "wix-account-id: $WIX_ACCOUNT_ID" \
   -H "wix-site-id: $SITE_ID" \
   -H "Content-Type: application/json" \
   --data-binary "@$PAYLOAD" \
