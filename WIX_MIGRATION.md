@@ -15,7 +15,18 @@
 | Target domain | `jayguzmanmusicandevents.com` — **currently serves Jay's own Wix Editor site, not ours** |
 | Old domain | `jayguzmusic.com` — a different Wix account entirely, "HOME \| My Site" |
 
-**Phases 0–2 are done.** Remaining: Wix Forms, then the domain.
+**Phases 0–2 are done.**
+
+> **2026-09-10 — architecture decision.** The frontend moves to **Netlify**, with
+> Jay's existing premium Wix site as the **backend** for forms and contacts. This is
+> Wix's documented *self-managed headless* path: his Premium plan keeps covering the
+> custom domain, so there is no new subscription, no site transfer, and no
+> plan-eligibility question. Wix-managed hosting is no longer the target, and the
+> fall-through worker becomes redundant — Netlify serves clean URLs natively.
+>
+> **Execution runbook: `CUTOVER.md`.** Sections 3 (Wix project) and 4 (Wix static
+> hosting behaviour) below are retained because they are hard-won and still true,
+> but they describe a hosting path we are no longer taking.
 
 ---
 

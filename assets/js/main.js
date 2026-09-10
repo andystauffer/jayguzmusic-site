@@ -155,6 +155,14 @@ document.querySelectorAll('form[data-netlify]').forEach((form) => {
     if (data.get('bot-field')) return;                 // honeypot tripped
 
     try {
+      // Wix Forms first. Returns false when unconfigured, in which
+      // case fall through to the Netlify post below.
+      const formName = form.getAttribute('name');
+      if (window.submitWixForm && await window.submitWixForm(formName, data)) {
+        window.location.href = form.getAttribute('action') || '/thank-you';
+        return;
+      }
+
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
