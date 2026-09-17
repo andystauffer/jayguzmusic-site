@@ -1,7 +1,9 @@
 # Cutover plan — Netlify site, Wix as registrar only
 
 **Rewritten:** 2026-09-17, replacing the Netlify-frontend/Wix-backend plan.
-**Status:** Site is built and live on Netlify. Nothing on the public domain yet.
+**Status:** Phase 1 done and verified on the live URL (2026-09-17). Phase 2
+notification hooks created; **email delivery to Jay not yet confirmed.** Nothing
+on the public domain yet.
 **Companion:** `WIX_MIGRATION.md` (project history, established Wix behaviour)
 
 ---
@@ -49,10 +51,10 @@ regression, not a migration.
 | Staging guard | `X-Robots-Tag: noindex` still on — **must come off at cutover** |
 | Clean URLs | Work natively on Netlify. The Wix fall-through worker is now dead weight |
 
-Forms markup is **already correct for Netlify Forms** on all three pages —
-matching `form-name` hidden input, honeypot, `data-netlify`. Netlify has already
-detected and registered them (proven: it strips `data-netlify` from the served
-HTML).
+All three forms post to Netlify Forms from `main.js` (Phase 1, commit `6436d52`).
+Netlify form ids: `consultation` `69ee804a8e531400085af043`, `coordinator-inquiry`
+`69ee804a8e531400085af03e`, `song-request` `69ee804a8e531400085af045`. Site id
+`76469872-02ab-4cfb-ad93-98fbf9e3ffd9`.
 
 ---
 
@@ -68,9 +70,16 @@ HTML).
 
 ---
 
-## 4. Phase 1 — Netlify Forms `[CLAUDE]`
+## 4. Phase 1 — Netlify Forms `[CLAUDE]` — DONE 2026-09-17
 
-Only `assets/js/main.js` changes. The markup is already right.
+Verified on `jayguzmusic.netlify.app`, not the repo: served HTML carries
+`data-enquiry-form` and no `wix-forms.js` tag (which now 404s); headless Chrome
+drove the real handler on all three pages — selector matched, POST to `/`
+returned 200, page landed on `/thank-you`, set list included on `song-request`.
+All three submissions arrived in Netlify Forms — **in the spam queue** (see §12).
+
+Only `assets/js/main.js` changed, plus the attribute rename and script-tag
+removal below. The markup was already right.
 
 Replace the `window.submitWixForm(...)` call with a Netlify Forms POST, keeping
 the handler shape and the mailto fallback:
@@ -106,16 +115,26 @@ forms; confirm each appears in Netlify → Forms.
 **Do not skip this.** Netlify → Project → Forms → Notifications → add an outgoing
 email notification to Jay for each of the three forms.
 
-Verify by submitting once more and confirming the email actually arrives. A form
-that captures silently is the failure this whole phase exists to prevent.
+**Done by API 2026-09-17** — three `submission_created` email hooks to
+`jayguzmusic@gmail.com`, one per form (hook ids `6aabe8dc34ce876534bd1ba6`,
+`6aabe8deb6fe47db1a851b08`, `6aabe8e0bb96281a883e0aed`). Created with
+`POST /api/v1/hooks?site_id=…` and body
+`{type:"email", event:"submission_created", form_id, form_name, data:{email}}`.
+
+**Still open: confirm the email actually arrives.** The Phase 1 test
+submissions were spam-flagged, and Netlify does not notify on spam, so the hooks
+have not fired yet. Submit one natural-looking enquiry per form from a real
+browser and ask Jay whether three emails arrived. A form that captures silently
+is the failure this whole phase exists to prevent.
 
 ---
 
 ## 6. Phase 3 — credentials `[YOU]`
 
-**Netlify personal access token** — User settings → Applications → Personal
-access tokens. Put it in `.env` as `NETLIFY_AUTH_TOKEN`. Lets Claude add the
-domain, set notifications, check SSL, and read submissions.
+**Netlify personal access token** — already in `.env` as
+`NETLIFY_PERSONAL_ACCESS_TOKEN` (verified working 2026-09-17: lists sites, forms,
+submissions, hooks). Lets Claude add the domain, set notifications, check SSL,
+and read submissions.
 
 **Wix API key with domain permissions** — *optional.* The existing key returns
 `403 DOMAINS.READ_DNS_ZONES`; it was scoped to Forms/CRM. Re-scope it only if you
@@ -231,6 +250,13 @@ existing form submissions.
 
 ## 12. Traps already paid for — don't rediscover these
 
+- **Netlify's spam filter eats test submissions, and spam never notifies.**
+  Submissions from headless Chrome with an `example.com` address and "TEST" in
+  the message were all classified spam by Akismet. They do not appear in the
+  default submissions list or fire email hooks; find them with
+  `GET /api/v1/sites/{site}/submissions?state=spam`. To exercise the
+  notification path, submit like a human: real browser, real-looking address,
+  natural sentence.
 - **Netlify strips `data-netlify` from served HTML.** It detects the form at
   deploy time and removes the attribute. A selector on it matches nothing in
   production — silently, with the visitor still seeing a success page. Bind to a
