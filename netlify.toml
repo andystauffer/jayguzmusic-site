@@ -6,16 +6,6 @@
   command = "./scripts/build.sh"
   publish = "dist/client"
 
-# ============================================================
-# STAGING GUARD — DELETE THIS BLOCK BEFORE ATTACHING THE DOMAIN
-# Keeps jayguzmusic.netlify.app out of Google while we review.
-# The header overrides the `index, follow` meta tag in each page.
-# ============================================================
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
-
 [[headers]]
   for = "/assets/css/*"
   [headers.values]

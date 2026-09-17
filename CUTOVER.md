@@ -202,7 +202,12 @@ it keeps its plan and `wixsite.com` address. Confirm you can still reach it.
 > existing `A` object and adding a new one carrying Netlify's value(s). That is a
 > delete-and-add of the `A` record only; `MX` is never referenced.
 
-**5e `[CLAUDE]` Remove the staging guard.**
+**5c/5d DONE 2026-09-17.** Domain disconnected from the Editor site; Wix DNS
+now serves `A 75.2.60.5` and `www CNAME jayguzmusic.netlify.app` (TTL 1800) on
+both `ns8` and `ns9`. `MX`/`TXT` diffed against `docs/dns-before-cutover.md`:
+identical.
+
+**5e `[CLAUDE]` Remove the staging guard.** DONE 2026-09-17.
 Delete the fenced `X-Robots-Tag = "noindex, nofollow"` block from `netlify.toml`
 and redeploy. Until this goes, the live domain tells Google not to index it.
 
