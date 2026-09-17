@@ -178,6 +178,12 @@ Netlify → Project → Domain management → Add a domain → enter
 Add both apex and `www`. **Copy the exact records Netlify returns** — don't reuse
 values from this file or any older runbook; Netlify's addresses change.
 
+DONE 2026-09-17 via the dashboard (after a detour through the Netlify DNS
+wizard — see §12). Both hostnames attached; Netlify reports "Pending External
+DNS verification" and asks for `www CNAME jayguzmusic.netlify.app`. The apex is
+currently primary; **set `www` as primary once the certificate lock clears**
+(Netlify refuses domain changes while provisioning).
+
 **5c `[YOU]` Disconnect the domain from the Editor site in Wix.**
 Wix manages A/CNAME automatically while a domain is connected to a site, so the
 records aren't editable until this is done. This does **not** delete Jay's site —
@@ -265,6 +271,16 @@ existing form submissions.
 
 ## 12. Traps already paid for — don't rediscover these
 
+- **Don't write your own apex ↔ www redirect.** Netlify 301s the non-primary of
+  the apex/www pair to the primary domain automatically. Our forced
+  `apex → www` rule in `netlify.toml` collided with Netlify's `www → apex` (the
+  apex was primary) — a redirect loop over HTTPS. Removed 2026-09-17; the
+  canonical host is chosen by *Set as primary domain* in Domain management.
+- **The "Set up Netlify DNS" wizard is a trap for this domain.** It creates a
+  Netlify DNS zone and asks you to change nameservers at the registrar, which
+  would orphan Jay's MX/SPF/TXT. Andy landed in it on 2026-09-17; nameservers
+  were never changed and the zone was deleted from the team Domains page.
+  External DNS only: two records at Wix.
 - **Netlify's spam filter eats test submissions, and spam never notifies.**
   Submissions from headless Chrome with an `example.com` address and "TEST" in
   the message were all classified spam by Akismet. They do not appear in the
