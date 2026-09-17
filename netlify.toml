@@ -35,6 +35,15 @@
 # apex → www fought Netlify's own www → apex redirect and produced a loop.
 # Set www as the primary domain in Netlify instead (CUTOVER §8, 5b).
 
+# Staging subdomain → production. The noindex guard that kept
+# jayguzmusic.netlify.app out of Google is gone, so without this the staging
+# URL is an indexable duplicate of the whole site.
+[[redirects]]
+  from = "https://jayguzmusic.netlify.app/*"
+  to = "https://www.jayguzmanmusicandevents.com/:splat"
+  status = 301
+  force = true
+
 # Old domain → new. Inert until jayguzmusic.com's DNS points at this site
 # (it currently serves a separate Wix site), but in place so the switch
 # forwards visitors and link equity the moment it does.
