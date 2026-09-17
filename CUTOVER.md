@@ -132,10 +132,7 @@ carries one address, so each form has two `submission_created` hooks: the
 `6aabf055384e1b16d4adb098`, `6aabf0567c1e157860ae6a27`, `6aabf056df59a962ded154d1`).
 Six hooks total. Andy confirmed receipt of the three test emails on 2026-09-17.
 
-**One assumption not verified from here:** that `Booking@` exists as a user or
-alias in Jay's Google Workspace. If it does not, Netlify's emails bounce with no
-visible error. Confirm with Jay before cutover, or send one real submission and
-have him check.
+`Booking@` confirmed by Andy on 2026-09-17 to exist in Jay's Google Workspace.
 
 ---
 
