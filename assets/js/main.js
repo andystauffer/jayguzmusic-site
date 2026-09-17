@@ -122,18 +122,17 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
 /* ============================================================
-   FORM — basic client-side UX
+   FORM — Netlify Forms submit + mailto fallback
    ============================================================ */
-/* Wix Forms is the destination: submissions land in Jay's dashboard and
-   create a contact. There is deliberately no second capture service — a
-   lead sitting in a dashboard nobody opens is barely better than a lost
-   one, so if Wix can't be reached we hand the enquiry to the visitor's
-   mail client, which reaches an inbox Jay actually reads.
+/* Netlify Forms is the destination. A notification email to Jay is
+   configured on each form in Netlify, so a submission reaches an inbox he
+   actually reads — a lead sitting in a dashboard nobody opens is barely
+   better than a lost one. If the POST fails we hand the enquiry to the
+   visitor's mail client instead, which reaches the same inbox.
 
-   `data-netlify` stays on the forms for one narrow case: with JS disabled
-   none of this runs, and the form's native POST is caught by Netlify
-   rather than answered by the static /thank-you page, which would show a
-   success screen and silently drop the enquiry. */
+   With JS disabled none of this runs: the form's native POST is caught by
+   Netlify (the markup carries `data-netlify` + `form-name`) and redirected
+   to the form's action. Same destination, no handler needed. */
 const ENQUIRY_EMAIL = 'jayguzmusic@gmail.com';
 
 /* Kept separate from the submit handler so it can be exercised directly. */
@@ -151,13 +150,26 @@ function buildEnquiryMailto(data) {
          '&body=' + encodeURIComponent(body);
 }
 
-/* Select on data-wix-form, NOT data-netlify. Netlify's post-processing
+/* POST to Netlify Forms. The body is the form's own fields, url-encoded,
+   including the hidden `form-name` that tells Netlify which form this is.
+   Posting to "/" is the documented target; Netlify routes on form-name,
+   not on the path. */
+async function submitNetlifyForm(data) {
+  const res = await fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(data).toString(),
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+}
+
+/* Select on data-enquiry-form, NOT data-netlify. Netlify's post-processing
    detects a form at deploy time and then STRIPS data-netlify and
    netlify-honeypot from the served HTML — so form[data-netlify] matches
-   nothing in production, no handler binds, and every enquiry native-POSTs
-   into Netlify Forms instead of reaching Wix. That failure is invisible
-   locally and silent in production. data-wix-form is ours and survives. */
-document.querySelectorAll('form[data-wix-form]').forEach((form) => {
+   nothing in production, no handler binds, and the fallback path is never
+   reachable. That failure is invisible locally and silent in production.
+   data-enquiry-form is ours and survives. Verify on the live URL. */
+document.querySelectorAll('form[data-enquiry-form]').forEach((form) => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -169,18 +181,10 @@ document.querySelectorAll('form[data-wix-form]').forEach((form) => {
     if (data.get('bot-field')) return;                 // honeypot tripped
 
     try {
-      const formName = form.getAttribute('name');
-      const sent = window.submitWixForm &&
-                   await window.submitWixForm(formName, data);
-      if (sent) {
-        window.location.href = form.getAttribute('action') || '/thank-you';
-        return;
-      }
-      // false means this form has no clientId or form id configured — a
-      // wiring mistake, not an outage, but either way don't drop the lead.
-      throw new Error('Wix Forms not configured for "' + formName + '"');
+      await submitNetlifyForm(data);
+      window.location.href = form.getAttribute('action') || '/thank-you';
     } catch (err) {
-      console.warn('[form] Wix submission failed, falling back to email:', err);
+      console.warn('[form] Netlify submission failed, falling back to email:', err);
       window.location.href = buildEnquiryMailto(data);
       if (btn) { btn.disabled = false; btn.textContent = label; }
     }

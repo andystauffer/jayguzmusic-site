@@ -20,9 +20,6 @@ only remaining role is **DNS for the domain Jay registered there**.
         └─ MX / SPF / TXT stay with Google Workspace. Untouched by cutover.
 ```
 
-> **Pending:** the code still posts to Wix Forms. The swap to Netlify Forms is
-> Phase 1 of `CUTOVER.md` and has not run yet.
-
 Every page is a flat `.html` file at the repo root, so the file path *is* the
 URL. Netlify serves `/about` from `about.html` natively and 301s `/about/` →
 `/about`; no rewrite rules are needed, and the same build works on any static
@@ -47,12 +44,11 @@ jayguzmusic-site/
 ├── assets/
 │   ├── css/styles.css
 │   └── js/
-│       ├── main.js               # nav, carousels, form submit handler
-│       └── wix-forms.js          # Wix Forms layer — removed in CUTOVER Phase 1
+│       └── main.js               # nav, carousels, form submit handler
 ├── scripts/
 │   ├── build.sh                  # assembles dist/ — the deploy boundary
 │   ├── cloudinary-*.py           # media helpers (read .env)
-│   └── wix-forms/                # form schema + create/read scripts
+│   └── wix-forms/                # retired Wix Forms schema + scripts; reference only
 ├── worker/                       # Wix-hosting only; deleted in CUTOVER Phase 7
 └── dist/                         # build output, gitignored
 ```
@@ -84,21 +80,21 @@ npx netlify deploy --prod        # manual deploy
 
 Three forms — `consultation`, `coordinator-inquiry`, `song-request`.
 
-**Target:** all three post to **Netlify Forms**, with an email notification to
-Jay on each. The notification is not optional — a lead sitting in a dashboard
-nobody opens is barely better than a lost one, and that email is the only thing
-that answers it. If the POST fails the enquiry falls back to `mailto:`.
+All three post to **Netlify Forms**, with an email notification to Jay on each.
+The notification is not optional — a lead sitting in a dashboard nobody opens is
+barely better than a lost one, and that email is the only thing that answers it.
+If the POST fails the enquiry falls back to `mailto:`.
 
-*Currently* they still post to Wix Forms; see CUTOVER Phase 1.
+The markup carries what Netlify needs — matching `form-name` hidden input,
+honeypot, `data-netlify` — and Netlify has detected and registered all three.
+`main.js` POSTs the url-encoded fields to `/` and redirects to the form's
+`action` (`/thank-you`) on success.
 
-The markup is already correct for Netlify Forms — matching `form-name` hidden
-input, honeypot, `data-netlify` — and Netlify has already detected and
-registered all three.
-
-**The submit handler must bind to a custom attribute, not `data-netlify`.**
-Netlify detects the form at deploy time and then *strips* `data-netlify` from
-the served HTML, so a selector on it matches nothing in production — silently,
-with the visitor still seeing a success page.
+**The submit handler binds to `data-enquiry-form`, a custom attribute — not
+`data-netlify`.** Netlify detects the form at deploy time and then *strips*
+`data-netlify` from the served HTML, so a selector on it matches nothing in
+production — silently, with the visitor still seeing a success page. Verify on
+the live URL, never the repo.
 
 `song-request` carries one extra field: the set list the visitor built on the
 page lives in a JS array, so a capture-phase submit listener copies it into a
