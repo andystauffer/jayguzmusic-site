@@ -17,16 +17,18 @@
 
 **Phases 0–2 are done.**
 
-> **2026-09-10 — architecture decision.** The frontend moves to **Netlify**, with
-> Jay's existing premium Wix site as the **backend** for forms and contacts. This is
-> Wix's documented *self-managed headless* path: his Premium plan keeps covering the
-> custom domain, so there is no new subscription, no site transfer, and no
-> plan-eligibility question. Wix-managed hosting is no longer the target, and the
-> fall-through worker becomes redundant — Netlify serves clean URLs natively.
+> **2026-09-17 — architecture decision (supersedes 2026-09-10).** This is a
+> **Netlify site**. Wix's only remaining role is **DNS for the domain Jay
+> registered there** — no Wix hosting, no Wix Forms, no Wix backend. Lead capture
+> moves to **Netlify Forms with email notification to Jay**, which is the only
+> thing that answers the original objection to it.
 >
-> **Execution runbook: `CUTOVER.md`.** Sections 3 (Wix project) and 4 (Wix static
-> hosting behaviour) below are retained because they are hard-won and still true,
-> but they describe a hosting path we are no longer taking.
+> The 2026-09-10 plan (Netlify frontend, Wix site as forms backend) is retired: it
+> tied lead capture to a Wix Premium plan we no longer want to depend on.
+>
+> **Execution runbook: `CUTOVER.md`.** Sections 2 and 4 below are retained because
+> they are hard-won and still true, but they describe a hosting path we are not
+> taking.
 
 ---
 

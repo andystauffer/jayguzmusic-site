@@ -1,300 +1,250 @@
-# Cutover plan — Netlify frontend, Wix backend
+# Cutover plan — Netlify site, Wix as registrar only
 
-**Created:** 2026-09-10
-**Status:** Phases A and B complete. Phase C (the domain) not started.
-**Companion:** `WIX_MIGRATION.md` (project state, established Wix behaviour)
+**Rewritten:** 2026-09-17, replacing the Netlify-frontend/Wix-backend plan.
+**Status:** Site is built and live on Netlify. Nothing on the public domain yet.
+**Companion:** `WIX_MIGRATION.md` (project history, established Wix behaviour)
 
 ---
 
 ## 1. The decision
 
-Host the frontend on **Netlify**. Use **Jay's existing premium Wix site as the backend**
-for forms, contacts and inbox. This is Wix's documented *self-managed headless*
-migration path, not a workaround.
+**This is a Netlify site.** Wix's only remaining role is **DNS for the domain Jay
+bought there**. No Wix hosting, no Wix Forms, no Wix backend.
 
 ```
   jayguzmanmusicandevents.com
-        │  A / CNAME
-        ▼
-  Netlify  ──── static site (this repo)
+        │  DNS zone hosted at Wix (ns8/ns9.wixdns.net)
+        │  A + CNAME  ──────────────────────────────┐
+        │                                            ▼
+        │                                         Netlify
+        │                                    (static site, this repo)
+        │                                         │
+        │                                    Netlify Forms
+        │                                    → email notification to Jay
         │
-        │  headless client (clientID + anonymous visitor token)
-        ▼
-  Wix site c6da36f6  ──── Forms · Contacts · Inbox
-        └─ Jay's existing Premium plan, unchanged
+        └─ MX / SPF / TXT stay pointed at Google Workspace. UNTOUCHED.
 ```
 
-**Why this and not Wix hosting.** Wix's migration doc lists the Premium plan
-under *what stays the same*: *"Your Premium plan, which is still required for a
-custom domain and for payments."* Jay's existing plan keeps covering the domain,
-so this path adds **no new subscription**, needs **no site transfer**, and never
-raises the plan-eligibility question. Wix-managed hosting would have required its
-own project with its own plan.
+**What this replaces.** The previous plan used Jay's Wix site as a forms backend.
+That was built and tested end to end (three forms on site `c6da36f6`), but it tied
+lead capture to a Wix Premium plan we no longer want to depend on — if that plan
+ever lapses, submissions stop silently.
 
-It also deletes work: Netlify serves clean URLs natively, so the fall-through
-worker — and the four undocumented Wix static-hosting quirks behind it — stop
-mattering.
-
-**Consequences**
-- Wix headless project `e935d47e` becomes redundant. Leave it (free, harmless); stop deploying to it.
-- Jay's Editor site keeps its Premium plan and stays reachable at its `wixsite.com` address as a fallback.
-- `worker/` and `wix.config.json` become dead weight. Remove **after** cutover is proven, not before (§7).
+**The trade-off we are re-accepting, deliberately.** Netlify Forms was rejected in
+the old B2 because *"a lead sitting in a dashboard nobody opens is barely better
+than a lost one."* That objection is still valid and is **only** answered by
+configuring notification emails (Phase 2). Without that step this is a
+regression, not a migration.
 
 ---
 
-## 2. Ground rules
+## 2. Current state
 
-- **Nothing is irreversible until §5.** Phases 3 and 4 run while Jay's site keeps serving.
-- **Test the frontend at its Netlify address first.** Per Wix: *"This connection
-  doesn't depend on domains… which is why you can build and test it against your
-  project before you migrate."*
-- **Verify rendered output, not the diff.** Strip HTML comments before asserting
-  (see `WIX_MIGRATION.md` §8 — this caught real bugs).
+| | |
+|---|---|
+| Repo | `main`, clean, pushed to `github.com/andystauffer/jayguzmusic-site` |
+| Live | `jayguzmusic.netlify.app` — built by `scripts/build.sh`, publishes `dist/client` |
+| Domain | `jayguzmanmusicandevents.com` → still Jay's Wix Editor site |
+| Netlify account | Andy's. Domain never lives in Netlify, so rollback is a DNS change |
+| Staging guard | `X-Robots-Tag: noindex` still on — **must come off at cutover** |
+| Clean URLs | Work natively on Netlify. The Wix fall-through worker is now dead weight |
+
+Forms markup is **already correct for Netlify Forms** on all three pages —
+matching `form-name` hidden input, honeypot, `data-netlify`. Netlify has already
+detected and registered them (proven: it strips `data-netlify` from the served
+HTML).
+
+---
+
+## 3. Ground rules
+
+- **Nothing is irreversible until Phase 5.** The site keeps serving throughout.
+- **Prefer APIs over clicking.** Auditable, scriptable, and verifiable before and after.
+- **Verify rendered output, not the repo.** A host can rewrite your markup after
+  deploy — see the trap in §8. Check the live URL.
 - **Secrets never go through chat.** `.env` only, gitignored, `chmod 600`.
 
-`[MANUAL]` = you, in a browser.  `[CLAUDE]` = I run it.
+`[YOU]` = browser or credential.  `[CLAUDE]` = I run it.
 
 ---
 
-## 3. Phase A — Wix backend (no user-visible change)
+## 4. Phase 1 — Netlify Forms `[CLAUDE]`
 
-**A1 `[MANUAL]` ~~Create the headless client.~~ DONE 2026-09-10.**
-Dashboard → site `c6da36f6` → Settings → Headless Settings → **Create New Client**.
-Copy the **clientID**. This is a public value — it ships in client-side JS.
+Only `assets/js/main.js` changes. The markup is already right.
 
-> Allowed redirect domains are *not* required for form submissions: a submission
-> is a direct API call with a visitor token, not a redirect. Only add them if we
-> later use Wix-hosted login or checkout pages.
+Replace the `window.submitWixForm(...)` call with a Netlify Forms POST, keeping
+the handler shape and the mailto fallback:
 
-**A2 `[MANUAL]` ~~Create an API key.~~ DONE 2026-09-10.**
-Same page → **Manage API Key**. Scope to Forms/CRM if offered. Put it in `.env`:
-
-```
-WIX_API_KEY=…
-WIX_ACCOUNT_ID=f549d57e-…
+```js
+const res = await fetch('/', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams(data).toString(),   // includes form-name
+});
+if (!res.ok) throw new Error('HTTP ' + res.status);
 ```
 
-The key must be generated from `f549d57e` — Wix rejects site-level calls made
-with another account's key.
+**Rename the binding attribute.** The handler selects `form[data-wix-form]`,
+which is now misleading. Rename to `data-enquiry-form` across the three pages and
+`main.js`. **Do not** switch the selector back to `data-netlify` — Netlify strips
+that attribute at deploy time and the selector would match nothing in production
+(§8). A custom attribute is load-bearing here, not cosmetic.
 
-**A3 `[CLAUDE]` ~~Read the existing forms.~~ DONE 2026-09-10.**
-```bash
-./scripts/wix-forms/read-forms.sh c6da36f6-95ac-4db1-9286-c690672a61a0
-```
-Confirms the seven experiments and that nothing claims our names.
+**Retire the Wix integration.** Remove the `wix-forms.js` script tags from
+`index.html`, `event-coordinators.html`, `setlist.html`, and delete
+`assets/js/wix-forms.js`. Leave `scripts/wix-forms/` and the three forms on
+`c6da36f6` alone for now — harmless, and a working reference until cutover is
+proven.
 
-**A4 `[CLAUDE]` ~~Create the forms.~~ DONE 2026-09-10.**
-```bash
-./scripts/wix-forms/create-form.sh c6da36f6-95ac-4db1-9286-c690672a61a0 \
-  scripts/wix-forms/website-event-consultation.form.json
-```
-Three forms created on `c6da36f6`, all verified end to end:
-
-| Form | ID | Fields |
-|---|---|---|
-| Website - Event Consultation | `f3eeeeec-4ab0-4f49-bb73-87075198c48f` | 6 |
-| Website - Coordinator Inquiry | `c3eb2afe-4c5e-4c25-88b3-85d97e61d642` | 10 |
-| Website - Song Request | `69563c61-5e8a-48c8-8e19-208310e55a71` | 5 |
-
-The script refuses to create a name that already exists.
-
-**A5 `[MANUAL]` ~~Open each form in the dashboard.~~ DONE 2026-09-10.**
-Confirm every field renders. **This is the check that matters** — a form whose
-fields carry unrecognised `identifier` values is accepted by the API, takes
-submissions, and opens *empty* in the editor. Thirty seconds here is worth it.
-
-**A6 `[CLAUDE]` ~~Wire the frontend.~~ DONE 2026-09-10.**
-clientID + form IDs into `WIX_FORMS_CONFIG` in `assets/js/wix-forms.js`, rebuild.
+**Test on `jayguzmusic.netlify.app` before going further.** Submit all three
+forms; confirm each appears in Netlify → Forms.
 
 ---
 
-## 4. Phase B — Netlify becomes the real host
+## 5. Phase 2 — notifications `[YOU]` or `[CLAUDE]` with a token
 
-**B1 `[CLAUDE]` ~~Stop publishing the repo root.~~ DONE 2026-09-10.**
-`netlify.toml` published `.` — the repo root, which holds `.env`. Now builds
-via `./scripts/build.sh` and publishes `dist/client`, putting Netlify behind
-the same deploy boundary as Wix, including the secret-shaped-file and
-`CLOUDINARY_API_SECRET` aborts.
+**Do not skip this.** Netlify → Project → Forms → Notifications → add an outgoing
+email notification to Jay for each of the three forms.
 
-`build.sh` also had a `bc` dependency in its final size calculation. Harmless
-locally, but `bc` isn't guaranteed in Netlify CI and under `set -e` a missing
-binary fails the whole build. Switched to `awk`.
-
-**B2 `[CLAUDE]` ~~Keep the Netlify Forms fallback.~~ DROPPED 2026-09-10.**
-Wix is the sole capture path. The chain is **Wix → mailto**.
-
-A second capture service meant leads could land in a Netlify dashboard Jay
-never opens, which is barely better than losing them — and it needed its own
-notification setup to be useful at all. The mailto fallback reaches his actual
-inbox, so it is the better failure mode for this business.
-
-`data-netlify` stays on the forms for one narrow case: with JS disabled the
-handler never runs, and the native POST is caught by Netlify instead of being
-answered by the static `/thank-you` page, which would show a success screen
-and drop the enquiry.
-
-Trade-off, stated plainly: if Wix is unreachable the visitor has to actually
-complete the mailto, and some won't. Netlify Forms would have caught those
-silently — in a place nobody checks.
-
-**B3 `[CLAUDE]` Netlify strips `data-netlify` from the served HTML. DONE 2026-09-10.**
-Found only by fetching the deployed page. Netlify detects a form at deploy time
-and then removes `data-netlify` and `netlify-honeypot` from the HTML it serves:
-
-```
-local  <form id="consult-form" ... data-netlify="true" netlify-honeypot="bot-field">
-live   <form action='/thank-you' id='consult-form' method='POST' name='consultation'>
-```
-
-`main.js` selected `form[data-netlify]`, so in production **the selector matched
-nothing**, no handler bound, and every enquiry would have native-POSTed into
-Netlify Forms instead of Wix — silently, with the visitor still seeing the
-success page. The handler now binds to `data-wix-form`, our own attribute,
-which survives post-processing.
-
-> The general lesson, and the reason `WIX_MIGRATION.md` §8 says to check
-> rendered output: **a host can rewrite your markup after you deploy it.**
-> Anything the JS depends on in the HTML has to be verified on the live URL,
-> not in the repo.
-
-**B4 `[CLAUDE] + [MANUAL]` ~~End-to-end form test.~~ DONE 2026-09-10.**
-All three forms submitted over the real path — anonymous visitor token, then
-`POST /form-submission-service/v4/submissions` keyed by field target. Every
-field stored (6, 10, 5), every submission reached Submissions, and one merged
-Contact was created from the shared email. Test rows and the test contact
-deleted afterwards; Jay's own 2026-08-29 lead verified untouched.
-
-> **A 200 can come back `PENDING`, not `CONFIRMED`.** Wix confirms
-> asynchronously within seconds, with no further call from us. A `PENDING`
-> submission is not yet queryable and **404s on GET** — which looks exactly
-> like a failed submission and isn't. Per the docs: *"read it from the
-> response rather than assuming."* Verify a test submission a minute later,
-> never immediately.
-
-> Two other traps found here: the submissions query ignores a `formId` filter
-> and needs `filter.namespace` instead (a `formId` filter silently returns 0,
-> not an error); and the id returned by the POST is not always the id the
-> confirmed row ends up with.
-
-**B5 `[MANUAL]` ~~Decide the Netlify account owner.~~ DECIDED 2026-09-10.**
-Ship from Andy's Netlify account. Hand it over later if and when it matters.
-
-Safe because **the domain never lives in Netlify.** DNS stays in Jay's Wix
-account and merely points at Netlify, so the worst case is repointing an `A`
-record — minutes, not a recovery operation.
-
-When handing over, the mechanism is **transfer the project**, not "add Jay as
-an owner": per Netlify's docs *"depending on your team plan, you may need to
-upgrade in order to add new members"*, so adding a member can mean paying for
-a seat. Transfer is free — Project configuration > General > Transfer project.
-
-One constraint to plan around: a project transfers only *"to any team where you
-are an Owner or Developer"*, and transfers *"between teams with no shared Owners
-or Developers"* need a support ticket. So the order is: Jay creates his team,
-adds Andy to it, Andy transfers the project, Andy steps out.
+Verify by submitting once more and confirming the email actually arrives. A form
+that captures silently is the failure this whole phase exists to prevent.
 
 ---
 
-## 5. Phase C — the domain (the only risky step)
+## 6. Phase 3 — credentials `[YOU]`
 
-**C1 `[MANUAL]` Lower the DNS TTL first — do this a day ahead.**
-In Wix's DNS panel for `jayguzmanmusicandevents.com`, drop the TTL on the `A`
-and `CNAME` records to 300s. Propagation is TTL-bound; this shrinks the switch
-window from hours to minutes and is the single highest-value preparatory step.
+**Netlify personal access token** — User settings → Applications → Personal
+access tokens. Put it in `.env` as `NETLIFY_AUTH_TOKEN`. Lets Claude add the
+domain, set notifications, check SSL, and read submissions.
 
-**C2 `[MANUAL]` Add the custom domain in Netlify.**
-Netlify → Domain management → add `jayguzmanmusicandevents.com` and
-`www.jayguzmanmusicandevents.com`. **Copy the exact records Netlify shows you** —
-apex `A` and `www` `CNAME`. Do not reuse values from memory or an old runbook;
-Netlify's addresses change.
-
-**C3 `[MANUAL]` Disconnect the domain from the Editor site.**
-Wix manages A/CNAME automatically while a domain is connected to a site, so those
-records aren't editable until it's disconnected. In Wix: Domains → the domain →
-disconnect from site / point to an external site.
-
-Per Wix, this **does not delete the Editor site** — it keeps its plan and its
-`wixsite.com` address. Confirm you can still reach it before proceeding.
-
-**C4 `[MANUAL]` Set the records to Netlify's values.**
-
-> **Change only `A` and `CNAME`.** Wix's migration doc is explicit: email keeps
-> working *"as long as you change only the `A` and `CNAME` records that route
-> visitors to your project, not the separate `MX`, `SPF`, `DKIM`, and `DMARC`
-> records that route email."* Touch those and **Jay's email breaks.**
-
-**C5 `[CLAUDE]` Remove the staging guard.**
-Delete the `X-Robots-Tag = "noindex, nofollow"` block from `netlify.toml`
-(it's fenced and labelled). Until this goes, the live domain tells Google not
-to index it. Redeploy.
-
-**C6 `[MANUAL]` Wait for HTTPS.**
-Netlify provisions a Let's Encrypt certificate after DNS resolves. The site may
-show a certificate warning for a few minutes. Don't intervene; don't announce
-launch until the padlock is clean on both apex and `www`.
-
-### Expected downtime: none
-
-The Netlify site is fully live and tested before C4. During propagation some
-visitors resolve to the old site and some to the new — **both work**. It is a
-split-audience window, not an outage. With TTL at 300s it should be minutes.
+**Wix API key with domain permissions** — *optional.* The existing key returns
+`403 DOMAINS.READ_DNS_ZONES`; it was scoped to Forms/CRM. Re-scope it only if you
+want the DNS records changed by API. Doing those four records by hand, with
+Claude verifying by `dig` before and after, is an equally good answer and keeps
+the irreversible step under your finger.
 
 ---
 
-## 6. Phase D — verify the live domain
+## 7. Phase 4 — lower the TTL `[YOU]`, a day ahead
 
-`[CLAUDE]` Run against `https://www.jayguzmanmusicandevents.com`:
+In Wix DNS, set TTL to **300s** on the apex `A` records and the `www` `CNAME`.
+
+Highest-value preparatory step in the plan: propagation is TTL-bound, so this
+shrinks both the switch window and the rollback window from hours to minutes.
+
+---
+
+## 8. Phase 5 — the switch
+
+**5a `[CLAUDE]` Capture DNS before touching anything.**
+`docs/dns-before-cutover.md` holds the 2026-09-10 snapshot. Re-capture it — it is
+the rollback reference and must be current.
+
+**5b `[YOU]` or `[CLAUDE]` Add the domain in Netlify.**
+Add both apex and `www`. **Copy the exact records Netlify returns** — don't reuse
+values from this file or any older runbook; Netlify's addresses change.
+
+**5c `[YOU]` Disconnect the domain from the Editor site in Wix.**
+Wix manages A/CNAME automatically while a domain is connected to a site, so the
+records aren't editable until this is done. This does **not** delete Jay's site —
+it keeps its plan and `wixsite.com` address. Confirm you can still reach it.
+
+**5d Change only `A` and `CNAME`.**
+
+> ⚠️ **Jay runs Google Workspace email on this domain.** Five `MX` records, an SPF
+> `TXT`, and two `google-site-verification` `TXT` records are live. Delete or edit
+> any of them and **his mail stops.**
+>
+> If done by API, this is structurally safe: `PATCH /domains/v1/dns-zones/{domain}`
+> takes explicit `additions` and `deletions` arrays and is **not** a whole-zone
+> replace — records you don't name are untouched. Note the API allows only one
+> record object per type per hostname, so changing the apex `A` means deleting the
+> existing `A` object and adding a new one carrying Netlify's value(s). That is a
+> delete-and-add of the `A` record only; `MX` is never referenced.
+
+**5e `[CLAUDE]` Remove the staging guard.**
+Delete the fenced `X-Robots-Tag = "noindex, nofollow"` block from `netlify.toml`
+and redeploy. Until this goes, the live domain tells Google not to index it.
+
+**5f `[YOU]` Wait for HTTPS.**
+Netlify provisions Let's Encrypt after DNS resolves. Expect a brief certificate
+warning. Don't intervene, and don't announce launch until the padlock is clean on
+both apex and `www`.
+
+**Expected downtime: none.** The Netlify site is fully live before 5d. During
+propagation some visitors resolve to the old site and some to the new, and both
+work. A split-audience window, not an outage.
+
+---
+
+## 9. Phase 6 — verify `[CLAUDE]`
+
+Against `https://www.jayguzmanmusicandevents.com`:
 
 | Check | Expect |
 |---|---|
-| `/` and all 9 pages | 200 |
-| `/about` (clean URL) | 200 — native on Netlify, no worker |
+| All 10 pages | 200 |
+| `/about` clean URL | 200 (native on Netlify) |
 | `/about.html` | 200 |
-| `/about/` | 301 → `/about` |
 | apex → `www` | 301 |
-| `/sitemap-index.xml` | 200 (**not** `/sitemap.xml` — Wix reserved it; Netlify doesn't, but our sitemap is named this and robots.txt points here) |
+| `/sitemap-index.xml` | 200 (**not** `/sitemap.xml` — robots.txt points here) |
 | `/nonexistent` | 404, not the homepage |
-| `X-Robots-Tag` header | **absent** |
-| Page `<meta robots>` | `index, follow` |
-| Live form submission | lands in Wix Submissions + Contacts |
-| `dig MX` | unchanged from before cutover |
+| `X-Robots-Tag` | **absent** |
+| `<meta robots>` | `index, follow` |
+| Live form submission | appears in Netlify Forms **and** emails Jay |
+| `dig MX` | identical to the pre-cutover snapshot |
 
-`[MANUAL]` Then: Google Search Console — add the domain, submit
-`sitemap-index.xml`, request indexing on the homepage.
-
----
-
-## 7. Phase E — cleanup (only after D passes)
-
-- Delete `worker/`, and the `dist/server/entry.mjs` requirement plus the worker
-  copy step from `scripts/build.sh`.
-- Delete `wix.config.json`.
-- Fold this file's outcome into `WIX_MIGRATION.md`; mark the Wix-hosting
-  sections superseded.
-- Leave `e935d47e` alone — free, and a working reference.
-- **Rotate the Cloudinary API secret** (outstanding from `WIX_MIGRATION.md` §5 —
-  it was pasted into a chat transcript).
+Then `[YOU]`: Google Search Console — add the domain, submit `sitemap-index.xml`,
+request indexing on the homepage.
 
 ---
 
-## 8. Rollback
+## 10. Phase 7 — cleanup, only after Phase 6 passes
 
-Before C3, there is nothing to roll back — Jay's site is still serving.
+- Delete `worker/` and `wix.config.json`. Remove the worker copy step and the
+  `dist/server/entry.mjs` assertion from `scripts/build.sh`.
+- Delete `scripts/wix-forms/` and the three forms on `c6da36f6` if Jay wants them
+  gone; otherwise leave them.
+- Mark the Wix-hosting sections of `WIX_MIGRATION.md` superseded.
+- **Rotate the Cloudinary API secret** — outstanding since it was pasted into a
+  chat transcript.
+- Consider transferring the Netlify project to Jay: Project configuration →
+  General → Transfer project. Transfer is free; *adding a member* can require a
+  paid seat. A project transfers only to a team where you are an Owner or
+  Developer, so the order is: Jay creates his team, adds Andy, Andy transfers,
+  Andy steps out.
 
-After C4, if something is wrong: **restore the original A/CNAME records in Wix
-and reconnect the domain to the Editor site.** Recovery is bounded by the TTL,
-which is why C1 matters. Screenshot the original DNS records before changing
-them — that screenshot *is* the rollback plan.
+---
+
+## 11. Rollback
+
+Before 5c there is nothing to roll back — Jay's site is still serving.
+
+After 5d: restore the `A` and `CNAME` records from `docs/dns-before-cutover.md`
+and reconnect the domain to the Editor site in Wix. Recovery is bounded by the
+TTL, which is why Phase 4 comes a day early.
 
 Nothing in this plan deletes Jay's Editor site, cancels his plan, or touches his
 existing form submissions.
 
 ---
 
-## 9. Open questions
+## 12. Traps already paid for — don't rediscover these
 
-*(Both earlier questions are now closed: `song-request` is wired to Wix with the
-setlist carried in its own `selected_songs` field, and four experiment forms
-were deleted, so the site sits at 6/10 with room to spare.)*
-
-Nothing outstanding. Phases A and B are complete; Phase C is the remaining work.
+- **Netlify strips `data-netlify` from served HTML.** It detects the form at
+  deploy time and removes the attribute. A selector on it matches nothing in
+  production — silently, with the visitor still seeing a success page. Bind to a
+  custom attribute.
+- **Wix reserves `/sitemap.xml`** and 404s it even when the file is present.
+  Ours is `sitemap-index.xml`; `robots.txt` points there. Harmless on Netlify,
+  but don't "fix" the name back.
+- **`bc` isn't guaranteed in Netlify CI.** `build.sh` uses `awk`. Under `set -e` a
+  missing binary fails the whole build.
+- **`publish` must never be `.`** — the repo root holds `.env`. `build.sh` is the
+  deploy boundary and aborts on secret-shaped files.
+- **Strip HTML comments before asserting on live output.** `grep` counts
+  commented-out markup and will report something renders when it doesn't.
+- **Test individual URLs, never just `/`.** The Wix 404s were invisible from the
+  homepage.
+- **Headless Chrome clamps windows to 500px minimum.** A "390px" screenshot is a
+  squeezed 500px layout. Measure mobile through an iframe.
