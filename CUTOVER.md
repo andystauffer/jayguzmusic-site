@@ -116,7 +116,7 @@ forms; confirm each appears in Netlify → Forms.
 email notification to Jay for each of the three forms.
 
 **Done by API 2026-09-17** — three `submission_created` email hooks to
-`jayguzmusic@gmail.com`, one per form (hook ids `6aabe8dc34ce876534bd1ba6`,
+`Booking@JayGuzmanMusicandEvents.com`, one per form (hook ids `6aabe8dc34ce876534bd1ba6`,
 `6aabe8deb6fe47db1a851b08`, `6aabe8e0bb96281a883e0aed`). Created with
 `POST /api/v1/hooks?site_id=…` and body
 `{type:"email", event:"submission_created", form_id, form_name, data:{email}}`.

@@ -133,7 +133,7 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
    With JS disabled none of this runs: the form's native POST is caught by
    Netlify (the markup carries `data-netlify` + `form-name`) and redirected
    to the form's action. Same destination, no handler needed. */
-const ENQUIRY_EMAIL = 'jayguzmusic@gmail.com';
+const ENQUIRY_EMAIL = 'Booking@JayGuzmanMusicandEvents.com';
 
 /* Kept separate from the submit handler so it can be exercised directly. */
 function buildEnquiryMailto(data) {
