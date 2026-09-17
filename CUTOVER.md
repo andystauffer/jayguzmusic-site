@@ -211,6 +211,12 @@ identical.
 Delete the fenced `X-Robots-Tag = "noindex, nofollow"` block from `netlify.toml`
 and redeploy. Until this goes, the live domain tells Google not to index it.
 
+**5f DONE 2026-09-17 16:03Z** — Let's Encrypt certificate issued for both
+hostnames 28 minutes after the DNS save (a `POST /sites/{id}/ssl` nudged it).
+Public resolvers (8.8.8.8, 1.1.1.1, 9.9.9.9) all returned Netlify within
+minutes. **Outstanding: set `www` as primary in Netlify** — until then Netlify
+301s `www → apex`, the opposite of the canonical tags.
+
 **5f `[YOU]` Wait for HTTPS.**
 Netlify provisions Let's Encrypt after DNS resolves. Expect a brief certificate
 warning. Don't intervene, and don't announce launch until the padlock is clean on
