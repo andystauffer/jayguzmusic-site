@@ -1,8 +1,9 @@
 # Cutover plan — Netlify site, Wix as registrar only
 
 **Rewritten:** 2026-09-17, replacing the Netlify-frontend/Wix-backend plan.
-**Status:** Phases 1 and 2 done and verified on the live URL (2026-09-17).
-Notification delivery proven end to end. Nothing on the public domain yet.
+**Status:** LIVE. Cutover completed 2026-09-17; Phases 1–6 done and verified
+against `https://www.jayguzmanmusicandevents.com`. Remaining: Search Console
+(`[YOU]`, §9) and Phase 7 cleanup.
 **Companion:** `WIX_MIGRATION.md` (project history, established Wix behaviour)
 
 ---
@@ -45,9 +46,9 @@ regression, not a migration.
 |---|---|
 | Repo | `main`, clean, pushed to `github.com/andystauffer/jayguzmusic-site` |
 | Live | `jayguzmusic.netlify.app` — built by `scripts/build.sh`, publishes `dist/client` |
-| Domain | `jayguzmanmusicandevents.com` → still Jay's Wix Editor site |
+| Domain | `jayguzmanmusicandevents.com` → Netlify since 2026-09-17 ~15:35Z; `www` primary |
 | Netlify account | Andy's. Domain never lives in Netlify, so rollback is a DNS change |
-| Staging guard | `X-Robots-Tag: noindex` still on — **must come off at cutover** |
+| Staging guard | Removed 2026-09-17. `jayguzmusic.netlify.app` now 301s to production |
 | Clean URLs | Work natively on Netlify. The Wix fall-through worker is now dead weight |
 
 All three forms post to Netlify Forms from `main.js` (Phase 1, commit `6436d52`).
@@ -214,8 +215,8 @@ and redeploy. Until this goes, the live domain tells Google not to index it.
 **5f DONE 2026-09-17 16:03Z** — Let's Encrypt certificate issued for both
 hostnames 28 minutes after the DNS save (a `POST /sites/{id}/ssl` nudged it).
 Public resolvers (8.8.8.8, 1.1.1.1, 9.9.9.9) all returned Netlify within
-minutes. **Outstanding: set `www` as primary in Netlify** — until then Netlify
-301s `www → apex`, the opposite of the canonical tags.
+minutes. `www` set as primary in Netlify at ~18:00Z (after Netlify's 3-changes-per-hour
+limit on `custom_domain` reset — the wizard detour had used them up).
 
 **5f `[YOU]` Wait for HTTPS.**
 Netlify provisions Let's Encrypt after DNS resolves. Expect a brief certificate
@@ -228,7 +229,15 @@ work. A split-audience window, not an outage.
 
 ---
 
-## 9. Phase 6 — verify `[CLAUDE]`
+## 9. Phase 6 — verify `[CLAUDE]` — DONE 2026-09-17
+
+All rows below passed against `https://www.jayguzmanmusicandevents.com` over
+real DNS (local resolver, plus 8.8.8.8 / 1.1.1.1 / 9.9.9.9). Live form check: one
+natural-looking submission per form from headless Chrome with a desktop UA, all
+three accepted as *verified* in Netlify Forms (ids `6aac2cda…`, `6aac2cdd…`,
+`6aac2cdf…`), which fires the hooks to both inboxes. Extra: `/sitemap.xml` 404s
+as expected; `/about/` 301s to `/about`; `jayguzmusic.netlify.app/*` 301s to
+production (commit `31b2102`).
 
 Against `https://www.jayguzmanmusicandevents.com`:
 
