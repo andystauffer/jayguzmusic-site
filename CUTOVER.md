@@ -151,9 +151,13 @@ the irreversible step under your finger.
 
 ---
 
-## 7. Phase 4 — lower the TTL `[YOU]`, a day ahead
+## 7. Phase 4 — lower the TTL `[YOU]`, a day ahead — DONE 2026-09-17
 
 In Wix DNS, set TTL to **300s** on the apex `A` records and the `www` `CNAME`.
+
+**Done at 1800s** — 30 minutes is the floor Wix's panel offers. Verified on
+both `ns8` and `ns9`; `MX`/`TXT` still 3600. Andy has accepted up to an hour of
+split or offline time for the switch, so the plan proceeds on that basis.
 
 Highest-value preparatory step in the plan: propagation is TTL-bound, so this
 shrinks both the switch window and the rollback window from hours to minutes.
@@ -162,11 +166,15 @@ shrinks both the switch window and the rollback window from hours to minutes.
 
 ## 8. Phase 5 — the switch
 
-**5a `[CLAUDE]` Capture DNS before touching anything.**
-`docs/dns-before-cutover.md` holds the 2026-09-10 snapshot. Re-capture it — it is
-the rollback reference and must be current.
+**5a `[CLAUDE]` Capture DNS before touching anything.** DONE 2026-09-17 —
+`docs/dns-before-cutover.md` re-captured from `ns8.wixdns.net` after the TTL
+change. Re-capture again if anything else changes before 5d.
 
-**5b `[YOU]` or `[CLAUDE]` Add the domain in Netlify.**
+**5b `[YOU]` Add the domain in Netlify.** (The API call for this was blocked
+by Claude's permission policy on 2026-09-17, so it is a dashboard step.)
+Netlify → Project → Domain management → Add a domain → enter
+`www.jayguzmanmusicandevents.com`; Netlify adds the apex alongside it and makes
+`www` primary, which matches our `netlify.toml` redirect.
 Add both apex and `www`. **Copy the exact records Netlify returns** — don't reuse
 values from this file or any older runbook; Netlify's addresses change.
 
