@@ -325,3 +325,98 @@ existing form submissions.
   homepage.
 - **Headless Chrome clamps windows to 500px minimum.** A "390px" screenshot is a
   squeezed 500px layout. Measure mobile through an iframe.
+
+---
+
+## 13. Post-launch — what's next (logged 2026-09-17)
+
+Four open workstreams now that the domain is live. Owner in brackets.
+
+### 13.1 Get Jason onto the Netlify account `[YOU + JASON]`
+
+The project lives in Andy's Netlify account today. Everything that matters
+(deploys from GitHub, the three forms, the six notification hooks, the
+certificate) moves with the project when it is transferred.
+
+1. Jason creates a free Netlify account at netlify.com, using
+   `Booking@JayGuzmanMusicandEvents.com` so it belongs to the business.
+2. Jason invites Andy to his team: Team settings → Members → Add member.
+   (Netlify may want a paid seat for a *second* member on some plans; if it
+   does, the transfer can still happen — see step 4.)
+3. Andy transfers the project: Project configuration → General → Transfer
+   project → pick Jason's team. Transfer is free. It only works into a team
+   where Andy is Owner or Developer, hence step 2.
+4. If step 2 is blocked by seat pricing, alternative: Jason adds Andy as a
+   *collaborator on the project* rather than the team, or Andy keeps ownership
+   and Jason is added later. Not urgent — nothing breaks while Andy holds it.
+5. After transfer, Andy re-links the GitHub repo if Netlify asks, and Andy
+   steps out of Jason's team. Confirm a push to `main` still deploys.
+6. Netlify Forms free tier is **100 submissions/month**; overage moves the
+   project to the Forms Level 1 add-on. Jason should know this exists.
+
+### 13.2 What Jason does with Wix now `[JASON]`, with one check first
+
+Wix's only job is the **domain registration and DNS**. Nothing else on Wix is
+in use: no hosting, no Wix Forms, no Wix backend.
+
+> ⚠️ **Check before cancelling anything:** where is Jason's Google Workspace
+> billed? Wix resells Google Workspace. If his `@jayguzmanmusicandevents.com`
+> mail is billed *through Wix*, cancelling the Wix account or the wrong
+> subscription kills his email. Look in Wix → Billing & Payments → Subscriptions
+> for a "Google Workspace" / "Business Email" line. If it is there, it stays.
+
+- **Keep:** the domain registration (auto-renew ON — a lapsed domain takes the
+  site *and* email down) and any Google Workspace line if billed via Wix.
+- **Stop:** the Wix **Premium plan** on site `c6da36f6`. It was for hosting the
+  old Editor site and is now dead weight. Turn off its auto-renew and let it
+  lapse rather than cancelling mid-term (no refund either way; lapsing avoids
+  accidental side effects). Before doing so, confirm in Subscriptions that the
+  domain is a *separate* line item with its own renewal date — if the domain
+  was a "free for a year with Premium" voucher, check its own renewal is set.
+- **Don't delete** the old Editor site. It costs nothing on the free plan and
+  is the only copy of his old content.
+- **Optional:** delete the three retired Wix Forms on `c6da36f6` (see
+  `scripts/wix-forms/`); nothing posts to them any more.
+
+### 13.3 Google Analytics and tracking `[JASON creates, CLAUDE wires]`
+
+Jason has been sent instructions (2026-09-17) to create a GA4 account and
+property and to grant Andy Administrator. Once the **Measurement ID
+(`G-…`)** arrives:
+
+1. Add the gtag snippet to every page's `<head>` (12 HTML files) — or use
+   Netlify's Snippet injection (Project configuration → Build & deploy → Post
+   processing → Snippet injection) to avoid touching markup. Prefer the repo:
+   it is versioned and portable.
+2. Key events worth having from day one: `generate_lead` on the `/thank-you`
+   page (fires for all three forms), plus click events on `tel:` and `mailto:`
+   footer links. Mark `generate_lead` as a key event in GA4.
+3. Link GA4 ↔ Search Console (GA4 Admin → Product links → Search Console).
+4. No cookie banner is required for a US small business at this scale; revisit
+   if he starts advertising to EU/UK audiences.
+
+### 13.4 Make sure indexing actually starts `[JASON does GSC, CLAUDE monitors]`
+
+Jason has instructions to create the Search Console **Domain** property,
+verify via a new DNS TXT record (add-only — never edit existing TXT/MX rows),
+submit `sitemap-index.xml`, request indexing on the homepage, and add Andy as
+**Owner**.
+
+Once Andy has access:
+
+1. Confirm the sitemap shows "Success" and lists 10 discovered URLs.
+2. Request indexing on the money pages: `/`, `/wedding-band-austin`,
+   `/event-coordinators`, `/setlist`, `/about`.
+3. After ~1 week, check **Pages** (indexing report). Expect the 10 pages to move
+   to "Indexed". Investigate anything under "Not found (404)" — those are
+   likely URLs from Jason's old Wix Editor site that Google still remembers.
+   For each real one, add a `301` in `netlify.toml` to the closest new page.
+4. After ~2 weeks, `site:www.jayguzmanmusicandevents.com` in Google should show
+   the new pages, and **Performance** should start showing impressions.
+5. `jayguzmusic.com` (the *old* domain, separate Wix account) still serves an
+   unrelated Wix site. Our `netlify.toml` already 301s it to production the
+   moment its DNS points here; that is a separate decision for Jason.
+
+Housekeeping still owed (from Phase 7): delete `worker/` and `wix.config.json`,
+mark the Wix-hosting sections of `WIX_MIGRATION.md` superseded, and rotate the
+Cloudinary API secret.

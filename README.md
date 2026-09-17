@@ -3,8 +3,9 @@
 Marketing site for Jason "Jay" Guzman — Austin-based event pianist, vocalist, and
 live entertainer.
 
-**Production URL:** https://www.jayguzmanmusicandevents.com/ *(cutover pending — see `CUTOVER.md`)*
-**Staging:** https://jayguzmusic.netlify.app (carries `X-Robots-Tag: noindex` until cutover)
+**Production URL:** https://www.jayguzmanmusicandevents.com/ *(live since 2026-09-17)*
+**Netlify URL:** https://jayguzmusic.netlify.app (301s to production)
+**What's next:** `CUTOVER.md` §13
 
 ## Architecture
 
