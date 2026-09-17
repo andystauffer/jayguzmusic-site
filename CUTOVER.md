@@ -1,9 +1,8 @@
 # Cutover plan — Netlify site, Wix as registrar only
 
 **Rewritten:** 2026-09-17, replacing the Netlify-frontend/Wix-backend plan.
-**Status:** Phase 1 done and verified on the live URL (2026-09-17). Phase 2
-notification hooks created; **email delivery to Jay not yet confirmed.** Nothing
-on the public domain yet.
+**Status:** Phases 1 and 2 done and verified on the live URL (2026-09-17).
+Notification delivery proven end to end. Nothing on the public domain yet.
 **Companion:** `WIX_MIGRATION.md` (project history, established Wix behaviour)
 
 ---
@@ -121,11 +120,16 @@ email notification to Jay for each of the three forms.
 `POST /api/v1/hooks?site_id=…` and body
 `{type:"email", event:"submission_created", form_id, form_name, data:{email}}`.
 
-**Still open: confirm the email actually arrives.** The Phase 1 test
-submissions were spam-flagged, and Netlify does not notify on spam, so the hooks
-have not fired yet. Submit one natural-looking enquiry per form from a real
-browser and ask Jay whether three emails arrived. A form that captures silently
-is the failure this whole phase exists to prevent.
+**Delivery verified 2026-09-17.** The hooks were pointed at Andy's inbox, one
+natural-looking enquiry was submitted per form, all three were accepted as
+verified (not spam), and three emails from `formresponses@netlify.com` arrived
+within seconds — subject `Form submission from <form-name> form:`. The hooks
+were then swapped back to `Booking@JayGuzmanMusicandEvents.com`.
+
+**One assumption not verified from here:** that `Booking@` exists as a user or
+alias in Jay's Google Workspace. If it does not, Netlify's emails bounce with no
+visible error. Confirm with Jay before cutover, or send one real submission and
+have him check.
 
 ---
 
