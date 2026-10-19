@@ -2,9 +2,11 @@
 
 **Source:** Jay's email "Updates for Website", 2026-10-15 (jayguzmusic@gmail.com)
 **Written:** 2026-10-19
-**Status:** 3.2 (Instagram + `sameAs`) and 3.4 (Guitar) done on branch
-`claude/site-deployment-updates-f0f033` on 2026-10-19, not yet deployed. 3.1 (showreel)
-and 3.3 (About copy) are on hold until Jay replies.
+**Status:** 3.2 (Instagram + `sameAs`) and 3.4 (Guitar) are live: PR #1 merged as
+`b6fa315`, Netlify deploy `6ad6888e911e4fa009eebd52` was ready 2026-10-19 21:16Z, and all
+§5 live checks passed. 3.3 (About copy plus the homepage line) was approved by Andy as
+Jay's proxy on 2026-10-19 and is on branch `claude/about-solo-copy`. 3.1 (showreel) is on
+hold until the reel is on YouTube.
 
 ---
 
@@ -165,7 +167,7 @@ guitar mention is plain "guitar", "acoustic guitar", "classical guitar" or
 | 1 | Send Jay the proposed About copy (3.3) and the homepage question; ask him to upload the reel to YouTube (3.1 A) | Andy | — |
 | 2 | Instagram swap + `sameAs` (3.2) — **done** | Claude | — |
 | 3 | Guitar fix (3.4) — **done** | Claude | — |
-| 4 | About "full band" copy (3.3) | Claude | Jay's OK on wording |
+| 4 | About "full band" copy + homepage line (3.3) — **done**, approved by Andy as proxy | Claude | — |
 | 5 | Showreel embed + copy check (3.1 B) | Claude | YouTube URL from Jay |
 | 6 | Verify locally, PR to `main`, merge → Netlify deploys | Claude / Andy | 2–5 |
 | 7 | Verify on the live domain (§5) and reply to Jay | Claude / Andy | 6 |
