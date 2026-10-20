@@ -13,7 +13,10 @@
 - Follow-up from Jay (text, 2026-10-20): the city pages overstated his Spanish. San Antonio said he
   "grew up performing in Spanish as much as English", and Dallas/Houston claimed "extensive Latin
   repertoire". Andy, as Jay's proxy, set the line: Puerto Rican roots and a handful of Spanish-language
-  songs he plays well, but not a fully bilingual act. Rewritten on branch `claude/spanish-claims`.
+  songs he plays well, but not a fully bilingual act. Rewritten in PR #4, live as `a888436`.
+- Follow-up (Andy, 2026-10-20): Spanish shouldn't lead the San Antonio page. The section after the hero
+  is now "One Musician, the Whole Day". The Spanish question moved out of the five questions (now four)
+  into the FAQ, and the Spanish mention is gone from the hero. Branch `claude/sa-section-order`.
 
 ---
 
