@@ -10,6 +10,10 @@
   `lFoXYmqQmTI` (public, embeddable, 5:00). The embed is swapped on branch
   `claude/new-showreel`. The copy changed from "Two minutes" / "a Couple of Minutes" to
   "Five minutes" / "a Few Minutes", and the channel is added to `sameAs`.
+- Follow-up from Jay (text, 2026-10-20): the city pages overstated his Spanish. San Antonio said he
+  "grew up performing in Spanish as much as English", and Dallas/Houston claimed "extensive Latin
+  repertoire". Andy, as Jay's proxy, set the line: Puerto Rican roots and a handful of Spanish-language
+  songs he plays well, but not a fully bilingual act. Rewritten on branch `claude/spanish-claims`.
 
 ---
 
