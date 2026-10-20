@@ -2,11 +2,14 @@
 
 **Source:** Jay's email "Updates for Website", 2026-10-15 (jayguzmusic@gmail.com)
 **Written:** 2026-10-19
-**Status:** 3.2 (Instagram + `sameAs`) and 3.4 (Guitar) are live: PR #1 merged as
-`b6fa315`, Netlify deploy `6ad6888e911e4fa009eebd52` was ready 2026-10-19 21:16Z, and all
-§5 live checks passed. 3.3 (About copy plus the homepage line) was approved by Andy as
-Jay's proxy on 2026-10-19 and is on branch `claude/about-solo-copy`. 3.1 (showreel) is on
-hold until the reel is on YouTube.
+**Status:** All four items done.
+- 3.2 (Instagram + `sameAs`) and 3.4 (Guitar): PR #1, live as `b6fa315` on 2026-10-19 21:16Z.
+- 3.3 (About copy plus the homepage line): approved by Andy as Jay's proxy; PR #2, live as
+  `707e2bd` on 2026-10-19 21:24Z.
+- 3.1 (showreel): Jay uploaded the reel to his new channel `@JayGuzmanMusicEvents` as
+  `lFoXYmqQmTI` (public, embeddable, 5:00). The embed is swapped on branch
+  `claude/new-showreel`. The copy changed from "Two minutes" / "a Couple of Minutes" to
+  "Five minutes" / "a Few Minutes", and the channel is added to `sameAs`.
 
 ---
 
@@ -168,7 +171,7 @@ guitar mention is plain "guitar", "acoustic guitar", "classical guitar" or
 | 2 | Instagram swap + `sameAs` (3.2) — **done** | Claude | — |
 | 3 | Guitar fix (3.4) — **done** | Claude | — |
 | 4 | About "full band" copy + homepage line (3.3) — **done**, approved by Andy as proxy | Claude | — |
-| 5 | Showreel embed + copy check (3.1 B) | Claude | YouTube URL from Jay |
+| 5 | Showreel embed + copy check (3.1 B) — **done** | Claude | — |
 | 6 | Verify locally, PR to `main`, merge → Netlify deploys | Claude / Andy | 2–5 |
 | 7 | Verify on the live domain (§5) and reply to Jay | Claude / Andy | 6 |
 
